@@ -1,1 +1,834 @@
+/* =========================================================
+   LUNA OS
+   Main visual theme
+   ========================================================= */
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+    background: #050914;
+}
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+body {
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            rgba(43, 76, 115, 0.24) 0%,
+            rgba(10, 18, 32, 0.2) 32%,
+            rgba(3, 7, 14, 0) 62%
+        ),
+        linear-gradient(
+            145deg,
+            #030711 0%,
+            #07101d 48%,
+            #030711 100%
+        );
+}
+
+/* Subtle stars */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.55;
+
+    background-image:
+        radial-gradient(circle at 8% 18%, rgba(255,255,255,.45) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 18% 72%, rgba(255,255,255,.28) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 28% 31%, rgba(255,255,255,.35) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 39% 82%, rgba(255,255,255,.25) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 52% 15%, rgba(255,255,255,.4) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 63% 63%, rgba(255,255,255,.28) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 75% 24%, rgba(255,255,255,.4) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 88% 76%, rgba(255,255,255,.3) 0 1px, transparent 1.5px);
+}
+
+/* =========================================================
+   DESKTOP ICONS
+   ========================================================= */
+
+.desktop-icons {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    z-index: 10;
+}
+
+.desktop-icon {
+    width: 78px;
+    min-height: 82px;
+
+    padding: 8px;
+
+    border: 1px solid transparent;
+    border-radius: 14px;
+
+    background: transparent;
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+.desktop-icon:hover {
+    background: rgba(52, 83, 116, 0.18);
+    border-color: rgba(100, 145, 185, 0.18);
+}
+
+.desktop-icon:active {
+    transform: scale(.96);
+}
+
+.desktop-icon-symbol {
+    width: 48px;
+    height: 48px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: rgba(13, 25, 41, .92);
+    border: 1px solid #263c56;
+
+    font-size: 23px;
+}
+
+.desktop-icon span:last-child {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #dce5ef;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   TASKBAR
+   ========================================================= */
+
+#taskbar {
+    position: fixed;
+
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 7px 10px;
+
+    border-radius: 19px;
+
+    background: rgba(7, 14, 25, .91);
+
+    border: 1px solid rgba(89, 128, 165, .28);
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    box-shadow:
+        0 18px 55px rgba(0, 0, 0, .45),
+        inset 0 1px 0 rgba(255,255,255,.025);
+
+    z-index: 9000;
+}
+
+#taskbar-left,
+#taskbar-center,
+#taskbar-right {
+    display: flex;
+    align-items: center;
+}
+
+#taskbar-left {
+    width: 160px;
+}
+
+#taskbar-center {
+    flex: 1;
+    justify-content: center;
+    gap: 6px;
+}
+
+#taskbar-right {
+    width: 160px;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.task-button {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 13px;
+
+    background: transparent;
+    color: white;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+.task-button:hover {
+    background: rgba(67, 103, 138, .20);
+    border-color: rgba(102, 145, 184, .23);
+}
+
+.task-button:active {
+    transform: scale(.94);
+}
+
+.task-button.active {
+    background: rgba(53, 91, 127, .30);
+    border-color: rgba(102, 151, 196, .32);
+}
+
+/* Luna taskbar icon */
+
+.luna-task {
+    overflow: hidden;
+}
+
+.luna-task img {
+    width: 34px;
+    height: 34px;
+
+    object-fit: cover;
+
+    border-radius: 9px;
+}
+
+/* =========================================================
+   CLOCK
+   ========================================================= */
+
+#clock {
+    min-width: 55px;
+
+    color: #dbe5ef;
+
+    font-size: 12px;
+    line-height: 1.3;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   START MENU
+   ========================================================= */
+
+#startMenu {
+    position: fixed;
+
+    left: 14px;
+    bottom: 88px;
+
+    width: 420px;
+    height: 540px;
+
+    max-width: calc(100vw - 28px);
+    max-height: calc(100vh - 110px);
+
+    padding: 20px;
+
+    border-radius: 22px;
+
+    background: rgba(8, 16, 28, .96);
+
+    border: 1px solid rgba(90, 132, 171, .28);
+
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.025);
+
+    display: none;
+
+    z-index: 8500;
+}
+
+#startMenu.open {
+    display: block;
+
+    animation: startMenuIn .18s ease;
+}
+
+@keyframes startMenuIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.start-title {
+    margin-bottom: 15px;
+
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.start-search {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 14px;
+
+    border-radius: 13px;
+
+    border: 1px solid #263d58;
+
+    outline: none;
+
+    background: #0b1523;
+    color: white;
+
+    font-size: 13px;
+}
+
+.start-search::placeholder {
+    color: #718399;
+}
+
+.start-search:focus {
+    border-color: #3d658b;
+}
+
+.start-section-title {
+    margin-top: 20px;
+    margin-bottom: 9px;
+
+    color: #8295aa;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.start-apps {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 8px;
+}
+
+.start-app {
+    min-height: 78px;
+
+    padding: 9px;
+
+    border: 1px solid transparent;
+    border-radius: 14px;
+
+    background: transparent;
+    color: white;
+
+    cursor: pointer;
+
+    transition: .18s ease;
+}
+
+.start-app:hover {
+    background: rgba(70, 105, 140, .17);
+    border-color: rgba(100, 145, 185, .2);
+}
+
+.start-app-icon {
+    margin-bottom: 7px;
+
+    font-size: 24px;
+}
+
+.start-app-name {
+    color: #d7e1eb;
+
+    font-size: 11px;
+}
+
+/* =========================================================
+   WINDOWS
+   ========================================================= */
+
+.window {
+    position: absolute;
+
+    width: 650px;
+    height: 430px;
+
+    min-width: 300px;
+    min-height: 220px;
+
+    max-width: calc(100vw - 35px);
+    max-height: calc(100vh - 100px);
+
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+
+    display: none;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: rgba(7, 14, 24, .96);
+
+    border: 1px solid rgba(87, 127, 165, .32);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.58),
+        inset 0 1px 0 rgba(255,255,255,.025);
+
+    z-index: 100;
+}
+
+.window.open {
+    display: flex;
+
+    animation: windowOpen .16s ease;
+}
+
+@keyframes windowOpen {
+
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+}
+
+.window.maximized {
+    left: 20px;
+    top: 20px;
+
+    width: calc(100vw - 40px);
+    height: calc(100vh - 105px);
+
+    max-width: none;
+    max-height: none;
+
+    transform: none;
+
+    border-radius: 17px;
+}
+
+/* =========================================================
+   WINDOW HEADER
+   ========================================================= */
+
+.window-header {
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 10px 0 18px;
+
+    background: rgba(14, 24, 39, .88);
+
+    border-bottom: 1px solid rgba(76, 113, 148, .20);
+
+    cursor: grab;
+}
+
+.window-header:active {
+    cursor: grabbing;
+}
+
+.window-title {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    color: #e8eef5;
+
+    font-size: 14px;
+}
+
+.window-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.window-control {
+    width: 34px;
+    height: 32px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #b7c5d3;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: .15s ease;
+}
+
+.window-control:hover {
+    background: rgba(90, 125, 160, .20);
+    color: white;
+}
+
+.window-control.close:hover {
+    background: rgba(170, 65, 75, .35);
+}
+
+/* =========================================================
+   WINDOW CONTENT
+   ========================================================= */
+
+.window-content {
+    flex: 1;
+
+    overflow: auto;
+
+    padding: 22px;
+}
+
+.window-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.window-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.window-content::-webkit-scrollbar-thumb {
+    background: #20364e;
+    border-radius: 10px;
+}
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+.settings-card {
+    margin-bottom: 12px;
+
+    padding: 16px;
+
+    border-radius: 15px;
+
+    background: #0b1625;
+
+    border: 1px solid #1d3047;
+}
+
+.settings-card h3 {
+    margin-bottom: 6px;
+
+    font-size: 14px;
+}
+
+.settings-card p {
+    margin-bottom: 5px;
+
+    color: #7f91a5;
+
+    font-size: 12px;
+}
+
+.theme-button {
+    margin-top: 14px;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    border: 1px solid #2a4966;
+
+    background: #122238;
+    color: white;
+
+    cursor: pointer;
+
+    transition: .18s ease;
+}
+
+.theme-button:hover {
+    background: #18304a;
+    border-color: #3a6287;
+}
+
+/* =========================================================
+   LUNA APP
+   ========================================================= */
+
+.luna-panel {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.luna-intro {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.luna-logo {
+    width: 58px;
+    height: 58px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+
+    border: 1px solid #2b4662;
+}
+
+.luna-intro h2 {
+    margin: 0;
+
+    font-size: 21px;
+}
+
+.luna-intro p {
+    margin-top: 5px;
+
+    color: #8192a5;
+
+    font-size: 13px;
+}
+
+.luna-input {
+    margin-top: auto;
+
+    display: flex;
+
+    gap: 8px;
+}
+
+.luna-input input {
+    flex: 1;
+
+    height: 44px;
+
+    padding: 0 14px;
+
+    border-radius: 13px;
+
+    outline: none;
+
+    background: #0c1624;
+    color: white;
+
+    border: 1px solid #243b55;
+}
+
+.luna-input input:focus {
+    border-color: #3d668b;
+}
+
+.luna-input button {
+    width: 46px;
+
+    border-radius: 13px;
+
+    border: 1px solid #2c4e6e;
+
+    background: #13263c;
+    color: white;
+
+    cursor: pointer;
+
+    transition: .18s ease;
+}
+
+.luna-input button:hover {
+    background: #19324d;
+}
+
+/* =========================================================
+   NOTIFICATION PANEL
+   ========================================================= */
+
+#notificationPanel {
+    position: fixed;
+
+    right: 14px;
+    bottom: 88px;
+
+    width: 340px;
+
+    max-width: calc(100vw - 28px);
+
+    padding: 18px;
+
+    border-radius: 20px;
+
+    background: rgba(8, 16, 28, .96);
+
+    border: 1px solid rgba(90, 132, 171, .28);
+
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+
+    display: none;
+
+    z-index: 8500;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.48);
+}
+
+#notificationPanel.open {
+    display: block;
+
+    animation: notificationIn .18s ease;
+}
+
+@keyframes notificationIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.notification-title {
+    margin-bottom: 12px;
+
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.notification {
+    margin-bottom: 8px;
+
+    padding: 12px;
+
+    border-radius: 13px;
+
+    background: #0d1725;
+
+    border: 1px solid #1c3047;
+
+    color: #b9c7d5;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE MOBILE FOUNDATION
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    #taskbar {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+    }
+
+    #taskbar-left {
+        width: auto;
+    }
+
+    #taskbar-right {
+        width: auto;
+    }
+
+    #taskbar-center {
+        gap: 2px;
+    }
+
+    .task-button {
+        width: 42px;
+        min-width: 42px;
+        height: 44px;
+    }
+
+    #clock {
+        display: none;
+    }
+
+    .window {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 100px);
+    }
+
+    .start-apps {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
