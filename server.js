@@ -147,17 +147,12 @@ Do not act like a separate assistant.
 Keep the same personality, memory rules, and creator-verification rules.
 `;
 
-const SYSTEM_PROMPT = LUNA_PERSONALITY.trim();
+const SYSTEM_PROMPT =
+  LUNA_PERSONALITY.trim();
 
 /* =========================================================
    CREATOR VERIFICATION SESSIONS
    ========================================================= */
-
-/*
- * This is intentionally kept server-side.
- *
- * The browser never receives the verification code.
- */
 
 const verifiedSessions = new Set();
 
@@ -166,22 +161,28 @@ function createSessionId() {
 }
 
 function getSessionId(req) {
-  const cookie = req.headers.cookie || "";
+  const cookie =
+    req.headers.cookie || "";
 
-  const match = cookie.match(
-    /luna_session=([^;]+)/
-  );
+  const match =
+    cookie.match(
+      /luna_session=([^;]+)/
+    );
 
-  return match ? match[1] : null;
+  return match
+    ? match[1]
+    : null;
 }
 
 function getOrCreateSession(req, res) {
 
-  let sessionId = getSessionId(req);
+  let sessionId =
+    getSessionId(req);
 
   if (!sessionId) {
 
-    sessionId = createSessionId();
+    sessionId =
+      createSessionId();
 
     res.setHeader(
       "Set-Cookie",
@@ -196,81 +197,97 @@ function getOrCreateSession(req, res) {
    HEALTH CHECK
    ========================================================= */
 
-app.get("/api/health", (req, res) => {
+app.get(
+  "/api/health",
+  (req, res) => {
 
-  res.json({
-    ok: true,
-    luna: true,
-    model: LUNA_MODEL,
-    ollamaConfigured: Boolean(OLLAMA_API_KEY)
-  });
+    res.json({
+      ok: true,
+      luna: true,
+      model: LUNA_MODEL,
+      ollamaConfigured:
+        Boolean(OLLAMA_API_KEY)
+    });
 
-});
+  }
+);
 
 /* =========================================================
    CREATOR VERIFICATION
    ========================================================= */
 
-app.post("/api/verify-creator", (req, res) => {
+app.post(
+  "/api/verify-creator",
+  (req, res) => {
 
-  const sessionId =
-    getOrCreateSession(req, res);
+    const sessionId =
+      getOrCreateSession(req, res);
 
-  const suppliedCode =
-    typeof req.body?.code === "string"
-      ? req.body.code
-      : "";
+    const suppliedCode =
+      typeof req.body?.code === "string"
+        ? req.body.code
+        : "";
 
-  if (
-    !CREATOR_VERIFICATION_CODE ||
-    !suppliedCode
-  ) {
+    if (
+      !CREATOR_VERIFICATION_CODE ||
+      !suppliedCode
+    ) {
 
-    return res.status(400).json({
+      return res.status(400).json({
+        verified: false,
+        message:
+          "Verification could not be completed."
+      });
+
+    }
+
+    if (
+      suppliedCode ===
+      CREATOR_VERIFICATION_CODE
+    ) {
+
+      verifiedSessions.add(
+        sessionId
+      );
+
+      return res.json({
+        verified: true
+      });
+
+    }
+
+    return res.status(401).json({
       verified: false,
-      message: "Verification could not be completed."
+      message:
+        "Invalid verification code."
     });
 
   }
-
-  if (
-    suppliedCode ===
-    CREATOR_VERIFICATION_CODE
-  ) {
-
-    verifiedSessions.add(sessionId);
-
-    return res.json({
-      verified: true
-    });
-
-  }
-
-  return res.status(401).json({
-    verified: false,
-    message: "Invalid verification code."
-  });
-
-});
+);
 
 /* =========================================================
    CREATOR VERIFICATION STATUS
    ========================================================= */
 
-app.get("/api/creator-status", (req, res) => {
+app.get(
+  "/api/creator-status",
+  (req, res) => {
 
-  const sessionId =
-    getSessionId(req);
+    const sessionId =
+      getSessionId(req);
 
-  res.json({
-    verified:
-      Boolean(
-        sessionId &&
-        verifiedSessions.has(sessionId)
-      )
-  });
+    res.json({
+      verified:
+        Boolean(
+          sessionId &&
+          verifiedSessions.has(
+            sessionId
+          )
+        )
+    });
 
-});
+  }
+);
 
 /* =========================================================
    MESSAGE CLEANING
@@ -285,7 +302,9 @@ function cleanMessages(messages) {
   return messages
     .filter(message => {
 
-      if (!message) return false;
+      if (!message) {
+        return false;
+      }
 
       if (
         message.role !== "user" &&
@@ -294,13 +313,23 @@ function cleanMessages(messages) {
         return false;
       }
 
-      return typeof message.content === "string";
+      return (
+        typeof message.content ===
+        "string"
+      );
+
     })
     .slice(-30)
     .map(message => ({
+
       role: message.role,
-      content: message.content
-        .slice(0, 12000)
+
+      content:
+        message.content.slice(
+          0,
+          12000
+        )
+
     }));
 
 }
@@ -309,339 +338,369 @@ function cleanMessages(messages) {
    CHAT WITH LUNA
    ========================================================= */
 
-app.post("/api/chat", async (req, res) => {
+app.post(
+  "/api/chat",
+  async (req, res) => {
 
-  try {
+    try {
 
-    if (!OLLAMA_API_KEY) {
+      if (!OLLAMA_API_KEY) {
 
-      return res.status(500).json({
-        error:
-          "Luna AI is not configured yet. Add OLLAMA_API_KEY to Render environment variables."
-      });
+        return res.status(500).json({
+          error:
+            "Luna AI is not configured yet. Add OLLAMA_API_KEY to Render environment variables."
+        });
 
-    }
+      }
 
-    const sessionId =
-      getSessionId(req);
+      const sessionId =
+        getSessionId(req);
 
-    const isVerified =
-      Boolean(
-        sessionId &&
-        verifiedSessions.has(sessionId)
-      );
+      const isVerified =
+        Boolean(
+          sessionId &&
+          verifiedSessions.has(
+            sessionId
+          )
+        );
 
-    const messages =
-      cleanMessages(req.body?.messages);
+      const messages =
+        cleanMessages(
+          req.body?.messages
+        );
 
-    if (messages.length === 0) {
+      if (
+        messages.length === 0
+      ) {
 
-      return res.status(400).json({
-        error: "No message was provided."
-      });
+        return res.status(400).json({
+          error:
+            "No message was provided."
+        });
 
-    }
+      }
 
-    /*
-     * We add verification state on the server.
-     *
-     * The browser cannot simply tell Luna that
-     * someone is verified.
-     */
-
-    const verificationContext = isVerified
-      ? `
+      const verificationContext =
+        isVerified
+          ? `
 CREATOR VERIFICATION STATE:
 The current session has successfully completed
 creator verification. The user is verified as Moon.
 `
-      : `
+          : `
 CREATOR VERIFICATION STATE:
 The current session has NOT successfully completed
 creator verification. Do not treat the user as Moon.
 `;
 
-    const finalSystemPrompt =
-      SYSTEM_PROMPT +
-      "\n\n" +
-      verificationContext;
+      const finalSystemPrompt =
+        SYSTEM_PROMPT +
+        "\n\n" +
+        verificationContext;
 
-    const ollamaMessages = [
+      const ollamaMessages = [
 
-      {
-        role: "system",
-        content: finalSystemPrompt
-      },
-
-      ...messages
-
-    ];
-
-    const response =
-      await fetch(
-        OLLAMA_API_URL,
         {
-          method: "POST",
+          role: "system",
+          content:
+            finalSystemPrompt
+        },
 
-          headers: {
-            "Content-Type":
-              "application/json",
+        ...messages
 
-            "Authorization":
-              `Bearer ${OLLAMA_API_KEY}`
-          },
+      ];
 
-          body: JSON.stringify({
-            model: LUNA_MODEL,
+      const response =
+        await fetch(
+          OLLAMA_API_URL,
+          {
+            method: "POST",
 
-            messages:
-              ollamaMessages,
+            headers: {
+              "Content-Type":
+                "application/json",
 
-            stream: false
-          })
-        }
-      );
+              "Authorization":
+                `Bearer ${OLLAMA_API_KEY}`
+            },
 
-    if (!response.ok) {
+            body: JSON.stringify({
 
-      const errorText =
-        await response.text();
+              model:
+                LUNA_MODEL,
+
+              messages:
+                ollamaMessages,
+
+              stream: false
+
+            })
+          }
+        );
+
+      if (!response.ok) {
+
+        const errorText =
+          await response.text();
+
+        console.error(
+          "Ollama Cloud error:",
+          response.status,
+          errorText
+        );
+
+        return res.status(502).json({
+          error:
+            "Luna could not connect to the AI service."
+        });
+
+      }
+
+      const data =
+        await response.json();
+
+      const reply =
+        data?.message?.content;
+
+      if (
+        typeof reply !== "string" ||
+        !reply.trim()
+      ) {
+
+        return res.status(502).json({
+          error:
+            "Luna received an empty response."
+        });
+
+      }
+
+      res.json({
+
+        reply:
+          reply.trim(),
+
+        model:
+          LUNA_MODEL
+
+      });
+
+    } catch (error) {
 
       console.error(
-        "Ollama Cloud error:",
-        response.status,
-        errorText
+        "Luna server error:",
+        error
       );
 
-      return res.status(502).json({
+      res.status(500).json({
         error:
-          "Luna could not connect to the AI service."
+          "Luna could not respond right now."
       });
 
     }
-
-    const data =
-      await response.json();
-
-    const reply =
-      data?.message?.content;
-
-    if (
-      typeof reply !== "string" ||
-      !reply.trim()
-    ) {
-
-      return res.status(502).json({
-        error:
-          "Luna received an empty response."
-      });
-
-    }
-
-    res.json({
-      reply: reply.trim(),
-      model: LUNA_MODEL
-    });
-
-  } catch (error) {
-
-    console.error(
-      "Luna server error:",
-      error
-    );
-
-    res.status(500).json({
-      error:
-        "Luna could not respond right now."
-    });
 
   }
-
-});
+);
 
 /* =========================================================
    LUNA VOICE/CALL SUPPORT
    ========================================================= */
 
-/*
- * The voice-call interface can use the same /api/chat
- * endpoint later.
- *
- * This means the call version does NOT need a second
- * Luna personality or a second AI backend.
- */
+app.post(
+  "/api/voice-chat",
+  async (req, res) => {
 
-app.post("/api/voice-chat", async (req, res) => {
+    try {
 
-  try {
+      if (!OLLAMA_API_KEY) {
 
-    if (!OLLAMA_API_KEY) {
+        return res.status(500).json({
+          error:
+            "Luna AI is not configured yet."
+        });
 
-      return res.status(500).json({
-        error:
-          "Luna AI is not configured yet."
-      });
+      }
 
-    }
+      const sessionId =
+        getSessionId(req);
 
-    const sessionId =
-      getSessionId(req);
+      const isVerified =
+        Boolean(
+          sessionId &&
+          verifiedSessions.has(
+            sessionId
+          )
+        );
 
-    const isVerified =
-      Boolean(
-        sessionId &&
-        verifiedSessions.has(sessionId)
-      );
+      const userMessage =
+        typeof req.body?.message ===
+        "string"
+          ? req.body.message.trim()
+          : "";
 
-    const userMessage =
-      typeof req.body?.message === "string"
-        ? req.body.message.trim()
-        : "";
+      if (!userMessage) {
 
-    if (!userMessage) {
+        return res.status(400).json({
+          error:
+            "No voice message was provided."
+        });
 
-      return res.status(400).json({
-        error:
-          "No voice message was provided."
-      });
+      }
 
-    }
-
-    const verificationContext =
-      isVerified
-        ? `
+      const verificationContext =
+        isVerified
+          ? `
 The current session is verified as Moon.
 `
-        : `
+          : `
 The current session is not verified as Moon.
 `;
 
-    const response =
-      await fetch(
-        OLLAMA_API_URL,
-        {
-          method: "POST",
+      const response =
+        await fetch(
+          OLLAMA_API_URL,
+          {
+            method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json",
+            headers: {
+              "Content-Type":
+                "application/json",
 
-            "Authorization":
-              `Bearer ${OLLAMA_API_KEY}`
-          },
+              "Authorization":
+                `Bearer ${OLLAMA_API_KEY}`
+            },
 
-          body: JSON.stringify({
+            body: JSON.stringify({
 
-            model:
-              LUNA_MODEL,
+              model:
+                LUNA_MODEL,
 
-            messages: [
+              messages: [
 
-              {
-                role: "system",
-                content:
-                  SYSTEM_PROMPT +
-                  "\n\n" +
-                  verificationContext
-              },
+                {
+                  role: "system",
+                  content:
+                    SYSTEM_PROMPT +
+                    "\n\n" +
+                    verificationContext
+                },
 
-              {
-                role: "user",
-                content:
-                  userMessage
-              }
+                {
+                  role: "user",
+                  content:
+                    userMessage
+                }
 
-            ],
+              ],
 
-            stream: false
-          })
-        }
-      );
+              stream: false
 
-    if (!response.ok) {
+            })
+          }
+        );
+
+      if (!response.ok) {
+
+        console.error(
+          "Ollama voice error:",
+          response.status
+        );
+
+        return res.status(502).json({
+          error:
+            "Luna could not respond to the voice message."
+        });
+
+      }
+
+      const data =
+        await response.json();
+
+      const reply =
+        data?.message?.content;
+
+      if (
+        typeof reply !== "string" ||
+        !reply.trim()
+      ) {
+
+        return res.status(502).json({
+          error:
+            "Luna returned an empty voice response."
+        });
+
+      }
+
+      res.json({
+
+        reply:
+          reply.trim(),
+
+        model:
+          LUNA_MODEL
+
+      });
+
+    } catch (error) {
 
       console.error(
-        "Ollama voice error:",
-        response.status
+        "Voice chat error:",
+        error
       );
 
-      return res.status(502).json({
+      res.status(500).json({
         error:
-          "Luna could not respond to the voice message."
+          "Luna voice chat could not respond right now."
       });
 
     }
-
-    const data =
-      await response.json();
-
-    const reply =
-      data?.message?.content;
-
-    if (
-      typeof reply !== "string" ||
-      !reply.trim()
-    ) {
-
-      return res.status(502).json({
-        error:
-          "Luna returned an empty voice response."
-      });
-
-    }
-
-    res.json({
-      reply: reply.trim(),
-      model: LUNA_MODEL
-    });
-
-  } catch (error) {
-
-    console.error(
-      "Voice chat error:",
-      error
-    );
-
-    res.status(500).json({
-      error:
-        "Luna voice chat could not respond right now."
-    });
 
   }
-
-});
+);
 
 /* =========================================================
    FALLBACK
    ========================================================= */
 
-app.get("*", (req, res) => {
+/*
+ * Express 5 does not accept app.get("*").
+ * This middleware handles all remaining routes
+ * and sends Luna OS's index.html.
+ */
 
-  res.sendFile(
-    "index.html",
-    {
-      root: "."
-    }
-  );
+app.use(
+  (req, res) => {
 
-});
+    res.sendFile(
+      "index.html",
+      {
+        root: "."
+      }
+    );
+
+  }
+);
 
 /* =========================================================
    START SERVER
    ========================================================= */
 
-app.listen(PORT, () => {
+app.listen(
+  PORT,
+  () => {
 
-  console.log(
-    `Luna OS server running on port ${PORT}`
-  );
+    console.log(
+      `Luna OS server running on port ${PORT}`
+    );
 
-  console.log(
-    `Luna model: ${LUNA_MODEL}`
-  );
+    console.log(
+      `Luna model: ${LUNA_MODEL}`
+    );
 
-  console.log(
-    `Ollama Cloud configured: ${Boolean(OLLAMA_API_KEY)}`
-  );
+    console.log(
+      `Ollama Cloud configured: ${Boolean(
+        OLLAMA_API_KEY
+      )}`
+    );
 
-});
+  }
+);
