@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Luna OS</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #070b14;
+      color: white;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 50% 35%, rgba(38, 72, 110, 0.22), transparent 45%),
+        linear-gradient(135deg, #050811, #0a111d 55%, #060a12);
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    /* =========================
+       DESKTOP
+    ========================= */
+
+    #desktop {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .desktop-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(
+        circle,
+        rgba(48, 91, 140, 0.18),
+        transparent 68%
+      );
+      pointer-events: none;
+    }
+
+    .desktop-icons {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .desktop-icon {
+      width: 78px;
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.18s;
+    }
+
+    .desktop-icon:hover {
+      background: rgba(80, 120, 160, 0.14);
+      border-color: rgba(100, 150, 200, 0.18);
+    }
+
+    .desktop-icon-symbol {
+      width: 48px;
+      height: 48px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 13px;
+      background: #111c2c;
+      border: 1px solid #263c57;
+      font-size: 23px;
+    }
+
+    .desktop-icon span:last-child {
+      display: block;
+      margin-top: 7px;
+      font-size: 12px;
+      color: #dce5ef;
+    }
+
+    /* =========================
+       TASKBAR
+    ========================= */
+
+    #taskbar {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      height: 64px;
+      border-radius: 19px;
+      background: rgba(10, 17, 29, 0.91);
+      border: 1px solid rgba(93, 132, 168, 0.25);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      display: flex;
+      align-items: center;
+      padding: 7px 10px;
+      z-index: 9000;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    #taskbar-left,
+    #taskbar-center,
+    #taskbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    #taskbar-left {
+      width: 160px;
+    }
+
+    #taskbar-center {
+      flex: 1;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    #taskbar-right {
+      width: 160px;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .task-button {
+      height: 48px;
+      min-width: 48px;
+      border-radius: 13px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      transition: 0.18s;
+    }
+
+    .task-button:hover {
+      background: rgba(70, 105, 140, 0.2);
+      border-color: rgba(105, 145, 185, 0.22);
+    }
+
+    .task-button.active {
+      background: rgba(55, 91, 126, 0.28);
+      border-color: rgba(102, 151, 196, 0.32);
+    }
+
+    .luna-task {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .luna-task img {
+      width: 34px;
+      height: 34px;
+      object-fit: cover;
+      border-radius: 9px;
+    }
+
+    #clock {
+      font-size: 12px;
+      line-height: 1.25;
+      text-align: right;
+      color: #dbe5ef;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       START MENU
+    ========================= */
+
+    #startMenu {
+      position: absolute;
+      left: 14px;
+      bottom: 88px;
+      width: 420px;
+      max-width: calc(100vw - 28px);
+      height: 540px;
+      max-height: calc(100vh - 110px);
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(10, 17, 29, 0.96);
+      border: 1px solid rgba(90, 132, 171, 0.28);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.48);
+      display: none;
+      z-index: 8500;
+    }
+
+    #startMenu.open {
+      display: block;
+      animation: menuIn 0.18s ease;
+    }
+
+    @keyframes menuIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .start-title {
+      font-size: 21px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .start-search {
+      width: 100%;
+      height: 42px;
+      border-radius: 13px;
+      border: 1px solid #263d58;
+      outline: none;
+      background: #0d1725;
+      color: white;
+      padding: 0 14px;
+      margin-bottom: 20px;
+    }
+
+    .start-search::placeholder {
+      color: #718399;
+    }
+
+    .start-section-title {
+      color: #8295aa;
+      font-size: 12px;
+      margin-bottom: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .start-apps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .start-app {
+      min-height: 78px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      padding: 9px;
+      transition: 0.18s;
+    }
+
+    .start-app:hover {
+      background: rgba(70, 105, 140, 0.17);
+      border-color: rgba(100, 145, 185, 0.2);
+    }
+
+    .start-app-icon {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    .start-app-name {
+      font-size: 11px;
+      color: #d7e1eb;
+    }
+
+    /* =========================
+       WINDOWS
+    ========================= */
+
+    .window {
+      position: absolute;
+      width: 650px;
+      height: 430px;
+      max-width: calc(100vw - 35px);
+      max-height: calc(100vh - 100px);
+      min-width: 300px;
+      min-height: 220px;
+      left: 50%;
+      top: 45%;
+      transform: translate(-50%, -50%);
+      background: rgba(9, 15, 25, 0.96);
+      border: 1px solid rgba(87, 127, 165, 0.32);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+      display: none;
+      z-index: 100;
+    }
+
+    .window.open {
+      display: flex;
+      flex-direction: column;
+      animation: windowIn 0.16s ease;
+    }
+
+    @keyframes windowIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .window.maximized {
+      left: 20px;
+      right: 20px;
+      top: 20px;
+      width: auto;
+      height: calc(100vh - 105px);
+      max-width: none;
+      max-height: none;
+      transform: none;
+      border-radius: 17px;
+    }
+
+    .window-header {
+      height: 55px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px 0 18px;
+      background: rgba(14, 24, 39, 0.85);
+      border-bottom: 1px solid rgba(76, 113, 148, 0.2);
+      cursor: grab;
+    }
+
+    .window-header:active {
+      cursor: grabbing;
+    }
+
+    .window-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      color: #e8eef5;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    .window-control {
+      width: 34px;
+      height: 32px;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      cursor: pointer;
+      color: #b7c5d3;
+    }
+
+    .window-control:hover {
+      background: rgba(90, 125, 160, 0.2);
+      color: white;
+    }
+
+    .window-control.close:hover {
+      background: rgba(170, 65, 75, 0.35);
+    }
+
+    .window-content {
+      flex: 1;
+      overflow: auto;
+      padding: 22px;
+    }
+
+    /* =========================
+       SETTINGS
+    ========================= */
+
+    .settings-card {
+      background: #0d1725;
+      border: 1px solid #1d3047;
+      border-radius: 15px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .settings-card h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+    }
+
+    .settings-card p {
+      margin: 0;
+      color: #7f91a5;
+      font-size: 12px;
+    }
+
+    .theme-button {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #2a4966;
+      background: #122238;
+      cursor: pointer;
+    }
+
+    /* =========================
+       LUNA APP
+    ========================= */
+
+    .luna-panel {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .luna-intro {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .luna-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 15px;
+      object-fit: cover;
+      border: 1px solid #2b4662;
+    }
+
+    .luna-intro h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .luna-intro p {
+      margin: 5px 0 0;
+      color: #8192a5;
+      font-size: 13px;
+    }
+
+    .luna-input {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .luna-input input {
+      flex: 1;
+      height: 44px;
+      background: #0c1624;
+      border: 1px solid #243b55;
+      border-radius: 13px;
+      color: white;
+      outline: none;
+      padding: 0 14px;
+    }
+
+    .luna-input button {
+      width: 46px;
+      border: 1px solid #2c4e6e;
+      background: #13263c;
+      border-radius: 13px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       NOTIFICATIONS
+    ========================= */
+
+    #notificationPanel {
+      position: absolute;
+      right: 14px;
+      bottom: 88px;
+      width: 340px;
+      max-width: calc(100vw - 28px);
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(10, 17, 29, 0.96);
+      border: 1px solid rgba(90, 132, 171, 0.28);
+      backdrop-filter: blur(25px);
+      display: none;
+      z-index: 8500;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    #notificationPanel.open {
+      display: block;
+    }
+
+    .notification-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .notification {
+      background: #0d1725;
+      border: 1px solid #1c3047;
+      border-radius: 13px;
+      padding: 12px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #b9c7d5;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+      #taskbar {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+      }
+
+      #taskbar-left {
+        width: auto;
+      }
+
+      #taskbar-right {
+        width: auto;
+      }
+
+      #taskbar-center {
+        gap: 2px;
+      }
+
+      .task-button {
+        min-width: 42px;
+        width: 42px;
+        height: 44px;
+      }
+
+      #clock {
+        display: none;
+      }
+
+      .window {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 100px);
+      }
+
+      .start-apps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="desktop">
+
+    <div class="desktop-glow"></div>
+
+    <!-- Desktop icons -->
+    <div class="desktop-icons">
+
+      <button class="desktop-icon" onclick="openApp('files')">
+        <div class="desktop-icon-symbol">📁</div>
+        <span>Files</span>
+      </button>
+
+      <button class="desktop-icon" onclick="openApp('settings')">
+        <div class="desktop-icon-symbol">⚙️</div>
+        <span>Settings</span>
+      </button>
+
+    </div>
+
+    <!-- =========================
+         LUNA WINDOW
+    ========================= -->
+
+    <div class="window" id="window-luna">
+
+      <div class="window-header">
+        <div class="window-title">
+          🌙 Luna
+        </div>
+
+        <div class="window-controls">
+          <button class="window-control" onclick="minimizeApp('luna')">−</button>
+          <button class="window-control" onclick="maximizeApp('luna')">□</button>
+          <button class="window-control close" onclick="closeApp('luna')">×</button>
+        </div>
+      </div>
+
+      <div class="window-content">
+
+        <div class="luna-panel">
+
+          <div class="luna-intro">
+            <img
+              class="luna-logo"
+              src="Luna profile.webp"
+              alt="Luna"
+            >
+
+            <div>
+              <h2>Luna</h2>
+              <p>Your AI companion inside Luna OS.</p>
+            </div>
+          </div>
+
+          <div class="luna-input">
+            <input
+              id="lunaInput"
+              type="text"
+              placeholder="Talk to Luna..."
+              onkeydown="if(event.key === 'Enter') sendToLuna()"
+            >
+
+            <button onclick="sendToLuna()">↑</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         FILES WINDOW
+    ========================= -->
+
+    <div class="window" id="window-files">
+
+      <div class="window-header">
+        <div class="window-title">
+          📁 File Explorer
+        </div>
+
+        <div class="window-controls">
+          <button class="window-control" onclick="minimizeApp('files')">−</button>
+          <button class="window-control" onclick="maximizeApp('files')">□</button>
+          <button class="window-control close" onclick="closeApp('files')">×</button>
+        </div>
+      </div>
+
+      <div class="window-content">
+
+        <h2>File Explorer</h2>
+
+        <div class="settings-card">
+          <h3>Quick Access</h3>
+          <p>Documents</p>
+          <p>Downloads</p>
+          <p>Pictures</p>
+          <p>Desktop</p>
+        </div>
+
+        <div class="settings-card">
+          <h3>Files</h3>
+          <p>This is the first Luna OS file explorer prototype.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         SETTINGS WINDOW
+    ========================= -->
+
+    <div class="window" id="window-settings">
+
+      <div class="window-header">
+        <div class="window-title">
+          ⚙️ Settings
+        </div>
+
+        <div class="window-controls">
+          <button class="window-control" onclick="minimizeApp('settings')">−</button>
+          <button class="window-control" onclick="maximizeApp('settings')">□</button>
+          <button class="window-control close" onclick="closeApp('settings')">×</button>
+        </div>
+      </div>
+
+      <div class="window-content">
+
+        <h2>Settings</h2>
+
+        <div class="settings-card">
+          <h3>Appearance</h3>
+          <p>Customize the look of Luna OS.</p>
+
+          <button class="theme-button" onclick="changeWallpaper()">
+            Change Wallpaper
+          </button>
+        </div>
+
+        <div class="settings-card">
+          <h3>System</h3>
+          <p>Luna OS prototype</p>
+        </div>
+
+        <div class="settings-card">
+          <h3>Storage</h3>
+          <p>Your Luna OS settings are stored locally in this browser.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         CALCULATOR WINDOW
+    ========================= -->
+
+    <div class="window" id="window-calculator">
+
+      <div class="window-header">
+        <div class="window-title">
+          🧮 Calculator
+        </div>
+
+        <div class="window-controls">
+          <button class="window-control" onclick="minimizeApp('calculator')">−</button>
+          <button class="window-control" onclick="maximizeApp('calculator')">□</button>
+          <button class="window-control close" onclick="closeApp('calculator')">×</button>
+        </div>
+      </div>
+
+      <div class="window-content">
+
+        <input
+          id="calculatorDisplay"
+          type="text"
+          readonly
+          value="0"
+          style="
+            width:100%;
+            height:60px;
+            background:#08111e;
+            border:1px solid #243b55;
+            border-radius:13px;
+            color:white;
+            font-size:25px;
+            text-align:right;
+            padding:0 15px;
+            margin-bottom:12px;
+          "
+        >
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(4,1fr);
+          gap:8px;
+        ">
+
+          <button class="theme-button" onclick="calcClear()">C</button>
+          <button class="theme-button" onclick="calcInput('/')">÷</button>
+          <button class="theme-button" onclick="calcInput('*')">×</button>
+          <button class="theme-button" onclick="calcInput('-')">−</button>
+
+          <button class="theme-button" onclick="calcInput('7')">7</button>
+          <button class="theme-button" onclick="calcInput('8')">8</button>
+          <button class="theme-button" onclick="calcInput('9')">9</button>
+          <button class="theme-button" onclick="calcInput('+')">+</button>
+
+          <button class="theme-button" onclick="calcInput('4')">4</button>
+          <button class="theme-button" onclick="calcInput('5')">5</button>
+          <button class="theme-button" onclick="calcInput('6')">6</button>
+          <button class="theme-button" onclick="calcInput('(')">(</button>
+
+          <button class="theme-button" onclick="calcInput('1')">1</button>
+          <button class="theme-button" onclick="calcInput('2')">2</button>
+          <button class="theme-button" onclick="calcInput('3')">3</button>
+          <button class="theme-button" onclick="calcInput(')')">)</button>
+
+          <button class="theme-button" onclick="calcInput('0')">0</button>
+          <button class="theme-button" onclick="calcInput('.')">.</button>
+          <button class="theme-button" onclick="calcResult()">=</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         START MENU
+    ========================= -->
+
+    <div id="startMenu">
+
+      <div class="start-title">Luna OS</div>
+
+      <input
+        class="start-search"
+        id="startSearch"
+        placeholder="Search apps..."
+        oninput="searchApps()"
+      >
+
+      <div class="start-section-title">Apps</div>
+
+      <div class="start-apps">
+
+        <button class="start-app" onclick="openApp('luna')">
+          <div class="start-app-icon">🌙</div>
+          <div class="start-app-name">Luna</div>
+        </button>
+
+        <button class="start-app" onclick="openApp('files')">
+          <div class="start-app-icon">📁</div>
+          <div class="start-app-name">Files</div>
+        </button>
+
+        <button class="start-app" onclick="openApp('settings')">
+          <div class="start-app-icon">⚙️</div>
+          <div class="start-app-name">Settings</div>
+        </button>
+
+        <button class="start-app" onclick="openApp('calculator')">
+          <div class="start-app-icon">🧮</div>
+          <div class="start-app-name">Calculator</div>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         NOTIFICATION PANEL
+    ========================= -->
+
+    <div id="notificationPanel">
+
+      <div class="notification-title">
+        Notifications
+      </div>
+
+      <div class="notification">
+        🌙 Welcome to Luna OS.
+      </div>
+
+      <div class="notification">
+        Your settings are saved automatically.
+      </div>
+
+    </div>
+
+    <!-- =========================
+         TASKBAR
+    ========================= -->
+
+    <div id="taskbar">
+
+      <div id="taskbar-left">
+
+        <button
+          class="task-button"
+          onclick="toggleStartMenu()"
+          title="Start"
+        >
+          ◉
+        </button>
+
+      </div>
+
+      <div id="taskbar-center">
+
+        <button
+          class="task-button luna-task"
+          onclick="openApp('luna')"
+          title="Luna"
+        >
+          <img src="Luna profile.webp" alt="Luna">
+        </button>
+
+        <button
+          class="task-button"
+          onclick="openApp('files')"
+          title="Files"
+        >
+          📁
+        </button>
+
+        <button
+          class="task-button"
+          onclick="openApp('calculator')"
+          title="Calculator"
+        >
+          🧮
+        </button>
+
+        <button
+          class="task-button"
+          onclick="openApp('settings')"
+          title="Settings"
+        >
+          ⚙️
+        </button>
+
+      </div>
+
+      <div id="taskbar-right">
+
+        <button
+          class="task-button"
+          onclick="toggleNotifications()"
+          title="Notifications"
+        >
+          🔔
+        </button>
+
+        <div id="clock"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    /* =========================
+       APP MANAGEMENT
+    ========================= */
+
+    let highestZ = 200;
+
+    function openApp(app) {
+
+      const windowElement = document.getElementById("window-" + app);
+
+      if (!windowElement) return;
+
+      windowElement.classList.add("open");
+
+      highestZ++;
+
+      windowElement.style.zIndex = highestZ;
+
+      document.getElementById("startMenu").classList.remove("open");
+      document.getElementById("notificationPanel").classList.remove("open");
+    }
+
+    function closeApp(app) {
+
+      const windowElement = document.getElementById("window-" + app);
+
+      if (!windowElement) return;
+
+      windowElement.classList.remove("open");
+      windowElement.classList.remove("maximized");
+    }
+
+    function minimizeApp(app) {
+
+      const windowElement = document.getElementById("window-" + app);
+
+      if (!windowElement) return;
+
+      windowElement.classList.remove("open");
+    }
+
+    function maximizeApp(app) {
+
+      const windowElement = document.getElementById("window-" + app);
+
+      if (!windowElement) return;
+
+      windowElement.classList.toggle("maximized");
+    }
+
+    /* =========================
+       START MENU
+    ========================= */
+
+    function toggleStartMenu() {
+
+      document
+        .getElementById("startMenu")
+        .classList.toggle("open");
+
+      document
+        .getElementById("notificationPanel")
+        .classList.remove("open");
+    }
+
+    function searchApps() {
+
+      const query =
+        document
+          .getElementById("startSearch")
+          .value
+          .toLowerCase();
+
+      document
+        .querySelectorAll(".start-app")
+        .forEach(app => {
+
+          const name =
+            app
+              .querySelector(".start-app-name")
+              .textContent
+              .toLowerCase();
+
+          app.style.display =
+            name.includes(query)
+              ? ""
+              : "none";
+
+        });
+    }
+
+    /* =========================
+       NOTIFICATIONS
+    ========================= */
+
+    function toggleNotifications() {
+
+      document
+        .getElementById("notificationPanel")
+        .classList.toggle("open");
+
+      document
+        .getElementById("startMenu")
+        .classList.remove("open");
+    }
+
+    /* =========================
+       CLOCK
+    ========================= */
+
+    function updateClock() {
+
+      const now = new Date();
+
+      const time =
+        now.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit"
+        });
+
+      const date =
+        now.toLocaleDateString([], {
+          month: "short",
+          day: "numeric"
+        });
+
+      document.getElementById("clock").innerHTML =
+        `${time}<br>${date}`;
+    }
+
+    updateClock();
+
+    setInterval(updateClock, 1000);
+
+    /* =========================
+       WALLPAPER
+    ========================= */
+
+    const savedWallpaper =
+      localStorage.getItem("lunaOSWallpaper");
+
+    if (savedWallpaper) {
+
+      document.body.style.background =
+        savedWallpaper;
+    }
+
+    function changeWallpaper() {
+
+      const wallpapers = [
+
+        "linear-gradient(135deg, #050811, #0a111d 55%, #060a12)",
+
+        "radial-gradient(circle at 70% 30%, #182d49, #050811 65%)",
+
+        "radial-gradient(circle at 30% 70%, #172c3c, #050811 65%)",
+
+        "linear-gradient(135deg, #080d19, #101e31, #050811)"
+
+      ];
+
+      const current =
+        document.body.style.background;
+
+      let index =
+        wallpapers.indexOf(current);
+
+      index++;
+
+      if (index >= wallpapers.length) {
+        index = 0;
+      }
+
+      document.body.style.background =
+        wallpapers[index];
+
+      localStorage.setItem(
+        "lunaOSWallpaper",
+        wallpapers[index]
+      );
+    }
+
+    /* =========================
+       CALCULATOR
+    ========================= */
+
+    let calculatorExpression = "";
+
+    function calcInput(value) {
+
+      calculatorExpression += value;
+
+      document.getElementById(
+        "calculatorDisplay"
+      ).value = calculatorExpression;
+    }
+
+    function calcClear() {
+
+      calculatorExpression = "";
+
+      document.getElementById(
+        "calculatorDisplay"
+      ).value = "0";
+    }
+
+    function calcResult() {
+
+      try {
+
+        const result =
+          Function(
+            '"use strict"; return (' +
+            calculatorExpression +
+            ')'
+          )();
+
+        calculatorExpression =
+          String(result);
+
+        document.getElementById(
+          "calculatorDisplay"
+        ).value = calculatorExpression;
+
+      } catch {
+
+        document.getElementById(
+          "calculatorDisplay"
+        ).value = "Error";
+
+        calculatorExpression = "";
+      }
+    }
+
+    /* =========================
+       LUNA PLACEHOLDER
+    ========================= */
+
+    function sendToLuna() {
+
+      const input =
+        document.getElementById("lunaInput");
+
+      const message =
+        input.value.trim();
+
+      if (!message) return;
+
+      alert(
+        "Luna AI connection will be added next.\n\nYou said: " +
+        message
+      );
+
+      input.value = "";
+    }
+
+    /* =========================
+       WINDOW DRAGGING
+    ========================= */
+
+    document
+      .querySelectorAll(".window")
+      .forEach(windowElement => {
+
+        const header =
+          windowElement.querySelector(".window-header");
+
+        let dragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        header.addEventListener(
+          "mousedown",
+          event => {
+
+            if (
+              event.target.closest(".window-controls")
+            ) {
+              return;
+            }
+
+            if (
+              windowElement.classList.contains("maximized")
+            ) {
+              return;
+            }
+
+            dragging = true;
+
+            const rect =
+              windowElement.getBoundingClientRect();
+
+            offsetX =
+              event.clientX - rect.left;
+
+            offsetY =
+              event.clientY - rect.top;
+
+            highestZ++;
+
+            windowElement.style.zIndex =
+              highestZ;
+          }
+        );
+
+        document.addEventListener(
+          "mousemove",
+          event => {
+
+            if (!dragging) return;
+
+            windowElement.style.left =
+              (event.clientX - offsetX) + "px";
+
+            windowElement.style.top =
+              (event.clientY - offsetY) + "px";
+
+            windowElement.style.transform =
+              "none";
+          }
+        );
+
+        document.addEventListener(
+          "mouseup",
+          () => {
+
+            dragging = false;
+
+          }
+        );
+
+      });
+
+    /* =========================
+       CLOSE MENUS WHEN CLICKING
+       OUTSIDE
+    ========================= */
+
+    document
+      .getElementById("desktop")
+      .addEventListener("click", event => {
+
+        if (
+          !event.target.closest("#startMenu") &&
+          !event.target.closest("#taskbar-left")
+        ) {
+
+          document
+            .getElementById("startMenu")
+            .classList.remove("open");
+        }
+
+      });
+
+  </script>
+
+</body>
+</html>
