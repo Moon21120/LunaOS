@@ -131,20 +131,14 @@ function updateClock() {
 }
 
 /* =========================================================
-   LUNA OS WALLPAPER
-   =========================================================
-   
-   The actual wallpaper is:
-   
-   luna-moon-wallpaper.png
-   
-   It should be in the same folder as index.html.
+   REALISTIC MOON WALLPAPER
    ========================================================= */
 
 const LUNA_WALLPAPER =
     "url('luna-moon-wallpaper.png')";
 
 function applyLunaWallpaper() {
+
     document.body.style.backgroundImage =
         LUNA_WALLPAPER;
 
@@ -162,10 +156,6 @@ function applyLunaWallpaper() {
 }
 
 function changeWallpaper() {
-    /*
-     * Currently Luna OS uses the realistic Moon wallpaper.
-     * More wallpapers can be added here later.
-     */
 
     applyLunaWallpaper();
 
@@ -182,6 +172,7 @@ function changeWallpaper() {
 let calculatorExpression = "";
 
 function calcInput(value) {
+
     calculatorExpression += value;
 
     const display =
@@ -196,6 +187,7 @@ function calcInput(value) {
 }
 
 function calcClear() {
+
     calculatorExpression = "";
 
     const display =
@@ -209,19 +201,17 @@ function calcClear() {
 }
 
 function calcResult() {
+
     const display =
         document.getElementById(
             "calculatorDisplay"
         );
 
     try {
+
         if (!calculatorExpression.trim()) {
             return;
         }
-
-        /*
-         * Only allow basic calculator characters.
-         */
 
         if (
             !/^[0-9+\-*/().\s]+$/.test(
@@ -247,6 +237,7 @@ function calcResult() {
         }
 
     } catch {
+
         calculatorExpression = "";
 
         if (display) {
@@ -256,10 +247,11 @@ function calcResult() {
 }
 
 /* =========================================================
-   LUNA APP
+   LUNA AI
    ========================================================= */
 
 function sendToLuna() {
+
     const input =
         document.getElementById(
             "lunaInput"
@@ -273,7 +265,7 @@ function sendToLuna() {
     if (!message) return;
 
     /*
-     * Ollama Cloud will be connected here.
+     * Ollama Cloud will be connected here later.
      */
 
     alert(
@@ -283,6 +275,66 @@ function sendToLuna() {
     );
 
     input.value = "";
+}
+
+/* =========================================================
+   POWER MENU
+   ========================================================= */
+
+function showPowerMenu() {
+
+    const choice =
+        prompt(
+            "Luna OS Power\n\n" +
+            "Type:\n" +
+            "restart\n" +
+            "sleep\n" +
+            "shutdown"
+        );
+
+    if (!choice) return;
+
+    const action =
+        choice.toLowerCase().trim();
+
+    if (action === "restart") {
+        location.reload();
+    }
+
+    if (action === "sleep") {
+
+        document.body.style.transition =
+            "filter 0.5s ease";
+
+        document.body.style.filter =
+            "brightness(0.12)";
+
+        setTimeout(() => {
+
+            document.body.style.filter =
+                "";
+
+        }, 3000);
+    }
+
+    if (action === "shutdown") {
+
+        document.body.innerHTML = `
+            <div style="
+                width:100vw;
+                height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#02050b;
+                color:#dce6ef;
+                font-family:Arial,Helvetica,sans-serif;
+                font-size:18px;
+            ">
+                Luna OS is shutting down...
+            </div>
+        `;
+    }
 }
 
 /* =========================================================
@@ -310,11 +362,6 @@ function makeWindowsDraggable() {
                 "mousedown",
                 event => {
 
-                    /*
-                     * Don't drag when clicking
-                     * window controls.
-                     */
-
                     if (
                         event.target.closest(
                             ".window-controls"
@@ -322,10 +369,6 @@ function makeWindowsDraggable() {
                     ) {
                         return;
                     }
-
-                    /*
-                     * Don't drag maximized windows.
-                     */
 
                     if (
                         windowElement.classList.contains(
@@ -352,11 +395,6 @@ function makeWindowsDraggable() {
 
                     windowElement.style.zIndex =
                         highestZ;
-
-                    /*
-                     * Remove the centered transform
-                     * once the window starts moving.
-                     */
 
                     windowElement.style.transform =
                         "none";
@@ -423,7 +461,7 @@ function makeWindowsDraggable() {
 }
 
 /* =========================================================
-   BRING WINDOWS TO FRONT
+   WINDOW FOCUS
    ========================================================= */
 
 function setupWindowFocus() {
@@ -446,7 +484,7 @@ function setupWindowFocus() {
 }
 
 /* =========================================================
-   CLOSE MENUS WHEN CLICKING DESKTOP
+   CLOSE MENUS
    ========================================================= */
 
 function setupMenuClosing() {
@@ -477,6 +515,7 @@ function setupMenuClosing() {
                     "#taskbar-left"
                 )
             ) {
+
                 startMenu.classList.remove(
                     "open"
                 );
@@ -494,6 +533,7 @@ function setupMenuClosing() {
                     "#taskbar-right"
                 )
             ) {
+
                 notificationPanel.classList.remove(
                     "open"
                 );
@@ -512,18 +552,9 @@ function setupKeyboardShortcuts() {
         "keydown",
         event => {
 
-            /*
-             * Windows / Meta key
-             * opens the Luna OS launcher.
-             */
-
             if (event.key === "Meta") {
                 toggleStartMenu();
             }
-
-            /*
-             * Escape closes menus.
-             */
 
             if (event.key === "Escape") {
 
@@ -548,16 +579,12 @@ function setupKeyboardShortcuts() {
 }
 
 /* =========================================================
-   INITIALIZE LUNA OS
+   INITIALIZE
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-
-        /*
-         * Start the clock.
-         */
 
         updateClock();
 
@@ -566,15 +593,7 @@ document.addEventListener(
             1000
         );
 
-        /*
-         * Apply the realistic Moon wallpaper.
-         */
-
         applyLunaWallpaper();
-
-        /*
-         * Start OS window systems.
-         */
 
         makeWindowsDraggable();
 
