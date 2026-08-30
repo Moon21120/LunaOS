@@ -72,11 +72,13 @@ function searchApps() {
     const query = search.value.toLowerCase().trim();
 
     document.querySelectorAll(".start-app").forEach(app => {
-        const nameElement = app.querySelector(".start-app-name");
+        const nameElement =
+            app.querySelector(".start-app-name");
 
         if (!nameElement) return;
 
-        const name = nameElement.textContent.toLowerCase();
+        const name =
+            nameElement.textContent.toLowerCase();
 
         app.style.display =
             name.includes(query) ? "" : "none";
@@ -88,7 +90,8 @@ function searchApps() {
    ========================================================= */
 
 function toggleNotifications() {
-    const panel = document.getElementById("notificationPanel");
+    const panel =
+        document.getElementById("notificationPanel");
 
     if (!panel) return;
 
@@ -104,151 +107,71 @@ function toggleNotifications() {
    ========================================================= */
 
 function updateClock() {
-    const clock = document.getElementById("clock");
+    const clock =
+        document.getElementById("clock");
 
     if (!clock) return;
 
     const now = new Date();
 
-    const time = now.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: "2-digit"
-    });
+    const time =
+        now.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit"
+        });
 
-    const date = now.toLocaleDateString([], {
-        month: "short",
-        day: "numeric"
-    });
+    const date =
+        now.toLocaleDateString([], {
+            month: "short",
+            day: "numeric"
+        });
 
-    clock.innerHTML = `${time}<br>${date}`;
+    clock.innerHTML =
+        `${time}<br>${date}`;
 }
 
-updateClock();
-
-setInterval(updateClock, 1000);
-
 /* =========================================================
-   WALLPAPER SYSTEM
+   LUNA OS WALLPAPER
+   =========================================================
+   
+   The actual wallpaper is:
+   
+   luna-moon-wallpaper.png
+   
+   It should be in the same folder as index.html.
    ========================================================= */
 
-const defaultWallpaper = `
-    radial-gradient(
-        circle at 72% 32%,
-        rgba(63, 104, 150, 0.24),
-        transparent 24%
-    ),
-    radial-gradient(
-        circle at 72% 32%,
-        #d8e1ea 0%,
-        #9caabd 2.5%,
-        #526175 8%,
-        #202c3e 17%,
-        transparent 18%
-    ),
-    radial-gradient(
-        circle at 50% 40%,
-        rgba(45, 78, 117, 0.22),
-        transparent 42%
-    ),
-    linear-gradient(
-        145deg,
-        #02050b 0%,
-        #07111f 48%,
-        #030711 100%
-    )
-`;
+const LUNA_WALLPAPER =
+    "url('luna-moon-wallpaper.png')";
 
-const savedWallpaper =
-    localStorage.getItem("lunaOSWallpaper");
+function applyLunaWallpaper() {
+    document.body.style.backgroundImage =
+        LUNA_WALLPAPER;
 
-document.body.style.background =
-    savedWallpaper || defaultWallpaper;
+    document.body.style.backgroundSize =
+        "cover";
 
-/* =========================================================
-   CHANGE WALLPAPER
-   ========================================================= */
+    document.body.style.backgroundPosition =
+        "center center";
+
+    document.body.style.backgroundRepeat =
+        "no-repeat";
+
+    document.body.style.backgroundAttachment =
+        "fixed";
+}
 
 function changeWallpaper() {
+    /*
+     * Currently Luna OS uses the realistic Moon wallpaper.
+     * More wallpapers can be added here later.
+     */
 
-    const wallpapers = [
-
-        defaultWallpaper,
-
-        `
-        radial-gradient(
-            circle at 78% 25%,
-            #d7e0e8 0%,
-            #8c9aac 2.5%,
-            #3e4d62 8%,
-            #172335 17%,
-            transparent 18%
-        ),
-        radial-gradient(
-            circle at 50% 45%,
-            rgba(45, 84, 126, .26),
-            transparent 45%
-        ),
-        linear-gradient(
-            145deg,
-            #02040a,
-            #081425,
-            #030711
-        )
-        `,
-
-        `
-        radial-gradient(
-            circle at 30% 28%,
-            rgba(45, 92, 140, .32),
-            transparent 24%
-        ),
-        radial-gradient(
-            circle at 72% 70%,
-            rgba(24, 53, 86, .30),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            #02050b,
-            #091827,
-            #030711
-        )
-        `,
-
-        `
-        radial-gradient(
-            circle at 65% 42%,
-            rgba(72, 112, 153, .30),
-            transparent 30%
-        ),
-        linear-gradient(
-            120deg,
-            #01040a,
-            #0b1728 48%,
-            #030711
-        )
-        `
-    ];
-
-    const current =
-        document.body.style.background;
-
-    let index = wallpapers.findIndex(
-        wallpaper => wallpaper.trim() === current.trim()
-    );
-
-    index++;
-
-    if (index >= wallpapers.length) {
-        index = 0;
-    }
-
-    document.body.style.background =
-        wallpapers[index];
+    applyLunaWallpaper();
 
     localStorage.setItem(
         "lunaOSWallpaper",
-        wallpapers[index]
+        "luna-moon-wallpaper.png"
     );
 }
 
@@ -259,23 +182,26 @@ function changeWallpaper() {
 let calculatorExpression = "";
 
 function calcInput(value) {
-
     calculatorExpression += value;
 
     const display =
-        document.getElementById("calculatorDisplay");
+        document.getElementById(
+            "calculatorDisplay"
+        );
 
     if (display) {
-        display.value = calculatorExpression;
+        display.value =
+            calculatorExpression;
     }
 }
 
 function calcClear() {
-
     calculatorExpression = "";
 
     const display =
-        document.getElementById("calculatorDisplay");
+        document.getElementById(
+            "calculatorDisplay"
+        );
 
     if (display) {
         display.value = "0";
@@ -283,38 +209,44 @@ function calcClear() {
 }
 
 function calcResult() {
-
     const display =
-        document.getElementById("calculatorDisplay");
+        document.getElementById(
+            "calculatorDisplay"
+        );
 
     try {
-
         if (!calculatorExpression.trim()) {
             return;
         }
 
         /*
-         * This is only a prototype calculator.
-         * The expression is restricted to basic
-         * calculator characters before evaluation.
+         * Only allow basic calculator characters.
          */
 
-        if (!/^[0-9+\-*/().\s]+$/.test(calculatorExpression)) {
-            throw new Error("Invalid expression");
+        if (
+            !/^[0-9+\-*/().\s]+$/.test(
+                calculatorExpression
+            )
+        ) {
+            throw new Error(
+                "Invalid expression"
+            );
         }
 
-        const result = Function(
-            `"use strict"; return (${calculatorExpression})`
-        )();
+        const result =
+            Function(
+                `"use strict"; return (${calculatorExpression})`
+            )();
 
-        calculatorExpression = String(result);
+        calculatorExpression =
+            String(result);
 
         if (display) {
-            display.value = calculatorExpression;
+            display.value =
+                calculatorExpression;
         }
 
     } catch {
-
         calculatorExpression = "";
 
         if (display) {
@@ -328,18 +260,20 @@ function calcResult() {
    ========================================================= */
 
 function sendToLuna() {
-
     const input =
-        document.getElementById("lunaInput");
+        document.getElementById(
+            "lunaInput"
+        );
 
     if (!input) return;
 
-    const message = input.value.trim();
+    const message =
+        input.value.trim();
 
     if (!message) return;
 
     /*
-     * Ollama Cloud will be connected here later.
+     * Ollama Cloud will be connected here.
      */
 
     alert(
@@ -357,186 +291,297 @@ function sendToLuna() {
 
 function makeWindowsDraggable() {
 
-    document.querySelectorAll(".window").forEach(windowElement => {
+    document
+        .querySelectorAll(".window")
+        .forEach(windowElement => {
 
-        const header =
-            windowElement.querySelector(".window-header");
+            const header =
+                windowElement.querySelector(
+                    ".window-header"
+                );
 
-        if (!header) return;
+            if (!header) return;
 
-        let dragging = false;
-        let offsetX = 0;
-        let offsetY = 0;
+            let dragging = false;
+            let offsetX = 0;
+            let offsetY = 0;
 
-        header.addEventListener("mousedown", event => {
+            header.addEventListener(
+                "mousedown",
+                event => {
 
-            if (
-                event.target.closest(".window-controls")
-            ) {
-                return;
-            }
+                    /*
+                     * Don't drag when clicking
+                     * window controls.
+                     */
 
-            if (
-                windowElement.classList.contains("maximized")
-            ) {
-                return;
-            }
+                    if (
+                        event.target.closest(
+                            ".window-controls"
+                        )
+                    ) {
+                        return;
+                    }
 
-            dragging = true;
+                    /*
+                     * Don't drag maximized windows.
+                     */
 
-            const rect =
-                windowElement.getBoundingClientRect();
+                    if (
+                        windowElement.classList.contains(
+                            "maximized"
+                        )
+                    ) {
+                        return;
+                    }
 
-            offsetX =
-                event.clientX - rect.left;
+                    dragging = true;
 
-            offsetY =
-                event.clientY - rect.top;
+                    const rect =
+                        windowElement.getBoundingClientRect();
 
-            highestZ++;
+                    offsetX =
+                        event.clientX -
+                        rect.left;
 
-            windowElement.style.zIndex =
-                highestZ;
+                    offsetY =
+                        event.clientY -
+                        rect.top;
 
-            windowElement.style.transform =
-                "none";
+                    highestZ++;
+
+                    windowElement.style.zIndex =
+                        highestZ;
+
+                    /*
+                     * Remove the centered transform
+                     * once the window starts moving.
+                     */
+
+                    windowElement.style.transform =
+                        "none";
+                }
+            );
+
+            document.addEventListener(
+                "mousemove",
+                event => {
+
+                    if (!dragging) return;
+
+                    let newLeft =
+                        event.clientX -
+                        offsetX;
+
+                    let newTop =
+                        event.clientY -
+                        offsetY;
+
+                    const maxLeft =
+                        window.innerWidth -
+                        windowElement.offsetWidth -
+                        10;
+
+                    const maxTop =
+                        window.innerHeight -
+                        windowElement.offsetHeight -
+                        90;
+
+                    newLeft =
+                        Math.max(
+                            10,
+                            Math.min(
+                                newLeft,
+                                maxLeft
+                            )
+                        );
+
+                    newTop =
+                        Math.max(
+                            10,
+                            Math.min(
+                                newTop,
+                                maxTop
+                            )
+                        );
+
+                    windowElement.style.left =
+                        newLeft + "px";
+
+                    windowElement.style.top =
+                        newTop + "px";
+                }
+            );
+
+            document.addEventListener(
+                "mouseup",
+                () => {
+                    dragging = false;
+                }
+            );
         });
-
-        document.addEventListener("mousemove", event => {
-
-            if (!dragging) return;
-
-            let newLeft =
-                event.clientX - offsetX;
-
-            let newTop =
-                event.clientY - offsetY;
-
-            const maxLeft =
-                window.innerWidth -
-                windowElement.offsetWidth -
-                10;
-
-            const maxTop =
-                window.innerHeight -
-                windowElement.offsetHeight -
-                90;
-
-            newLeft =
-                Math.max(10, Math.min(newLeft, maxLeft));
-
-            newTop =
-                Math.max(10, Math.min(newTop, maxTop));
-
-            windowElement.style.left =
-                newLeft + "px";
-
-            windowElement.style.top =
-                newTop + "px";
-        });
-
-        document.addEventListener("mouseup", () => {
-            dragging = false;
-        });
-
-    });
 }
-
-makeWindowsDraggable();
 
 /* =========================================================
    BRING WINDOWS TO FRONT
    ========================================================= */
 
-document.querySelectorAll(".window").forEach(windowElement => {
+function setupWindowFocus() {
 
-    windowElement.addEventListener("mousedown", () => {
+    document
+        .querySelectorAll(".window")
+        .forEach(windowElement => {
 
-        highestZ++;
+            windowElement.addEventListener(
+                "mousedown",
+                () => {
 
-        windowElement.style.zIndex =
-            highestZ;
-    });
+                    highestZ++;
 
-});
+                    windowElement.style.zIndex =
+                        highestZ;
+                }
+            );
+        });
+}
 
 /* =========================================================
    CLOSE MENUS WHEN CLICKING DESKTOP
    ========================================================= */
 
-document.addEventListener("click", event => {
+function setupMenuClosing() {
 
-    const startMenu =
-        document.getElementById("startMenu");
+    document.addEventListener(
+        "click",
+        event => {
 
-    const notificationPanel =
-        document.getElementById("notificationPanel");
+            const startMenu =
+                document.getElementById(
+                    "startMenu"
+                );
 
-    const taskbar =
-        document.getElementById("taskbar");
+            const notificationPanel =
+                document.getElementById(
+                    "notificationPanel"
+                );
 
-    if (
-        startMenu &&
-        startMenu.classList.contains("open") &&
-        !startMenu.contains(event.target) &&
-        !event.target.closest("#taskbar-left")
-    ) {
-        startMenu.classList.remove("open");
-    }
+            if (
+                startMenu &&
+                startMenu.classList.contains(
+                    "open"
+                ) &&
+                !startMenu.contains(
+                    event.target
+                ) &&
+                !event.target.closest(
+                    "#taskbar-left"
+                )
+            ) {
+                startMenu.classList.remove(
+                    "open"
+                );
+            }
 
-    if (
-        notificationPanel &&
-        notificationPanel.classList.contains("open") &&
-        !notificationPanel.contains(event.target) &&
-        !event.target.closest("#taskbar-right")
-    ) {
-        notificationPanel.classList.remove("open");
-    }
-
-});
+            if (
+                notificationPanel &&
+                notificationPanel.classList.contains(
+                    "open"
+                ) &&
+                !notificationPanel.contains(
+                    event.target
+                ) &&
+                !event.target.closest(
+                    "#taskbar-right"
+                )
+            ) {
+                notificationPanel.classList.remove(
+                    "open"
+                );
+            }
+        }
+    );
+}
 
 /* =========================================================
    KEYBOARD SHORTCUTS
    ========================================================= */
 
-document.addEventListener("keydown", event => {
+function setupKeyboardShortcuts() {
 
-    /*
-     * Windows key / Meta key
-     * opens the Luna OS launcher.
-     */
+    document.addEventListener(
+        "keydown",
+        event => {
 
-    if (event.key === "Meta") {
-        toggleStartMenu();
-    }
+            /*
+             * Windows / Meta key
+             * opens the Luna OS launcher.
+             */
 
-    /*
-     * Escape closes menus.
-     */
+            if (event.key === "Meta") {
+                toggleStartMenu();
+            }
 
-    if (event.key === "Escape") {
+            /*
+             * Escape closes menus.
+             */
 
-        document
-            .getElementById("startMenu")
-            ?.classList.remove("open");
+            if (event.key === "Escape") {
 
-        document
-            .getElementById("notificationPanel")
-            ?.classList.remove("open");
-    }
+                document
+                    .getElementById(
+                        "startMenu"
+                    )
+                    ?.classList.remove(
+                        "open"
+                    );
 
-});
+                document
+                    .getElementById(
+                        "notificationPanel"
+                    )
+                    ?.classList.remove(
+                        "open"
+                    );
+            }
+        }
+    );
+}
 
 /* =========================================================
-   INITIALIZE
+   INITIALIZE LUNA OS
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    updateClock();
+        /*
+         * Start the clock.
+         */
 
-    document.body.style.background =
-        localStorage.getItem("lunaOSWallpaper")
-        || defaultWallpaper;
+        updateClock();
 
-});
+        setInterval(
+            updateClock,
+            1000
+        );
+
+        /*
+         * Apply the realistic Moon wallpaper.
+         */
+
+        applyLunaWallpaper();
+
+        /*
+         * Start OS window systems.
+         */
+
+        makeWindowsDraggable();
+
+        setupWindowFocus();
+
+        setupMenuClosing();
+
+        setupKeyboardShortcuts();
+    }
+);
