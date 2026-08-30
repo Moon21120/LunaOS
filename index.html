@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,1303 +6,339 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Luna OS</title>
 
-<link rel="stylesheet" href="style.css">
-
 <style>
-* {
-  box-sizing: border-box;
-  user-select: none;
-}
-
-html,
-body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
-  color: white;
-  background: #070b14;
-}
-
-body {
-  background:
-    radial-gradient(circle at 50% 35%, rgba(38,72,110,.22), transparent 45%),
-    linear-gradient(135deg,#050811,#0a111d 55%,#060a12);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: background .45s ease;
-}
-
-button,
-input {
-  font: inherit;
-  color: inherit;
-}
-
-button {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* =========================================================
-   DESKTOP
-========================================================= */
-
-#desktop {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-}
-
-.desktop-glow {
-  position: absolute;
-  width: 650px;
-  height: 650px;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%,-50%);
-  background: radial-gradient(
-    circle,
-    rgba(48,91,140,.18),
-    transparent 68%
-  );
-  pointer-events: none;
-}
-
-.desktop-icons {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  z-index: 10;
-}
-
-.desktop-icon {
-  width: 78px;
-  padding: 8px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  text-align: center;
-  transition: .18s;
-}
-
-.desktop-icon:hover {
-  background: rgba(80,120,160,.14);
-  border-color: rgba(100,150,200,.18);
-}
-
-.desktop-icon-symbol {
-  width: 48px;
-  height: 48px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 13px;
-  background: #111c2c;
-  border: 1px solid #263c57;
-  font-size: 23px;
-}
-
-.desktop-icon span:last-child {
-  display: block;
-  margin-top: 7px;
-  font-size: 12px;
-  color: #dce5ef;
-}
-
-/* =========================================================
-   TASKBAR
-========================================================= */
-
-#taskbar {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  height: 64px;
-  border-radius: 19px;
-  background: rgba(10,17,29,.91);
-  border: 1px solid rgba(93,132,168,.25);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  display: flex;
-  align-items: center;
-  padding: 7px 10px;
-  z-index: 9000;
-  box-shadow: 0 15px 45px rgba(0,0,0,.35);
-}
-
-#taskbar-left,
-#taskbar-center,
-#taskbar-right {
-  display: flex;
-  align-items: center;
-}
-
-#taskbar-left {
-  width: 160px;
-}
-
-#taskbar-center {
-  flex: 1;
-  justify-content: center;
-  gap: 6px;
-}
-
-#taskbar-right {
-  width: 160px;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.task-button {
-  height: 48px;
-  min-width: 48px;
-  border-radius: 13px;
-  border: 1px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 21px;
-  transition: .18s;
-}
-
-.task-button:hover {
-  background: rgba(70,105,140,.2);
-  border-color: rgba(105,145,185,.22);
-}
-
-.luna-task img {
-  width: 34px;
-  height: 34px;
-  object-fit: cover;
-  border-radius: 9px;
-}
-
-#clock {
-  font-size: 12px;
-  line-height: 1.25;
-  text-align: right;
-  color: #dbe5ef;
-  white-space: nowrap;
-}
-
-/* =========================================================
-   START MENU
-========================================================= */
-
-#startMenu {
-  position: absolute;
-  left: 14px;
-  bottom: 88px;
-  width: 420px;
-  max-width: calc(100vw - 28px);
-  height: 540px;
-  max-height: calc(100vh - 110px);
-  padding: 20px;
-  border-radius: 22px;
-  background: rgba(10,17,29,.96);
-  border: 1px solid rgba(90,132,171,.28);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  box-shadow: 0 25px 80px rgba(0,0,0,.48);
-  display: none;
-  z-index: 8500;
-}
-
-#startMenu.open {
-  display: block;
-  animation: menuIn .18s ease;
-}
-
-@keyframes menuIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.start-title {
-  font-size: 21px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.start-search {
-  width: 100%;
-  height: 42px;
-  border-radius: 13px;
-  border: 1px solid #263d58;
-  outline: none;
-  background: #0d1725;
-  color: white;
-  padding: 0 14px;
-  margin-bottom: 20px;
-  user-select: text;
-}
-
-.start-search::placeholder {
-  color: #718399;
-}
-
-.start-section-title {
-  color: #8295aa;
-  font-size: 12px;
-  margin-bottom: 9px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
-
-.start-apps {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 8px;
-}
-
-.start-app {
-  min-height: 78px;
-  border-radius: 14px;
-  border: 1px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  padding: 9px;
-  transition: .18s;
-}
-
-.start-app:hover {
-  background: rgba(70,105,140,.17);
-  border-color: rgba(100,145,185,.2);
-}
-
-.start-app-icon {
-  font-size: 24px;
-  margin-bottom: 7px;
-}
-
-.start-app-name {
-  font-size: 11px;
-  color: #d7e1eb;
-}
-
-/* =========================================================
-   WINDOWS
-========================================================= */
-
-.window {
-  position: absolute;
-  width: 650px;
-  height: 430px;
-  max-width: calc(100vw - 35px);
-  max-height: calc(100vh - 100px);
-  min-width: 300px;
-  min-height: 220px;
-  left: 50%;
-  top: 45%;
-  transform: translate(-50%,-50%);
-  background: rgba(9,15,25,.96);
-  border: 1px solid rgba(87,127,165,.32);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 30px 90px rgba(0,0,0,.55);
-  display: none;
-  z-index: 100;
-}
-
-.window.open {
-  display: flex;
-  flex-direction: column;
-  animation: windowIn .16s ease;
-}
-
-@keyframes windowIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%,-48%) scale(.97);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%,-50%) scale(1);
-  }
-}
-
-.window.maximized {
-  left: 20px;
-  right: 20px;
-  top: 20px;
-  width: auto;
-  height: calc(100vh - 105px);
-  max-width: none;
-  max-height: none;
-  transform: none;
-  border-radius: 17px;
-}
-
-.window-header {
-  height: 55px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px 0 18px;
-  background: rgba(14,24,39,.85);
-  border-bottom: 1px solid rgba(76,113,148,.2);
-  cursor: grab;
-}
-
-.window-header:active {
-  cursor: grabbing;
-}
-
-.window-title {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 14px;
-  color: #e8eef5;
-}
-
-.window-controls {
-  display: flex;
-  gap: 4px;
-}
-
-.window-control {
-  width: 34px;
-  height: 32px;
-  border: none;
-  border-radius: 9px;
-  background: transparent;
-  cursor: pointer;
-  color: #b7c5d3;
-}
-
-.window-control:hover {
-  background: rgba(90,125,160,.2);
-  color: white;
-}
-
-.window-control.close:hover {
-  background: rgba(170,65,75,.35);
-}
-
-.window-content {
-  flex: 1;
-  overflow: auto;
-  padding: 22px;
-}
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-.settings-card {
-  background: #0d1725;
-  border: 1px solid #1d3047;
-  border-radius: 15px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-.settings-card h3 {
-  margin: 0 0 6px;
-  font-size: 14px;
-}
-
-.settings-card p {
-  margin: 0 0 5px;
-  color: #7f91a5;
-  font-size: 12px;
-}
-
-.settings-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 14px;
-}
-
-.settings-label {
-  font-size: 13px;
-  color: #dbe5ef;
-}
-
-.settings-description {
-  font-size: 11px;
-  color: #718399;
-  margin-top: 4px;
-}
-
-.theme-button,
-.settings-select {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #2a4966;
-  background: #122238;
-  cursor: pointer;
-  outline: none;
-}
-
-.theme-button:hover,
-.settings-select:hover {
-  background: #18304a;
-}
-
-.settings-select {
-  color: white;
-  min-width: 150px;
-}
-
-.settings-select option {
-  background: #0d1725;
-}
-
-.wallpaper-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.wallpaper-option {
-  height: 80px;
-  border-radius: 13px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: .18s;
-}
-
-.wallpaper-option:hover {
-  transform: scale(1.02);
-}
-
-.wallpaper-option.active {
-  border-color: #9ec5e8;
-  box-shadow: 0 0 20px rgba(120,180,230,.22);
-}
-
-.wallpaper-option span {
-  position: absolute;
-  bottom: 7px;
-  left: 9px;
-  font-size: 11px;
-  text-shadow: 0 2px 8px #000;
-}
-
-/* =========================================================
-   LUNA APP
-========================================================= */
-
-.luna-panel {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.luna-intro {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.luna-logo {
-  width: 58px;
-  height: 58px;
-  border-radius: 15px;
-  object-fit: cover;
-  border: 1px solid #2b4662;
-}
-
-.luna-intro h2 {
-  margin: 0;
-  font-size: 21px;
-}
-
-.luna-intro p {
-  margin: 5px 0 0;
-  color: #8192a5;
-  font-size: 13px;
-}
-
-.luna-messages {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 15px;
-  padding-right: 5px;
-}
-
-.luna-message {
-  max-width: 90%;
-  padding: 11px 13px;
-  margin-bottom: 10px;
-  border-radius: 13px;
-  font-size: 13px;
-  line-height: 1.45;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.luna-message.user {
-  margin-left: auto;
-  background: #13263c;
-  border: 1px solid #294b6a;
-}
-
-.luna-message.assistant {
-  margin-right: auto;
-  background: #0d1725;
-  border: 1px solid #1d3047;
-}
-
-.luna-input {
-  display: flex;
-  gap: 8px;
-}
-
-.luna-input input {
-  flex: 1;
-  height: 44px;
-  background: #0c1624;
-  border: 1px solid #243b55;
-  border-radius: 13px;
-  color: white;
-  outline: none;
-  padding: 0 14px;
-  user-select: text;
-}
-
-.luna-input button {
-  width: 46px;
-  border: 1px solid #2c4e6e;
-  background: #13263c;
-  border-radius: 13px;
-  cursor: pointer;
-}
-
-.luna-input button:hover {
-  background: #1b3450;
-}
-
-.luna-input button:disabled {
-  opacity: .5;
-  cursor: wait;
-}
-
-.luna-call-button {
-  font-size: 18px;
-}
-
-/* =========================================================
-   CALCULATOR
-========================================================= */
-
-.calculator-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 22px;
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(48,91,140,.12),
-      transparent 55%
-    );
-}
-
-.calculator-display {
-  width: 100%;
-  max-width: 430px;
-  height: 70px;
-  border-radius: 15px;
-  border: 1px solid #263f5a;
-  background: #07111e;
-  color: #eef5fb;
-  outline: none;
-  padding: 0 18px;
-  font-size: 27px;
-  text-align: right;
-  box-shadow: inset 0 3px 14px rgba(0,0,0,.25);
-  user-select: text;
-}
-
-.calculator-buttons {
-  width: 100%;
-  max-width: 430px;
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 8px;
-}
-
-.calculator-button {
-  height: 55px;
-  border-radius: 13px;
-  border: 1px solid #263d57;
-  background: #0d1a2a;
-  color: #dce7f0;
-  cursor: pointer;
-  font-size: 18px;
-  transition: .12s;
-}
-
-.calculator-button:hover {
-  background: #15283d;
-  border-color: #3a5b78;
-}
-
-.calculator-button:active {
-  transform: scale(.95);
-}
-
-.calculator-operator {
-  background: #11243a;
-  border-color: #2d4e6d;
-}
-
-.calculator-clear {
-  background: #172b3e;
-}
-
-.calculator-equals {
-  background: #1a3853;
-  border-color: #376181;
-}
-
-.calculator-zero {
-  grid-column: span 2;
-}
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-#notificationPanel {
-  position: absolute;
-  right: 14px;
-  bottom: 88px;
-  width: 340px;
-  max-width: calc(100vw - 28px);
-  padding: 18px;
-  border-radius: 20px;
-  background: rgba(10,17,29,.96);
-  border: 1px solid rgba(90,132,171,.28);
-  backdrop-filter: blur(25px);
-  display: none;
-  z-index: 8500;
-  box-shadow: 0 25px 80px rgba(0,0,0,.45);
-}
-
-#notificationPanel.open {
-  display: block;
-}
-
-.notification-title {
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.notification {
-  background: #0d1725;
-  border: 1px solid #1c3047;
-  border-radius: 13px;
-  padding: 12px;
-  margin-bottom: 8px;
-  font-size: 12px;
-  color: #b9c7d5;
-}
-
-/* =========================================================
-   VOICE CALL SCREEN
-========================================================= */
-
-#voiceScreen {
-  position: fixed;
-  inset: 0;
-  z-index: 20000;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(76,126,178,.20),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 50% 80%,
-      rgba(25,54,84,.16),
-      transparent 45%
-    ),
-    linear-gradient(
-      145deg,
-      #02050c,
-      #07111f 50%,
-      #030711
-    );
-}
-
-#voiceScreen.open {
-  display: flex;
-  animation: voiceScreenIn .3s ease;
-}
-
-@keyframes voiceScreenIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-#voiceScreen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .55;
-
-  background:
-    radial-gradient(circle at 8% 15%,rgba(255,255,255,.65) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 19% 73%,rgba(255,255,255,.3) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 31% 28%,rgba(255,255,255,.45) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 43% 11%,rgba(255,255,255,.35) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 56% 76%,rgba(255,255,255,.4) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 68% 20%,rgba(255,255,255,.5) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 81% 67%,rgba(255,255,255,.3) 0 1px,transparent 1.6px),
-    radial-gradient(circle at 92% 34%,rgba(255,255,255,.45) 0 1px,transparent 1.6px);
-}
-
-/* =========================================================
-   VOICE TOP
-========================================================= */
-
-.voice-top {
-  position: absolute;
-  top: 28px;
-  left: 30px;
-  z-index: 20;
-}
-
-.voice-title {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -.02em;
-}
-
-.voice-subtitle {
-  margin-top: 5px;
-  color: #7f92a8;
-  font-size: 13px;
-}
-
-/* =========================================================
-   CLOSE
-========================================================= */
-
-.voice-close {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  z-index: 30;
-  width: 42px;
-  height: 42px;
-  border-radius: 13px;
-  border: 1px solid #263e59;
-  background: rgba(12,23,38,.8);
-  color: #dce7f0;
-  font-size: 22px;
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-}
-
-.voice-close:hover {
-  background: rgba(65,90,115,.35);
-}
-
-/* =========================================================
-   MOON VISUALIZER
-========================================================= */
-
-.moon-container {
-  position: relative;
-  width: 380px;
-  height: 380px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Main animated outer ring */
-
-.moon-orbit {
-  position: absolute;
-  width: 330px;
-  height: 330px;
-  border-radius: 50%;
-  border: 1px solid rgba(143,190,231,.25);
-  box-shadow:
-    0 0 35px rgba(83,145,200,.08),
-    inset 0 0 35px rgba(83,145,200,.05);
-  animation: orbitPulse 3s ease-in-out infinite;
-}
-
-@keyframes orbitPulse {
-  0%,
-  100% {
-    transform: scale(.96);
-    opacity: .5;
-  }
-
-  50% {
-    transform: scale(1.04);
-    opacity: 1;
-  }
-}
-
-/* Second ring */
-
-.moon-orbit::before {
-  content: "";
-  position: absolute;
-  inset: 15px;
-  border-radius: 50%;
-  border: 1px solid rgba(146,192,231,.15);
-  animation: innerOrbit 4s linear infinite;
-}
-
-@keyframes innerOrbit {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Moving particles */
-
-.moon-orbit::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border-top: 2px solid rgba(180,220,250,.7);
-  border-right: 2px solid transparent;
-  border-bottom: 2px solid transparent;
-  border-left: 2px solid transparent;
-  animation: orbitSpin 2.7s linear infinite;
-}
-
-@keyframes orbitSpin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Audio waves */
-
-.audio-ring {
-  position: absolute;
-  width: 225px;
-  height: 225px;
-  border-radius: 50%;
-  border: 2px solid rgba(147,197,238,.16);
-  opacity: .65;
-}
-
-.audio-ring:nth-child(1) {
-  animation: audioRing 2.4s ease-out infinite;
-}
-
-.audio-ring:nth-child(2) {
-  width: 245px;
-  height: 245px;
-  animation: audioRing 2.4s ease-out infinite .55s;
-}
-
-.audio-ring:nth-child(3) {
-  width: 265px;
-  height: 265px;
-  animation: audioRing 2.4s ease-out infinite 1.1s;
-}
-
-@keyframes audioRing {
-  0% {
-    transform: scale(.72);
-    opacity: .65;
-  }
-
-  70% {
-    transform: scale(1.04);
-    opacity: .1;
-  }
-
-  100% {
-    transform: scale(1.12);
-    opacity: 0;
-  }
-}
-
-/* Speaking makes the rings much stronger */
-
-.moon-container.speaking .audio-ring {
-  animation-duration: 1s;
-  border-color: rgba(180,220,250,.4);
-}
-
-/* Glow */
-
-.moon-glow {
-  position: absolute;
-  width: 290px;
-  height: 290px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(126,172,214,.30),
-    rgba(90,145,190,.08) 45%,
-    transparent 70%
-  );
-  filter: blur(12px);
-  animation: glowPulse 2.2s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%,
-  100% {
-    transform: scale(.94);
-    opacity: .7;
-  }
-
-  50% {
-    transform: scale(1.06);
-    opacity: 1;
-  }
-}
-
-/* Moon */
-
-.moon {
-  position: relative;
-  z-index: 5;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background:
-    radial-gradient(
-      circle at 35% 28%,
-      #ffffff 0%,
-      #d9e4ed 30%,
-      #a7bacb 58%,
-      #71869b 82%,
-      #42566b 100%
-    );
-
-  box-shadow:
-    0 0 35px rgba(150,190,225,.32),
-    0 0 85px rgba(83,132,176,.22),
-    inset -16px -18px 35px rgba(36,55,73,.22);
-
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.moon::before {
-  content: "";
-  position: absolute;
-  inset: 10%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 35%,rgba(80,100,120,.13) 0 5%,transparent 6%),
-    radial-gradient(circle at 67% 25%,rgba(80,100,120,.12) 0 8%,transparent 9%),
-    radial-gradient(circle at 72% 68%,rgba(60,85,105,.13) 0 6%,transparent 7%),
-    radial-gradient(circle at 35% 75%,rgba(70,95,115,.10) 0 9%,transparent 10%);
-  pointer-events: none;
-}
-
-.moon.listening {
-  animation: moonListening 2s ease-in-out infinite;
-}
-
-.moon.speaking {
-  animation: moonSpeaking .75s ease-in-out infinite;
-}
-
-@keyframes moonListening {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow:
-      0 0 35px rgba(150,190,225,.30),
-      0 0 85px rgba(83,132,176,.20);
-  }
-
-  50% {
-    transform: scale(1.035);
-    box-shadow:
-      0 0 50px rgba(160,205,240,.45),
-      0 0 120px rgba(83,145,200,.30);
-  }
-}
-
-@keyframes moonSpeaking {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  25% {
-    transform: scale(1.045);
-  }
-
-  50% {
-    transform: scale(1.08);
-  }
-
-  75% {
-    transform: scale(1.035);
-  }
-}
-
-.moon-phase {
-  position: relative;
-  z-index: 2;
-  font-size: 72px;
-  filter: grayscale(1);
-  opacity: .78;
-  text-shadow: 0 0 25px rgba(255,255,255,.35);
-}
-
-/* =========================================================
-   CALL STATUS
-========================================================= */
-
-.call-status {
-  position: relative;
-  z-index: 20;
-  min-height: 24px;
-  margin-top: 8px;
-  font-size: 16px;
-  color: #b8c8d8;
-  transition: .2s;
-}
-
-.call-status.listening {
-  color: #c8d8e8;
-}
-
-.call-status.thinking {
-  color: #91abc2;
-}
-
-.call-status.speaking {
-  color: #e1ebf4;
-}
-
-.call-status.error {
-  color: #e0a5a5;
-}
-
-/* =========================================================
-   CALL CONTROLS
-========================================================= */
-
-.call-controls {
-  position: relative;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  margin-top: 28px;
-}
-
-.call-button {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 1px solid #2b4560;
-  background: rgba(14,27,43,.92);
-  cursor: pointer;
-  font-size: 23px;
-  transition: .16s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(15px);
-}
-
-.call-button:hover {
-  transform: scale(1.06);
-  background: rgba(30,52,75,.95);
-}
-
-.call-button.hangup {
-  background: #482b32;
-  border-color: #74434d;
-}
-
-.call-button.hangup:hover {
-  background: #5b3039;
-}
-
-.call-button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.call-hint {
-  position: relative;
-  z-index: 20;
-  margin-top: 18px;
-  color: #657a90;
-  font-size: 12px;
-  text-align: center;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width:700px) {
-
-  #taskbar {
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-  }
-
-  #taskbar-left,
-  #taskbar-right {
-    width: auto;
-  }
-
-  #taskbar-center {
-    gap: 2px;
-  }
-
-  .task-button {
-    min-width: 42px;
-    width: 42px;
-    height: 44px;
-  }
-
-  #clock {
-    display: none;
-  }
-
-  .window {
-    width: calc(100vw - 20px);
-    height: calc(100vh - 100px);
-  }
-
-  .start-apps {
-    grid-template-columns: repeat(3,1fr);
-  }
-
-  .calculator-button {
-    height: 52px;
-  }
-
-  .calculator-display {
-    height: 62px;
-    font-size: 24px;
-  }
-
-  .voice-top {
-    top: 20px;
-    left: 20px;
-  }
-
-  .voice-close {
-    top: 18px;
-    right: 18px;
-  }
-
-  .moon-container {
-    width: 300px;
-    height: 300px;
-  }
-
-  .moon-orbit {
-    width: 270px;
-    height: 270px;
-  }
-
-  .moon-glow {
-    width: 240px;
-    height: 240px;
-  }
-
-  .moon {
-    width: 150px;
-    height: 150px;
-  }
-
-  .moon-phase {
-    font-size: 60px;
-  }
-
-  .audio-ring:nth-child(1) {
-    width: 200px;
-    height: 200px;
-  }
-
-  .audio-ring:nth-child(2) {
-    width: 220px;
-    height: 220px;
-  }
-
-  .audio-ring:nth-child(3) {
-    width: 240px;
-    height: 240px;
-  }
-
-  .call-controls {
-    margin-top: 20px;
-  }
-
-  .settings-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .settings-select {
-    width: 100%;
-  }
+*{box-sizing:border-box;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#070b14}
+body{
+  --bg1:#050811;
+  --bg2:#0a111d;
+  --bg3:#060a12;
+  --panel:rgba(10,17,29,.94);
+  --panel2:#0d1725;
+  --border:#263c57;
+  --text:#fff;
+  --muted:#8192a5;
+  --accent:#7fb5e8;
+  background:radial-gradient(circle at 50% 35%,rgba(38,72,110,.22),transparent 45%),linear-gradient(135deg,var(--bg1),var(--bg2) 55%,var(--bg3));
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transition:background .4s,color .3s;
+}
+body.light{
+  --bg1:#dce8f3;--bg2:#eef4f9;--bg3:#cbd9e7;
+  --panel:rgba(245,249,253,.94);--panel2:#edf3f8;
+  --border:#b5c8da;--text:#152333;--muted:#5d7185;
+  --accent:#356f9f;
+}
+body.luna{
+  --accent:#8fbce8;
+}
+body.custom{
+  --bg1:#050811;--bg2:#050811;--bg3:#050811;
+}
+body.compact .task-button{height:40px;min-width:40px}
+body.large .task-button{height:54px;min-width:54px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent}
+
+#desktop{position:fixed;inset:0;overflow:hidden}
+.desktop-glow{
+  position:absolute;width:650px;height:650px;left:50%;top:40%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(48,91,140,.18),transparent 68%);
+  pointer-events:none;
+}
+.desktop-icons{
+  position:absolute;top:24px;left:24px;
+  display:flex;flex-direction:column;gap:18px;z-index:10;
+}
+.desktop-icon{
+  width:78px;padding:8px;border-radius:12px;border:1px solid transparent;
+  background:transparent;cursor:pointer;text-align:center;transition:.18s;
+}
+.desktop-icon:hover{background:rgba(80,120,160,.14);border-color:rgba(100,150,200,.18)}
+.desktop-icon-symbol{
+  width:48px;height:48px;margin:auto;display:flex;align-items:center;
+  justify-content:center;border-radius:13px;background:var(--panel2);
+  border:1px solid var(--border);font-size:23px;
+}
+.desktop-icon span:last-child{display:block;margin-top:7px;font-size:12px;color:var(--text)}
+
+#taskbar{
+  position:absolute;left:14px;right:14px;bottom:14px;height:64px;
+  border-radius:19px;background:rgba(10,17,29,.91);
+  border:1px solid rgba(93,132,168,.25);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  display:flex;align-items:center;padding:7px 10px;z-index:9000;
+  box-shadow:0 15px 45px rgba(0,0,0,.35);
+  transition:.25s;
+}
+#taskbar.top{top:14px;bottom:auto}
+#taskbar.left{left:14px;right:auto;top:14px;bottom:14px;width:72px;height:auto;flex-direction:column}
+#taskbar.right{left:auto;right:14px;top:14px;bottom:14px;width:72px;height:auto;flex-direction:column}
+#taskbar.hidden{transform:translateY(calc(100% + 30px))}
+#taskbar.left.hidden,#taskbar.right.hidden{transform:translateX(calc(100% + 30px))}
+#taskbar-left,#taskbar-center,#taskbar-right{display:flex;align-items:center}
+#taskbar-left{width:160px}
+#taskbar-center{flex:1;justify-content:center;gap:6px}
+#taskbar-right{width:160px;justify-content:flex-end;gap:12px}
+#taskbar.left #taskbar-left,#taskbar.right #taskbar-left,
+#taskbar.left #taskbar-center,#taskbar.right #taskbar-center,
+#taskbar.left #taskbar-right,#taskbar.right #taskbar-right{
+  width:auto;flex-direction:column;flex:none;
+}
+#taskbar.left #taskbar-center,#taskbar.right #taskbar-center{flex:1}
+.task-button{
+  height:48px;min-width:48px;border-radius:13px;border:1px solid transparent;
+  background:transparent;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:21px;transition:.18s;position:relative;
+}
+.task-button:hover{background:rgba(70,105,140,.2);border-color:rgba(105,145,185,.22)}
+.task-button.active:after{
+  content:"";position:absolute;bottom:3px;width:18px;height:3px;
+  border-radius:4px;background:var(--accent);
+}
+.luna-task img{width:34px;height:34px;object-fit:cover;border-radius:9px}
+#clock{font-size:12px;line-height:1.25;text-align:right;color:var(--text);white-space:nowrap}
+
+#startMenu,#notificationPanel{
+  position:absolute;bottom:88px;padding:20px;border-radius:22px;
+  background:var(--panel);border:1px solid rgba(90,132,171,.28);
+  backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);
+  box-shadow:0 25px 80px rgba(0,0,0,.48);display:none;z-index:8500;
+}
+#startMenu{left:14px;width:430px;max-width:calc(100vw - 28px);height:550px;max-height:calc(100vh - 110px)}
+#startMenu.open,#notificationPanel.open{display:block;animation:menuIn .18s ease}
+#notificationPanel{right:14px;width:340px;max-width:calc(100vw - 28px)}
+@keyframes menuIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.start-title{font-size:21px;font-weight:600;margin-bottom:15px}
+.start-search{
+  width:100%;height:42px;border-radius:13px;border:1px solid var(--border);
+  outline:none;background:var(--panel2);padding:0 14px;margin-bottom:20px;user-select:text;
+}
+.start-section-title{color:var(--muted);font-size:12px;margin-bottom:9px;text-transform:uppercase;letter-spacing:.08em}
+.start-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.start-app{
+  min-height:78px;border-radius:14px;border:1px solid transparent;
+  background:transparent;cursor:pointer;padding:9px;transition:.18s;
+}
+.start-app:hover{background:rgba(70,105,140,.17);border-color:rgba(100,145,185,.2)}
+.start-app-icon{font-size:24px;margin-bottom:7px}
+.start-app-name{font-size:11px;color:var(--text)}
+.notification-title{font-size:17px;font-weight:600;margin-bottom:12px}
+.notification{background:var(--panel2);border:1px solid var(--border);border-radius:13px;padding:12px;margin-bottom:8px;font-size:12px;color:var(--muted)}
+
+.window{
+  position:absolute;width:650px;height:430px;max-width:calc(100vw - 35px);
+  max-height:calc(100vh - 100px);min-width:300px;min-height:220px;
+  left:50%;top:45%;transform:translate(-50%,-50%);
+  background:var(--panel);border:1px solid rgba(87,127,165,.32);
+  border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.55);
+  display:none;z-index:100;
+}
+.window.open{display:flex;flex-direction:column;animation:windowIn .16s ease}
+@keyframes windowIn{from{opacity:0;transform:translate(-50%,-48%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.window.maximized{left:20px;right:20px;top:20px;width:auto;height:calc(100vh - 105px);max-width:none;max-height:none;transform:none}
+.window-header{
+  height:55px;flex-shrink:0;display:flex;align-items:center;
+  justify-content:space-between;padding:0 10px 0 18px;
+  background:rgba(14,24,39,.85);border-bottom:1px solid rgba(76,113,148,.2);cursor:grab;
+}
+.window-header:active{cursor:grabbing}
+.window-title{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--text)}
+.window-controls{display:flex;gap:4px}
+.window-control{
+  width:34px;height:32px;border:none;border-radius:9px;background:transparent;
+  cursor:pointer;color:var(--muted)
+}
+.window-control:hover{background:rgba(90,125,160,.2);color:var(--text)}
+.window-control.close:hover{background:rgba(170,65,75,.35)}
+.window-content{flex:1;overflow:auto;padding:22px}
+
+.settings-card{
+  background:var(--panel2);border:1px solid var(--border);
+  border-radius:15px;padding:16px;margin-bottom:12px;
+}
+.settings-card h3{margin:0 0 6px;font-size:14px}
+.settings-card p{margin:0 0 5px;color:var(--muted);font-size:12px}
+.settings-row{
+  display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:14px
+}
+.settings-label{font-size:13px;color:var(--text)}
+.settings-description{font-size:11px;color:var(--muted);margin-top:4px}
+.theme-button,.settings-select,.settings-input{
+  padding:10px 14px;border-radius:10px;border:1px solid var(--border);
+  background:#122238;cursor:pointer;outline:none;
+}
+.settings-input{user-select:text;width:100%}
+.settings-select{color:var(--text);min-width:150px}
+.settings-select option{background:#0d1725}
+.settings-button{
+  padding:10px 14px;border-radius:10px;border:1px solid var(--border);
+  background:#122238;cursor:pointer;margin-top:8px;
+}
+.settings-button:hover,.theme-button:hover{background:#18304a}
+.color-input{width:55px;height:38px;border:none;background:none;cursor:pointer}
+.wallpaper-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
+.wallpaper-option{
+  height:80px;border-radius:13px;border:2px solid transparent;cursor:pointer;
+  position:relative;overflow:hidden;transition:.18s;
+}
+.wallpaper-option:hover{transform:scale(1.02)}
+.wallpaper-option.active{border-color:var(--accent);box-shadow:0 0 20px rgba(120,180,230,.22)}
+.wallpaper-option span{position:absolute;bottom:7px;left:9px;font-size:11px;text-shadow:0 2px 8px #000}
+.file-input{display:none}
+
+.luna-panel{height:100%;display:flex;flex-direction:column}
+.luna-intro{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.luna-logo{width:58px;height:58px;border-radius:15px;object-fit:cover;border:1px solid var(--border)}
+.luna-intro h2{margin:0;font-size:21px}
+.luna-intro p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.luna-messages{flex:1;overflow-y:auto;margin-bottom:15px;padding-right:5px}
+.luna-message{max-width:90%;padding:11px 13px;margin-bottom:10px;border-radius:13px;font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.luna-message.user{margin-left:auto;background:#13263c;border:1px solid #294b6a}
+.luna-message.assistant{margin-right:auto;background:var(--panel2);border:1px solid var(--border)}
+.luna-input{display:flex;gap:8px}
+.luna-input input{
+  flex:1;height:44px;background:#0c1624;border:1px solid var(--border);
+  border-radius:13px;outline:none;padding:0 14px;user-select:text;
+}
+.luna-input button{width:46px;border:1px solid #2c4e6e;background:#13263c;border-radius:13px;cursor:pointer}
+.luna-input button:hover{background:#1b3450}
+.luna-input button:disabled{opacity:.5;cursor:wait}
+
+.calculator-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:22px}
+.calculator-display{
+  width:100%;max-width:430px;height:70px;border-radius:15px;border:1px solid var(--border);
+  background:#07111e;color:#eef5fb;outline:none;padding:0 18px;font-size:27px;text-align:right;user-select:text
+}
+.calculator-buttons{width:100%;max-width:430px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.calculator-button{
+  height:55px;border-radius:13px;border:1px solid var(--border);
+  background:#0d1a2a;color:#dce7f0;cursor:pointer;font-size:18px
+}
+.calculator-button:hover{background:#15283d}
+.calculator-operator{background:#11243a}.calculator-clear{background:#172b3e}
+.calculator-equals{background:#1a3853}.calculator-zero{grid-column:span 2}
+
+.browser-toolbar{display:flex;gap:7px;padding-bottom:12px}
+.browser-toolbar button{
+  width:40px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);cursor:pointer
+}
+.browser-address{
+  flex:1;height:40px;border-radius:11px;border:1px solid var(--border);
+  background:var(--panel2);padding:0 13px;outline:none;user-select:text
+}
+.browser-page{
+  width:100%;height:calc(100% - 52px);border:0;border-radius:12px;background:white
+}
+.browser-placeholder{
+  height:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;color:var(--muted);text-align:center
+}
+
+.notes-area{
+  width:100%;height:100%;min-height:300px;resize:none;border-radius:13px;
+  border:1px solid var(--border);background:var(--panel2);padding:15px;
+  outline:none;user-select:text;color:var(--text)
+}
+.terminal{
+  height:100%;background:#050805;color:#b8e8b8;border-radius:12px;
+  padding:15px;font-family:monospace;overflow:auto;user-select:text
+}
+.terminal input{
+  background:transparent;border:0;outline:0;color:#b8e8b8;width:80%;user-select:text;font-family:monospace
+}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.info-box{padding:15px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.info-box b{display:block;margin-bottom:5px}
+.task-editor{
+  display:flex;flex-direction:column;gap:8px
+}
+.task-edit-item{
+  display:flex;align-items:center;gap:8px;padding:10px;
+  border:1px solid var(--border);border-radius:12px;background:var(--panel2);
+  cursor:grab
+}
+.task-edit-item.dragging{opacity:.45}
+.task-edit-icon{font-size:20px;width:30px;text-align:center}
+.task-edit-name{flex:1}
+.remove-task{border:0;background:transparent;cursor:pointer;font-size:18px}
+.add-app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.add-app-button{
+  padding:12px;border:1px solid var(--border);border-radius:11px;background:var(--panel2);cursor:pointer
+}
+
+#voiceScreen{
+  position:fixed;inset:0;z-index:20000;display:none;flex-direction:column;
+  align-items:center;justify-content:center;overflow:hidden;
+  background:radial-gradient(circle at 50% 40%,rgba(76,126,178,.20),transparent 32%),linear-gradient(145deg,#02050c,#07111f 50%,#030711)
+}
+#voiceScreen.open{display:flex;animation:voiceScreenIn .3s ease}
+@keyframes voiceScreenIn{from{opacity:0}to{opacity:1}}
+.voice-top{position:absolute;top:28px;left:30px;z-index:20}
+.voice-title{font-size:20px;font-weight:600}
+.voice-subtitle{margin-top:5px;color:#7f92a8;font-size:13px}
+.voice-close{
+  position:absolute;top:25px;right:25px;z-index:30;width:42px;height:42px;
+  border-radius:13px;border:1px solid #263e59;background:rgba(12,23,38,.8);
+  color:#dce7f0;font-size:22px;cursor:pointer
+}
+.moon-container{position:relative;width:380px;height:380px;display:flex;align-items:center;justify-content:center}
+.moon-orbit{
+  position:absolute;width:330px;height:330px;border-radius:50%;
+  border:1px solid rgba(143,190,231,.25);animation:orbitPulse 3s ease-in-out infinite
+}
+@keyframes orbitPulse{0%,100%{transform:scale(.96);opacity:.5}50%{transform:scale(1.04);opacity:1}}
+.moon-orbit:before{content:"";position:absolute;inset:15px;border-radius:50%;border:1px solid rgba(146,192,231,.15)}
+.moon-orbit:after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border-top:2px solid rgba(180,220,250,.7);animation:orbitSpin 2.7s linear infinite
+}
+@keyframes orbitSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.audio-ring{position:absolute;width:225px;height:225px;border-radius:50%;border:2px solid rgba(147,197,238,.16);opacity:.65}
+.audio-ring:nth-child(1){animation:audioRing 2.4s ease-out infinite}
+.audio-ring:nth-child(2){width:245px;height:245px;animation:audioRing 2.4s ease-out infinite .55s}
+.audio-ring:nth-child(3){width:265px;height:265px;animation:audioRing 2.4s ease-out infinite 1.1s}
+@keyframes audioRing{0%{transform:scale(.72);opacity:.65}70%{transform:scale(1.04);opacity:.1}100%{transform:scale(1.12);opacity:0}}
+.moon-glow{
+  position:absolute;width:290px;height:290px;border-radius:50%;
+  background:radial-gradient(circle,rgba(126,172,214,.30),rgba(90,145,190,.08) 45%,transparent 70%);
+  filter:blur(12px);animation:glowPulse 2.2s ease-in-out infinite
+}
+@keyframes glowPulse{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.06);opacity:1}}
+.moon{
+  position:relative;z-index:5;width:180px;height:180px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 28%,#fff 0%,#d9e4ed 30%,#a7bacb 58%,#71869b 82%,#42566b 100%);
+  box-shadow:0 0 35px rgba(150,190,225,.32),0 0 85px rgba(83,132,176,.22);
+}
+.moon.listening{animation:moonListening 2s ease-in-out infinite}
+.moon.speaking{animation:moonSpeaking .75s ease-in-out infinite}
+@keyframes moonListening{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@keyframes moonSpeaking{0%,100%{transform:scale(1)}25%{transform:scale(1.045)}50%{transform:scale(1.08)}75%{transform:scale(1.035)}}
+.moon-phase{font-size:72px;opacity:.78}
+.call-status{position:relative;z-index:20;min-height:24px;margin-top:8px;font-size:16px;color:#b8c8d8}
+.call-status.thinking{color:#91abc2}.call-status.speaking{color:#e1ebf4}.call-status.error{color:#e0a5a5}
+.call-controls{position:relative;z-index:20;display:flex;gap:22px;margin-top:28px}
+.call-button{
+  width:64px;height:64px;border-radius:50%;border:1px solid #2b4560;
+  background:rgba(14,27,43,.92);cursor:pointer;font-size:23px
+}
+.call-button.hangup{background:#482b32;border-color:#74434d}
+
+@media(max-width:700px){
+  #taskbar{left:8px;right:8px;bottom:8px}
+  #taskbar-left,#taskbar-right{width:auto}
+  #taskbar-center{gap:2px}
+  .task-button{min-width:42px;width:42px;height:44px}
+  #clock{display:none}
+  .window{width:calc(100vw - 20px);height:calc(100vh - 100px)}
+  .start-apps{grid-template-columns:repeat(3,1fr)}
+  .settings-row{flex-direction:column;align-items:stretch}
+  .settings-select{width:100%}
+  .info-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -1310,2574 +347,1249 @@ button {
 
 <div id="desktop">
 
-  <div class="desktop-glow"></div>
-
-  <!-- =======================================================
-       DESKTOP ICONS
-  ======================================================= -->
-
-  <div class="desktop-icons">
-
-    <button class="desktop-icon" onclick="openApp('files')">
-      <div class="desktop-icon-symbol">📁</div>
-      <span>Files</span>
-    </button>
-
-    <button class="desktop-icon" onclick="openApp('settings')">
-      <div class="desktop-icon-symbol">⚙️</div>
-      <span>Settings</span>
-    </button>
-
-    <button class="desktop-icon" onclick="openApp('calculator')">
-      <div class="desktop-icon-symbol">🧮</div>
-      <span>Calculator</span>
-    </button>
-
-  </div>
-
-  <!-- =======================================================
-       LUNA WINDOW
-  ======================================================= -->
-
-  <div class="window" id="window-luna">
-
-    <div class="window-header">
-
-      <div class="window-title">
-        🌙 Luna
-      </div>
-
-      <div class="window-controls">
-
-        <button class="window-control"
-                onclick="minimizeApp('luna')">
-          −
-        </button>
-
-        <button class="window-control"
-                onclick="maximizeApp('luna')">
-          □
-        </button>
-
-        <button class="window-control close"
-                onclick="closeApp('luna')">
-          ×
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="window-content">
-
-      <div class="luna-panel">
-
-        <div class="luna-intro">
-
-          <img
-            class="luna-logo"
-            src="Luna profile.webp"
-            alt="Luna"
-          >
-
-          <div>
-            <h2>Luna</h2>
-            <p>Your AI companion inside Luna OS.</p>
-          </div>
-
-        </div>
-
-        <div
-          class="luna-messages"
-          id="lunaMessages"
-        ></div>
-
-        <div class="luna-input">
-
-          <input
-            id="lunaInput"
-            type="text"
-            placeholder="Talk to Luna..."
-            autocomplete="off"
-            onkeydown="if(event.key==='Enter') sendToLuna()"
-          >
-
-          <button
-            class="luna-call-button"
-            onclick="startVoiceCall()"
-            title="Voice Call"
-            aria-label="Start voice call"
-          >
-            🎙
-          </button>
-
-          <button
-            id="lunaSendButton"
-            onclick="sendToLuna()"
-            title="Send"
-          >
-            ↑
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       FILES
-  ======================================================= -->
-
-  <div class="window" id="window-files">
-
-    <div class="window-header">
-
-      <div class="window-title">
-        📁 File Explorer
-      </div>
-
-      <div class="window-controls">
-
-        <button class="window-control"
-                onclick="minimizeApp('files')">
-          −
-        </button>
-
-        <button class="window-control"
-                onclick="maximizeApp('files')">
-          □
-        </button>
-
-        <button class="window-control close"
-                onclick="closeApp('files')">
-          ×
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="window-content">
-
-      <h2>File Explorer</h2>
-
-      <div class="settings-card">
-        <h3>Quick Access</h3>
-        <p>Documents</p>
-        <p>Downloads</p>
-        <p>Pictures</p>
-        <p>Desktop</p>
-      </div>
-
-      <div class="settings-card">
-        <h3>Files</h3>
-        <p>This is the Luna OS file explorer.</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       SETTINGS
-  ======================================================= -->
-
-  <div class="window" id="window-settings">
-
-    <div class="window-header">
-
-      <div class="window-title">
-        ⚙️ Settings
-      </div>
-
-      <div class="window-controls">
-
-        <button class="window-control"
-                onclick="minimizeApp('settings')">
-          −
-        </button>
-
-        <button class="window-control"
-                onclick="maximizeApp('settings')">
-          □
-        </button>
-
-        <button class="window-control close"
-                onclick="closeApp('settings')">
-          ×
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="window-content">
-
-      <h2>Settings</h2>
-
-      <div class="settings-card">
-
-        <h3>Appearance</h3>
-
-        <p>
-          Customize the Luna OS desktop.
-        </p>
-
-        <div class="settings-row">
-
-          <div>
-            <div class="settings-label">
-              Wallpaper
-            </div>
-
-            <div class="settings-description">
-              Choose the background used by Luna OS.
-            </div>
-          </div>
-
-          <select
-            class="settings-select"
-            id="wallpaperSelect"
-            onchange="selectWallpaper(this.value)"
-          >
-            <option value="midnight">Midnight</option>
-            <option value="blue">Deep Blue</option>
-            <option value="ocean">Ocean</option>
-            <option value="nebula">Nebula</option>
-            <option value="purple">Purple Space</option>
-            <option value="black">Pure Black</option>
-          </select>
-
-        </div>
-
-        <div class="wallpaper-grid">
-
-          <button
-            class="wallpaper-option"
-            data-wallpaper="midnight"
-            onclick="selectWallpaper('midnight')"
-            style="
-              background:
-              radial-gradient(circle at 50% 35%,rgba(38,72,110,.35),transparent 50%),
-              linear-gradient(135deg,#050811,#0a111d 55%,#060a12);
-            "
-          >
-            <span>Midnight</span>
-          </button>
-
-          <button
-            class="wallpaper-option"
-            data-wallpaper="blue"
-            onclick="selectWallpaper('blue')"
-            style="
-              background:
-              radial-gradient(circle at 70% 30%,#18395d,#050811 65%);
-            "
-          >
-            <span>Deep Blue</span>
-          </button>
-
-          <button
-            class="wallpaper-option"
-            data-wallpaper="ocean"
-            onclick="selectWallpaper('ocean')"
-            style="
-              background:
-              radial-gradient(circle at 30% 70%,#17445a,#050811 65%);
-            "
-          >
-            <span>Ocean</span>
-          </button>
-
-          <button
-            class="wallpaper-option"
-            data-wallpaper="nebula"
-            onclick="selectWallpaper('nebula')"
-            style="
-              background:
-              radial-gradient(circle at 65% 35%,#30255c,#101329 40%,#03040a 80%);
-            "
-          >
-            <span>Nebula</span>
-          </button>
-
-          <button
-            class="wallpaper-option"
-            data-wallpaper="purple"
-            onclick="selectWallpaper('purple')"
-            style="
-              background:
-              radial-gradient(circle at 35% 35%,#42255e,#090611 70%);
-            "
-          >
-            <span>Purple Space</span>
-          </button>
-
-          <button
-            class="wallpaper-option"
-            data-wallpaper="black"
-            onclick="selectWallpaper('black')"
-            style="
-              background:#010204;
-            "
-          >
-            <span>Pure Black</span>
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="settings-card">
-
-        <h3>Voice Call</h3>
-
-        <p>
-          Configure how Luna speaks during voice calls.
-        </p>
-
-        <div class="settings-row">
-
-          <div>
-            <div class="settings-label">
-              Voice
-            </div>
-
-            <div class="settings-description">
-              Select the browser voice Luna uses.
-            </div>
-          </div>
-
-          <select
-            class="settings-select"
-            id="voiceSelect"
-            onchange="changeLunaVoice(this.value)"
-          >
-          </select>
-
-        </div>
-
-        <div class="settings-row">
-
-          <div>
-            <div class="settings-label">
-              Speaking speed
-            </div>
-
-            <div class="settings-description">
-              Adjust Luna's speech rate.
-            </div>
-          </div>
-
-          <select
-            class="settings-select"
-            id="speechRateSelect"
-            onchange="changeSpeechRate(this.value)"
-          >
-            <option value="0.85">Slow</option>
-            <option value="1">Normal</option>
-            <option value="1.05">Natural</option>
-            <option value="1.15">Fast</option>
-            <option value="1.25">Very Fast</option>
-          </select>
-
-        </div>
-
-      </div>
-
-      <div class="settings-card">
-
-        <h3>System</h3>
-
-        <p>
-          Luna OS prototype
-        </p>
-
-        <p>
-          Voice recognition and speech synthesis are handled by your browser.
-        </p>
-
-      </div>
-
-      <div class="settings-card">
-
-        <h3>AI Connection</h3>
-
-        <p>
-          Luna OS connects to the Luna backend through
-          the secure /api/chat endpoint.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       CALCULATOR
-  ======================================================= -->
-
-  <div class="window" id="window-calculator">
-
-    <div class="window-header">
-
-      <div class="window-title">
-        🧮 Calculator
-      </div>
-
-      <div class="window-controls">
-
-        <button class="window-control"
-                onclick="minimizeApp('calculator')">
-          −
-        </button>
-
-        <button class="window-control"
-                onclick="maximizeApp('calculator')">
-          □
-        </button>
-
-        <button class="window-control close"
-                onclick="closeApp('calculator')">
-          ×
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="window-content calculator-content">
-
-      <input
-        id="calculatorDisplay"
-        class="calculator-display"
-        type="text"
-        readonly
-        value="0"
-      >
-
-      <div class="calculator-buttons">
-
-        <button class="calculator-button calculator-clear"
-                onclick="calcClear()">C</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('(')">(</button>
-
-        <button class="calculator-button"
-                onclick="calcInput(')')">)</button>
-
-        <button class="calculator-button calculator-operator"
-                onclick="calcInput('/')">÷</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('7')">7</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('8')">8</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('9')">9</button>
-
-        <button class="calculator-button calculator-operator"
-                onclick="calcInput('*')">×</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('4')">4</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('5')">5</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('6')">6</button>
-
-        <button class="calculator-button calculator-operator"
-                onclick="calcInput('-')">−</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('1')">1</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('2')">2</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('3')">3</button>
-
-        <button class="calculator-button calculator-operator"
-                onclick="calcInput('+')">+</button>
-
-        <button class="calculator-button calculator-zero"
-                onclick="calcInput('0')">0</button>
-
-        <button class="calculator-button"
-                onclick="calcInput('.')">.</button>
-
-        <button class="calculator-button calculator-equals"
-                onclick="calcResult()">=</button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       START MENU
-  ======================================================= -->
-
-  <div id="startMenu">
-
-    <div class="start-title">
-      Luna OS
-    </div>
-
-    <input
-      class="start-search"
-      id="startSearch"
-      placeholder="Search apps..."
-      autocomplete="off"
-      oninput="searchApps()"
-    >
-
-    <div class="start-section-title">
-      Apps
-    </div>
-
-    <div class="start-apps">
-
-      <button class="start-app"
-              onclick="openApp('luna')">
-        <div class="start-app-icon">🌙</div>
-        <div class="start-app-name">Luna</div>
-      </button>
-
-      <button class="start-app"
-              onclick="openApp('files')">
-        <div class="start-app-icon">📁</div>
-        <div class="start-app-name">Files</div>
-      </button>
-
-      <button class="start-app"
-              onclick="openApp('settings')">
-        <div class="start-app-icon">⚙️</div>
-        <div class="start-app-name">Settings</div>
-      </button>
-
-      <button class="start-app"
-              onclick="openApp('calculator')">
-        <div class="start-app-icon">🧮</div>
-        <div class="start-app-name">Calculator</div>
-      </button>
-
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       NOTIFICATIONS
-  ======================================================= -->
-
-  <div id="notificationPanel">
-
-    <div class="notification-title">
-      Notifications
-    </div>
-
-    <div class="notification">
-      🌙 Welcome to Luna OS.
-    </div>
-
-    <div class="notification">
-      Luna AI is connected through the Luna backend.
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       TASKBAR
-  ======================================================= -->
-
-  <div id="taskbar">
-
-    <div id="taskbar-left">
-
-      <button
-        class="task-button"
-        onclick="toggleStartMenu()"
-        title="Start"
-      >
-        ◉
-      </button>
-
-    </div>
-
-    <div id="taskbar-center">
-
-      <button
-        class="task-button luna-task"
-        onclick="openApp('luna')"
-        title="Luna"
-      >
-        <img src="Luna profile.webp" alt="Luna">
-      </button>
-
-      <button
-        class="task-button"
-        onclick="openApp('files')"
-        title="Files"
-      >
-        📁
-      </button>
-
-      <button
-        class="task-button"
-        onclick="openApp('calculator')"
-        title="Calculator"
-      >
-        🧮
-      </button>
-
-      <button
-        class="task-button"
-        onclick="openApp('settings')"
-        title="Settings"
-      >
-        ⚙️
-      </button>
-
-    </div>
-
-    <div id="taskbar-right">
-
-      <button
-        class="task-button"
-        onclick="toggleNotifications()"
-        title="Notifications"
-      >
-        🔔
-      </button>
-
-      <div id="clock"></div>
-
-    </div>
-
-  </div>
+<div class="desktop-glow"></div>
+
+<div class="desktop-icons">
+  <button class="desktop-icon" onclick="openApp('files')"><div class="desktop-icon-symbol">📁</div><span>Files</span></button>
+  <button class="desktop-icon" onclick="openApp('settings')"><div class="desktop-icon-symbol">⚙️</div><span>Settings</span></button>
+  <button class="desktop-icon" onclick="openApp('calculator')"><div class="desktop-icon-symbol">🧮</div><span>Calculator</span></button>
+  <button class="desktop-icon" onclick="openApp('browser')"><div class="desktop-icon-symbol">🌐</div><span>Browser</span></button>
+</div>
+
+<!-- LUNA -->
+<div class="window" id="window-luna">
+<div class="window-header"><div class="window-title">🌙 Luna</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('luna')">−</button>
+<button class="window-control" onclick="maximizeApp('luna')">□</button>
+<button class="window-control close" onclick="closeApp('luna')">×</button>
+</div></div>
+<div class="window-content"><div class="luna-panel">
+<div class="luna-intro"><img class="luna-logo" src="Luna profile.webp" alt="Luna"><div><h2>Luna</h2><p>Your AI companion inside Luna OS.</p></div></div>
+<div class="luna-messages" id="lunaMessages"></div>
+<div class="luna-input">
+<input id="lunaInput" type="text" placeholder="Talk to Luna..." autocomplete="off" onkeydown="if(event.key==='Enter')sendToLuna()">
+<button onclick="startVoiceCall()" title="Voice Call">🎙</button>
+<button id="lunaSendButton" onclick="sendToLuna()">↑</button>
+</div>
+</div></div></div>
+
+<!-- FILES -->
+<div class="window" id="window-files">
+<div class="window-header"><div class="window-title">📁 File Explorer</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('files')">−</button>
+<button class="window-control" onclick="maximizeApp('files')">□</button>
+<button class="window-control close" onclick="closeApp('files')">×</button>
+</div></div>
+<div class="window-content">
+<h2>File Explorer</h2>
+<div class="settings-card"><h3>Quick Access</h3><p>📄 Documents</p><p>⬇️ Downloads</p><p>🖼 Pictures</p><p>🖥 Desktop</p><p>🎵 Music</p><p>🎬 Videos</p></div>
+<div class="settings-card"><h3>Luna OS</h3><p>This browser-based file explorer provides the OS interface. Browser security prevents a website from freely reading your entire computer filesystem.</p></div>
+</div></div>
+
+<!-- SETTINGS -->
+<div class="window" id="window-settings">
+<div class="window-header"><div class="window-title">⚙️ Settings</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('settings')">−</button>
+<button class="window-control" onclick="maximizeApp('settings')">□</button>
+<button class="window-control close" onclick="closeApp('settings')">×</button>
+</div></div>
+
+<div class="window-content">
+<h2>Settings</h2>
+
+<div class="settings-card">
+<h3>🎨 Appearance</h3><p>Customize how Luna OS looks.</p>
+
+<div class="settings-row"><div><div class="settings-label">Theme</div><div class="settings-description">Choose the Luna OS color theme.</div></div>
+<select class="settings-select" id="themeSelect" onchange="applyTheme(this.value)">
+<option value="luna">Luna Dark</option><option value="dark">Dark</option><option value="light">Light</option><option value="custom">Custom</option>
+</select></div>
+
+<div class="settings-row"><div><div class="settings-label">Accent color</div><div class="settings-description">Change interface highlights.</div></div><input class="color-input" type="color" id="accentColor" onchange="changeAccent(this.value)"></div>
+
+<div class="settings-row"><div><div class="settings-label">Interface scale</div><div class="settings-description">Change taskbar/button size.</div></div>
+<select class="settings-select" id="scaleSelect" onchange="changeScale(this.value)">
+<option value="normal">Normal</option><option value="compact">Compact</option><option value="large">Large</option>
+</select></div>
+
+<div class="wallpaper-grid">
+<button class="wallpaper-option" data-wallpaper="midnight" onclick="selectWallpaper('midnight')" style="background:radial-gradient(circle at 50% 35%,rgba(38,72,110,.35),transparent 50%),linear-gradient(135deg,#050811,#0a111d 55%,#060a12)"><span>Midnight</span></button>
+<button class="wallpaper-option" data-wallpaper="blue" onclick="selectWallpaper('blue')" style="background:radial-gradient(circle at 70% 30%,#18395d,#050811 65%)"><span>Deep Blue</span></button>
+<button class="wallpaper-option" data-wallpaper="ocean" onclick="selectWallpaper('ocean')" style="background:radial-gradient(circle at 30% 70%,#17445a,#050811 65%)"><span>Ocean</span></button>
+<button class="wallpaper-option" data-wallpaper="nebula" onclick="selectWallpaper('nebula')" style="background:radial-gradient(circle at 65% 35%,#30255c,#101329 40%,#03040a 80%)"><span>Nebula</span></button>
+<button class="wallpaper-option" data-wallpaper="purple" onclick="selectWallpaper('purple')" style="background:radial-gradient(circle at 35% 35%,#42255e,#090611 70%)"><span>Purple Space</span></button>
+<button class="wallpaper-option" data-wallpaper="black" onclick="selectWallpaper('black')" style="background:#010204"><span>Pure Black</span></button>
+</div>
+
+<div class="settings-row"><div><div class="settings-label">Custom background</div><div class="settings-description">Use an image from your computer.</div></div>
+<label class="settings-button">Choose Image<input class="file-input" type="file" accept="image/*" onchange="setCustomWallpaper(this.files[0])"></label></div>
+
+<div class="settings-row"><div><div class="settings-label">Background image URL</div></div><button class="settings-button" onclick="setWallpaperURL()">Set URL</button></div>
+</div>
+
+<div class="settings-card">
+<h3>📌 Taskbar</h3><p>Customize the apps and position of your taskbar.</p>
+
+<div class="settings-row"><div><div class="settings-label">Position</div></div>
+<select class="settings-select" id="taskbarPosition" onchange="changeTaskbarPosition(this.value)">
+<option value="bottom">Bottom</option><option value="top">Top</option><option value="left">Left</option><option value="right">Right</option>
+</select></div>
+
+<div class="settings-row"><div><div class="settings-label">Auto-hide</div></div>
+<select class="settings-select" id="taskbarAutoHide" onchange="changeAutoHide(this.value)">
+<option value="off">Off</option><option value="on">On</option>
+</select></div>
+
+<h4>Taskbar apps</h4>
+<div id="taskEditor" class="task-editor"></div>
+
+<h4>Add apps</h4>
+<div id="addAppGrid" class="add-app-grid"></div>
+</div>
+
+<div class="settings-card">
+<h3>🔊 Voice Call</h3><p>Configure Luna's voice.</p>
+<div class="settings-row"><div class="settings-label">Voice</div><select class="settings-select" id="voiceSelect" onchange="changeLunaVoice(this.value)"></select></div>
+<div class="settings-row"><div class="settings-label">Speaking speed</div><select class="settings-select" id="speechRateSelect" onchange="changeSpeechRate(this.value)">
+<option value=".85">Slow</option><option value="1">Normal</option><option value="1.05">Natural</option><option value="1.15">Fast</option><option value="1.25">Very Fast</option></select></div>
+</div>
+
+<div class="settings-card">
+<h3>🖥 Display</h3>
+<div class="settings-row"><div class="settings-label">Animations</div><select class="settings-select" id="animationSelect" onchange="setSetting('animations',this.value)"><option value="on">On</option><option value="off">Off</option></select></div>
+<div class="settings-row"><div class="settings-label">Desktop glow</div><select class="settings-select" id="glowSelect" onchange="setGlow(this.value)"><option value="on">On</option><option value="off">Off</option></select></div>
+</div>
+
+<div class="settings-card">
+<h3>🔔 Notifications</h3>
+<div class="settings-row"><div class="settings-label">Notifications</div><select class="settings-select" id="notificationSetting" onchange="setSetting('notifications',this.value)"><option value="on">On</option><option value="off">Off</option></select></div>
+<div class="settings-row"><div class="settings-label">Notification sound</div><select class="settings-select" id="notificationSound" onchange="setSetting('notificationSound',this.value)"><option value="on">On</option><option value="off">Off</option></select></div>
+</div>
+
+<div class="settings-card">
+<h3>🔒 Privacy</h3>
+<p>Luna OS runs inside your browser. Website storage is used for preferences and local app data.</p>
+<div class="settings-row"><div class="settings-label">Clear Luna OS local data</div><button class="settings-button" onclick="clearOSData()">Clear Data</button></div>
+</div>
+
+<div class="settings-card">
+<h3>♿ Accessibility</h3>
+<div class="settings-row"><div class="settings-label">Reduced motion</div><select class="settings-select" id="motionSetting" onchange="setSetting('reducedMotion',this.value)"><option value="off">Off</option><option value="on">On</option></select></div>
+</div>
+
+<div class="settings-card">
+<h3>🕐 Date & Time</h3>
+<p>Your browser provides the current local date and time.</p>
+<div id="settingsDateTime" class="settings-description"></div>
+</div>
+
+<div class="settings-card">
+<h3>💾 System</h3>
+<p>Luna OS Web Edition</p>
+<p>Browser-based operating system interface.</p>
+<div class="settings-row"><div class="settings-label">Reset all Luna OS settings</div><button class="settings-button" onclick="resetSettings()">Reset</button></div>
+</div>
+
+</div></div>
+
+<!-- CALCULATOR -->
+<div class="window" id="window-calculator">
+<div class="window-header"><div class="window-title">🧮 Calculator</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('calculator')">−</button><button class="window-control" onclick="maximizeApp('calculator')">□</button><button class="window-control close" onclick="closeApp('calculator')">×</button>
+</div></div>
+<div class="window-content calculator-content">
+<input id="calculatorDisplay" class="calculator-display" readonly value="0">
+<div class="calculator-buttons">
+<button class="calculator-button calculator-clear" onclick="calcClear()">C</button><button class="calculator-button" onclick="calcInput('(')">(</button><button class="calculator-button" onclick="calcInput(')')">)</button><button class="calculator-button calculator-operator" onclick="calcInput('/')">÷</button>
+<button class="calculator-button" onclick="calcInput('7')">7</button><button class="calculator-button" onclick="calcInput('8')">8</button><button class="calculator-button" onclick="calcInput('9')">9</button><button class="calculator-button calculator-operator" onclick="calcInput('*')">×</button>
+<button class="calculator-button" onclick="calcInput('4')">4</button><button class="calculator-button" onclick="calcInput('5')">5</button><button class="calculator-button" onclick="calcInput('6')">6</button><button class="calculator-button calculator-operator" onclick="calcInput('-')">−</button>
+<button class="calculator-button" onclick="calcInput('1')">1</button><button class="calculator-button" onclick="calcInput('2')">2</button><button class="calculator-button" onclick="calcInput('3')">3</button><button class="calculator-button calculator-operator" onclick="calcInput('+')">+</button>
+<button class="calculator-button calculator-zero" onclick="calcInput('0')">0</button><button class="calculator-button" onclick="calcInput('.')">.</button><button class="calculator-button calculator-equals" onclick="calcResult()">=</button>
+</div></div></div>
+
+<!-- BROWSER -->
+<div class="window" id="window-browser">
+<div class="window-header"><div class="window-title">🌐 Luna Browser</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('browser')">−</button><button class="window-control" onclick="maximizeApp('browser')">□</button><button class="window-control close" onclick="closeApp('browser')">×</button>
+</div></div>
+<div class="window-content">
+<div class="browser-toolbar">
+<button onclick="browserBack()">←</button><button onclick="browserForward()">→</button><button onclick="browserReload()">↻</button>
+<input id="browserAddress" class="browser-address" value="https://www.google.com" onkeydown="if(event.key==='Enter')navigateBrowser()">
+<button onclick="navigateBrowser()">Go</button>
+</div>
+<iframe id="browserFrame" class="browser-page" src="about:blank"></iframe>
+<div id="browserPlaceholder" class="browser-placeholder"><h2>🌐 Luna Browser</h2><p>Enter a website address above.</p><p>Some websites block being displayed inside another website.</p></div>
+</div></div>
+
+<!-- NOTES -->
+<div class="window" id="window-notes">
+<div class="window-header"><div class="window-title">📝 Notes</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('notes')">−</button><button class="window-control" onclick="maximizeApp('notes')">□</button><button class="window-control close" onclick="closeApp('notes')">×</button>
+</div></div>
+<div class="window-content"><textarea id="notesArea" class="notes-area" placeholder="Start writing..."></textarea></div>
+</div>
+
+<!-- CALENDAR -->
+<div class="window" id="window-calendar">
+<div class="window-header"><div class="window-title">📅 Calendar</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('calendar')">−</button><button class="window-control" onclick="maximizeApp('calendar')">□</button><button class="window-control close" onclick="closeApp('calendar')">×</button>
+</div></div>
+<div class="window-content"><h2 id="calendarTitle"></h2><div class="settings-card"><div id="calendarBody"></div></div></div>
+</div>
+
+<!-- CLOCK -->
+<div class="window" id="window-clock">
+<div class="window-header"><div class="window-title">🕐 Clock</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('clock')">−</button><button class="window-control" onclick="maximizeApp('clock')">□</button><button class="window-control close" onclick="closeApp('clock')">×</button>
+</div></div>
+<div class="window-content" style="text-align:center"><h1 id="bigClock"></h1><p id="bigDate"></p></div>
+</div>
+
+<!-- SYSTEM INFO -->
+<div class="window" id="window-system">
+<div class="window-header"><div class="window-title">💻 System Information</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('system')">−</button><button class="window-control" onclick="maximizeApp('system')">□</button><button class="window-control close" onclick="closeApp('system')">×</button>
+</div></div>
+<div class="window-content"><h2>Luna OS</h2><div class="info-grid">
+<div class="info-box"><b>Operating System</b>Luna OS Web Edition</div>
+<div class="info-box"><b>Browser</b><span id="browserInfo"></span></div>
+<div class="info-box"><b>Screen</b><span id="screenInfo"></span></div>
+<div class="info-box"><b>Platform</b><span id="platformInfo"></span></div>
+<div class="info-box"><b>Language</b><span id="languageInfo"></span></div>
+<div class="info-box"><b>Online</b><span id="onlineInfo"></span></div>
+</div></div></div>
+
+<!-- TERMINAL -->
+<div class="window" id="window-terminal">
+<div class="window-header"><div class="window-title">⌨️ Terminal</div><div class="window-controls">
+<button class="window-control" onclick="minimizeApp('terminal')">−</button><button class="window-control" onclick="maximizeApp('terminal')">□</button><button class="window-control close" onclick="closeApp('terminal')">×</button>
+</div></div>
+<div class="window-content"><div id="terminal" class="terminal" onclick="document.getElementById('terminalInput').focus()">
+<div>Luna OS Terminal</div><div>Type <b>help</b> for commands.</div><br><span id="terminalOutput"></span><span>luna&gt; </span><input id="terminalInput" onkeydown="terminalCommand(event)">
+</div></div></div>
+
+<!-- START MENU -->
+<div id="startMenu">
+<div class="start-title">Luna OS</div>
+<input class="start-search" id="startSearch" placeholder="Search apps..." autocomplete="off" oninput="searchApps()">
+<div class="start-section-title">Apps</div>
+<div class="start-apps" id="startApps"></div>
+</div>
+
+<div id="notificationPanel">
+<div class="notification-title">Notifications</div>
+<div class="notification">🌙 Welcome to Luna OS.</div>
+<div class="notification">Luna AI is connected through the Luna backend.</div>
+</div>
+
+<!-- TASKBAR -->
+<div id="taskbar">
+<div id="taskbar-left"><button class="task-button" onclick="toggleStartMenu()" title="Start">◉</button></div>
+<div id="taskbar-center"></div>
+<div id="taskbar-right">
+<button class="task-button" onclick="toggleNotifications()" title="Notifications">🔔</button>
+<div id="clock"></div>
+</div>
+</div>
 
 </div>
 
-<!-- =========================================================
-     VOICE CALL
-========================================================= -->
-
-<div
-  id="voiceScreen"
-  aria-hidden="true"
->
-
-  <div class="voice-top">
-
-    <div class="voice-title">
-      Luna AI
-    </div>
-
-    <div class="voice-subtitle">
-      Voice Call
-    </div>
-
-  </div>
-
-  <button
-    class="voice-close"
-    type="button"
-    onclick="endVoiceCall()"
-    aria-label="Close voice call"
-  >
-    ×
-  </button>
-
-  <div class="moon-container" id="moonContainer">
-
-    <div class="moon-glow"></div>
-
-    <div class="moon-orbit"></div>
-
-    <div class="audio-ring"></div>
-    <div class="audio-ring"></div>
-    <div class="audio-ring"></div>
-
-    <div
-      class="moon listening"
-      id="moon"
-    >
-
-      <div
-        class="moon-phase"
-        id="moonPhase"
-      >
-        🌑
-      </div>
-
-    </div>
-
-  </div>
-
-  <div
-    class="call-status listening"
-    id="callStatus"
-  >
-    🎙 Listening...
-  </div>
-
-  <div class="call-controls">
-
-    <button
-      class="call-button"
-      id="stopSpeakingButton"
-      type="button"
-      onclick="stopLunaSpeaking()"
-      title="Stop Luna speaking"
-    >
-      🔇
-    </button>
-
-    <button
-      class="call-button hangup"
-      type="button"
-      onclick="endVoiceCall()"
-      title="Hang up"
-    >
-      ☎
-    </button>
-
-  </div>
-
-  <div class="call-hint">
-    Luna won't listen while she is speaking.
-  </div>
-
+<!-- VOICE -->
+<div id="voiceScreen" aria-hidden="true">
+<div class="voice-top"><div class="voice-title">Luna AI</div><div class="voice-subtitle">Voice Call</div></div>
+<button class="voice-close" onclick="endVoiceCall()">×</button>
+<div class="moon-container" id="moonContainer">
+<div class="moon-glow"></div><div class="moon-orbit"></div>
+<div class="audio-ring"></div><div class="audio-ring"></div><div class="audio-ring"></div>
+<div class="moon listening" id="moon"><div class="moon-phase" id="moonPhase">🌑</div></div>
+</div>
+<div class="call-status listening" id="callStatus">🎙 Listening...</div>
+<div class="call-controls"><button class="call-button" onclick="stopLunaSpeaking()">🔇</button><button class="call-button hangup" onclick="endVoiceCall()">☎</button></div>
 </div>
 
 <script>
+/* =========================================================
+   APP DEFINITIONS
+========================================================= */
+
+const APPS={
+ luna:{name:"Luna",icon:"🌙"},
+ files:{name:"Files",icon:"📁"},
+ settings:{name:"Settings",icon:"⚙️"},
+ calculator:{name:"Calculator",icon:"🧮"},
+ browser:{name:"Browser",icon:"🌐"},
+ notes:{name:"Notes",icon:"📝"},
+ calendar:{name:"Calendar",icon:"📅"},
+ clock:{name:"Clock",icon:"🕐"},
+ system:{name:"System Info",icon:"💻"},
+ terminal:{name:"Terminal",icon:"⌨️"}
+};
+
+let highestZ=200;
 
 /* =========================================================
    APP MANAGEMENT
 ========================================================= */
 
-let highestZ = 200;
-
-function openApp(app) {
-
-  const element =
-    document.getElementById("window-" + app);
-
-  if (!element) return;
-
-  element.classList.add("open");
-
-  highestZ++;
-
-  element.style.zIndex = highestZ;
-
-  document
-    .getElementById("startMenu")
-    ?.classList.remove("open");
-
-  document
-    .getElementById("notificationPanel")
-    ?.classList.remove("open");
-
+function openApp(app){
+ const el=document.getElementById("window-"+app);
+ if(!el)return;
+ el.classList.add("open");
+ highestZ++;
+ el.style.zIndex=highestZ;
+ document.getElementById("startMenu")?.classList.remove("open");
+ document.getElementById("notificationPanel")?.classList.remove("open");
+ updateTaskbarActive();
+ if(app==="browser")loadBrowser();
+ if(app==="notes")loadNotes();
+ if(app==="calendar")renderCalendar();
+ if(app==="system")updateSystemInfo();
 }
 
-function closeApp(app) {
-
-  const element =
-    document.getElementById("window-" + app);
-
-  if (!element) return;
-
-  element.classList.remove("open");
-  element.classList.remove("maximized");
-
+function closeApp(app){
+ const el=document.getElementById("window-"+app);
+ if(!el)return;
+ el.classList.remove("open","maximized");
+ updateTaskbarActive();
 }
 
-function minimizeApp(app) {
-
-  const element =
-    document.getElementById("window-" + app);
-
-  if (!element) return;
-
-  element.classList.remove("open");
-
+function minimizeApp(app){
+ document.getElementById("window-"+app)?.classList.remove("open");
+ updateTaskbarActive();
 }
 
-function maximizeApp(app) {
-
-  const element =
-    document.getElementById("window-" + app);
-
-  if (!element) return;
-
-  element.classList.toggle("maximized");
-
+function maximizeApp(app){
+ document.getElementById("window-"+app)?.classList.toggle("maximized");
 }
 
 /* =========================================================
    START MENU
 ========================================================= */
 
-function toggleStartMenu() {
-
-  const menu =
-    document.getElementById("startMenu");
-
-  menu?.classList.toggle("open");
-
-  document
-    .getElementById("notificationPanel")
-    ?.classList.remove("open");
-
+function renderStartApps(){
+ const container=document.getElementById("startApps");
+ if(!container)return;
+ container.innerHTML="";
+ Object.entries(APPS).forEach(([id,app])=>{
+  const b=document.createElement("button");
+  b.className="start-app";
+  b.dataset.app=id;
+  b.onclick=()=>openApp(id);
+  b.innerHTML=`<div class="start-app-icon">${app.icon}</div><div class="start-app-name">${app.name}</div>`;
+  container.appendChild(b);
+ });
 }
 
-function searchApps() {
+function toggleStartMenu(){
+ document.getElementById("startMenu")?.classList.toggle("open");
+ document.getElementById("notificationPanel")?.classList.remove("open");
+}
 
-  const search =
-    document.getElementById("startSearch");
+function searchApps(){
+ const q=document.getElementById("startSearch").value.toLowerCase();
+ document.querySelectorAll(".start-app").forEach(a=>{
+  a.style.display=a.textContent.toLowerCase().includes(q)?"":"none";
+ });
+}
 
-  if (!search) return;
+/* =========================================================
+   TASKBAR
+========================================================= */
 
-  const query =
-    search.value.toLowerCase().trim();
+const DEFAULT_TASKBAR=["luna","files","browser","calculator","settings"];
 
-  document
-    .querySelectorAll(".start-app")
-    .forEach(app => {
+function getTaskbarApps(){
+ try{
+  const saved=JSON.parse(localStorage.getItem("lunaTaskbar"));
+  return Array.isArray(saved)&&saved.length?saved:DEFAULT_TASKBAR;
+ }catch{return DEFAULT_TASKBAR}
+}
 
-      const name =
-        app.querySelector(".start-app-name")
-          ?.textContent
-          .toLowerCase() || "";
+function saveTaskbar(arr){
+ localStorage.setItem("lunaTaskbar",JSON.stringify(arr));
+ renderTaskbar();
+ renderTaskEditor();
+}
 
-      app.style.display =
-        name.includes(query)
-          ? ""
-          : "none";
+function renderTaskbar(){
+ const center=document.getElementById("taskbar-center");
+ if(!center)return;
+ center.innerHTML="";
+ getTaskbarApps().forEach(id=>{
+  if(!APPS[id])return;
+  const b=document.createElement("button");
+  b.className="task-button";
+  b.dataset.app=id;
+  b.title=APPS[id].name;
+  if(id==="luna"){
+   b.classList.add("luna-task");
+   b.innerHTML='<img src="Luna profile.webp" alt="Luna">';
+  }else b.textContent=APPS[id].icon;
+  b.onclick=()=>openApp(id);
+  center.appendChild(b);
+ });
+ updateTaskbarActive();
+}
 
-    });
+function updateTaskbarActive(){
+ document.querySelectorAll("#taskbar-center .task-button").forEach(b=>{
+  const id=b.dataset.app;
+  b.classList.toggle("active",document.getElementById("window-"+id)?.classList.contains("open"));
+ });
+}
 
+function renderTaskEditor(){
+ const editor=document.getElementById("taskEditor");
+ if(!editor)return;
+ editor.innerHTML="";
+ getTaskbarApps().forEach(id=>{
+  if(!APPS[id])return;
+  const row=document.createElement("div");
+  row.className="task-edit-item";
+  row.draggable=true;
+  row.dataset.app=id;
+  row.innerHTML=`<span class="task-edit-icon">${APPS[id].icon}</span><span class="task-edit-name">${APPS[id].name}</span><button class="remove-task" title="Remove">×</button>`;
+  row.querySelector(".remove-task").onclick=e=>{
+   e.stopPropagation();
+   saveTaskbar(getTaskbarApps().filter(x=>x!==id));
+  };
+  row.addEventListener("dragstart",()=>row.classList.add("dragging"));
+  row.addEventListener("dragend",()=>{
+   row.classList.remove("dragging");
+   saveTaskbar([...editor.querySelectorAll(".task-edit-item")].map(x=>x.dataset.app));
+  });
+  row.addEventListener("dragover",e=>{
+   e.preventDefault();
+   const dragging=editor.querySelector(".dragging");
+   if(!dragging||dragging===row)return;
+   const rect=row.getBoundingClientRect();
+   const after=e.clientY>rect.top+rect.height/2;
+   editor.insertBefore(dragging,after?row.nextSibling:row);
+  });
+  editor.appendChild(row);
+ });
+}
+
+function renderAddApps(){
+ const grid=document.getElementById("addAppGrid");
+ if(!grid)return;
+ grid.innerHTML="";
+ getTaskbarApps();
+ Object.entries(APPS).forEach(([id,app])=>{
+  if(getTaskbarApps().includes(id))return;
+  const b=document.createElement("button");
+  b.className="add-app-button";
+  b.textContent=app.icon+" "+app.name;
+  b.onclick=()=>saveTaskbar([...getTaskbarApps(),id]);
+  grid.appendChild(b);
+ });
+}
+
+function refreshTaskbarSettings(){
+ renderTaskEditor();
+ renderAddApps();
+}
+
+/* =========================================================
+   TASKBAR SETTINGS
+========================================================= */
+
+function changeTaskbarPosition(pos){
+ const bar=document.getElementById("taskbar");
+ bar.classList.remove("top","left","right");
+ if(pos!=="bottom")bar.classList.add(pos);
+ localStorage.setItem("lunaTaskbarPosition",pos);
+}
+
+function changeAutoHide(value){
+ const bar=document.getElementById("taskbar");
+ bar.classList.toggle("hidden",value==="on");
+ localStorage.setItem("lunaTaskbarAutoHide",value);
 }
 
 /* =========================================================
    NOTIFICATIONS
 ========================================================= */
 
-function toggleNotifications() {
-
-  document
-    .getElementById("notificationPanel")
-    ?.classList.toggle("open");
-
-  document
-    .getElementById("startMenu")
-    ?.classList.remove("open");
-
+function toggleNotifications(){
+ document.getElementById("notificationPanel")?.classList.toggle("open");
+ document.getElementById("startMenu")?.classList.remove("open");
 }
 
 /* =========================================================
    CLOCK
 ========================================================= */
 
-function updateClock() {
+function updateClock(){
+ const now=new Date();
+ const time=now.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+ const date=now.toLocaleDateString([], {month:"short",day:"numeric"});
+ document.getElementById("clock").innerHTML=`${time}<br>${date}`;
+ document.getElementById("bigClock").textContent=now.toLocaleTimeString();
+ document.getElementById("bigDate").textContent=now.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+ document.getElementById("settingsDateTime").textContent=now.toString();
+}
+setInterval(updateClock,1000);
 
-  const clock =
-    document.getElementById("clock");
+/* =========================================================
+   THEMES
+========================================================= */
 
-  if (!clock) return;
-
-  const now = new Date();
-
-  const time =
-    now.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit"
-    });
-
-  const date =
-    now.toLocaleDateString([], {
-      month: "short",
-      day: "numeric"
-    });
-
-  clock.innerHTML =
-    `${time}<br>${date}`;
-
+function applyTheme(theme){
+ document.body.classList.remove("light","luna","custom");
+ if(theme==="light")document.body.classList.add("light");
+ if(theme==="luna")document.body.classList.add("luna");
+ if(theme==="custom")document.body.classList.add("custom");
+ localStorage.setItem("lunaTheme",theme);
+ document.getElementById("themeSelect").value=theme;
 }
 
-updateClock();
-
-setInterval(updateClock,1000);
+function changeAccent(color){
+ document.body.style.setProperty("--accent",color);
+ localStorage.setItem("lunaAccent",color);
+}
 
 /* =========================================================
    WALLPAPERS
 ========================================================= */
 
-const wallpapers = {
-
-  midnight:
-    "radial-gradient(circle at 50% 35%,rgba(38,72,110,.22),transparent 45%),linear-gradient(135deg,#050811,#0a111d 55%,#060a12)",
-
-  blue:
-    "radial-gradient(circle at 70% 30%,#18395d,#050811 65%)",
-
-  ocean:
-    "radial-gradient(circle at 30% 70%,#17445a,#050811 65%)",
-
-  nebula:
-    "radial-gradient(circle at 65% 35%,#30255c,#101329 40%,#03040a 80%)",
-
-  purple:
-    "radial-gradient(circle at 35% 35%,#42255e,#090611 70%)",
-
-  black:
-    "#010204"
-
+const wallpapers={
+ midnight:"radial-gradient(circle at 50% 35%,rgba(38,72,110,.22),transparent 45%),linear-gradient(135deg,#050811,#0a111d 55%,#060a12)",
+ blue:"radial-gradient(circle at 70% 30%,#18395d,#050811 65%)",
+ ocean:"radial-gradient(circle at 30% 70%,#17445a,#050811 65%)",
+ nebula:"radial-gradient(circle at 65% 35%,#30255c,#101329 40%,#03040a 80%)",
+ purple:"radial-gradient(circle at 35% 35%,#42255e,#090611 70%)",
+ black:"#010204"
 };
 
-function applyWallpaper(name) {
-
-  if (!wallpapers[name]) {
-    name = "midnight";
-  }
-
-  document.body.style.background =
-    wallpapers[name];
-
-  localStorage.setItem(
-    "lunaOSWallpaper",
-    name
-  );
-
-  const select =
-    document.getElementById("wallpaperSelect");
-
-  if (select) {
-    select.value = name;
-  }
-
-  document
-    .querySelectorAll(".wallpaper-option")
-    .forEach(option => {
-
-      option.classList.toggle(
-        "active",
-        option.dataset.wallpaper === name
-      );
-
-    });
-
+function applyWallpaper(name){
+ if(!wallpapers[name])name="midnight";
+ document.body.style.background=wallpapers[name];
+ localStorage.setItem("lunaOSWallpaper",name);
+ document.querySelectorAll(".wallpaper-option").forEach(o=>o.classList.toggle("active",o.dataset.wallpaper===name));
 }
 
-function selectWallpaper(name) {
-
-  applyWallpaper(name);
-
+function selectWallpaper(name){
+ localStorage.removeItem("lunaCustomWallpaper");
+ applyWallpaper(name);
+ document.getElementById("themeSelect").value="luna";
 }
 
-const savedWallpaper =
-  localStorage.getItem("lunaOSWallpaper") ||
-  "midnight";
+function setCustomWallpaper(file){
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=e=>{
+  const url=e.target.result;
+  localStorage.setItem("lunaCustomWallpaper",url);
+  document.body.style.backgroundImage=`url("${url}")`;
+  document.body.style.backgroundColor="#050811";
+  document.body.style.backgroundSize="cover";
+  document.body.style.backgroundPosition="center";
+  applyTheme("custom");
+ };
+ reader.readAsDataURL(file);
+}
 
-applyWallpaper(savedWallpaper);
+function setWallpaperURL(){
+ const url=prompt("Enter an image URL:");
+ if(!url)return;
+ try{
+  new URL(url);
+  localStorage.setItem("lunaCustomWallpaper",url);
+  document.body.style.backgroundImage=`url("${url}")`;
+  document.body.style.backgroundSize="cover";
+  document.body.style.backgroundPosition="center";
+  applyTheme("custom");
+ }catch{alert("That doesn't look like a valid URL.");}
+}
+
+/* =========================================================
+   DISPLAY SETTINGS
+========================================================= */
+
+function changeScale(value){
+ document.body.classList.remove("compact","large");
+ if(value!=="normal")document.body.classList.add(value);
+ localStorage.setItem("lunaScale",value);
+}
+
+function setGlow(value){
+ document.querySelector(".desktop-glow").style.display=value==="on"?"block":"none";
+ localStorage.setItem("lunaGlow",value);
+}
+
+function setSetting(key,value){
+ localStorage.setItem("luna_"+key,value);
+ if(key==="reducedMotion"){
+  document.body.style.setProperty("--motion",value==="on"?"0":"1");
+  if(value==="on"){
+   const style=document.getElementById("reducedMotionStyle")||document.createElement("style");
+   style.id="reducedMotionStyle";
+   style.textContent="*,*:before,*:after{animation-duration:0.001ms!important;transition-duration:0.001ms!important;scroll-behavior:auto!important}";
+   document.head.appendChild(style);
+  }else document.getElementById("reducedMotionStyle")?.remove();
+ }
+}
 
 /* =========================================================
    CALCULATOR
 ========================================================= */
 
-let calculatorExpression = "";
+let calculatorExpression="";
 
-function calcInput(value) {
-
-  if (
-    calculatorExpression === "" &&
-    ["+","*","/"].includes(value)
-  ) {
-    return;
-  }
-
-  calculatorExpression += value;
-
-  const display =
-    document.getElementById("calculatorDisplay");
-
-  if (display) {
-    display.value =
-      calculatorExpression;
-  }
-
+function calcInput(value){
+ if(calculatorExpression===""&&["+","*","/"].includes(value))return;
+ calculatorExpression+=value;
+ document.getElementById("calculatorDisplay").value=calculatorExpression;
 }
 
-function calcClear() {
-
-  calculatorExpression = "";
-
-  const display =
-    document.getElementById("calculatorDisplay");
-
-  if (display) {
-    display.value = "0";
-  }
-
+function calcClear(){
+ calculatorExpression="";
+ document.getElementById("calculatorDisplay").value="0";
 }
 
-function calcResult() {
-
-  const display =
-    document.getElementById("calculatorDisplay");
-
-  try {
-
-    if (!calculatorExpression.trim()) {
-      return;
-    }
-
-    if (!/^[0-9+\-*/().\s]+$/.test(
-      calculatorExpression
-    )) {
-      throw new Error("Invalid expression");
-    }
-
-    const result =
-      Function(
-        '"use strict";return(' +
-        calculatorExpression +
-        ')'
-      )();
-
-    if (
-      typeof result !== "number" ||
-      !Number.isFinite(result)
-    ) {
-      throw new Error("Invalid result");
-    }
-
-    calculatorExpression =
-      String(result);
-
-    if (display) {
-      display.value =
-        calculatorExpression;
-    }
-
-  } catch {
-
-    calculatorExpression = "";
-
-    if (display) {
-      display.value = "Error";
-    }
-
-  }
-
+function calcResult(){
+ const display=document.getElementById("calculatorDisplay");
+ try{
+  if(!calculatorExpression.trim())return;
+  if(!/^[0-9+\-*/().\s]+$/.test(calculatorExpression))throw Error();
+  const result=Function('"use strict";return('+calculatorExpression+')')();
+  if(typeof result!=="number"||!Number.isFinite(result))throw Error();
+  calculatorExpression=String(result);
+  display.value=calculatorExpression;
+ }catch{
+  calculatorExpression="";
+  display.value="Error";
+ }
 }
 
 /* =========================================================
    LUNA CHAT
 ========================================================= */
 
-let lunaConversation = [];
+let lunaConversation=[];
 
-function addLunaMessage(role,text) {
-
-  const messages =
-    document.getElementById("lunaMessages");
-
-  if (!messages) return;
-
-  const message =
-    document.createElement("div");
-
-  message.className =
-    "luna-message " + role;
-
-  message.textContent =
-    text;
-
-  messages.appendChild(message);
-
-  messages.scrollTop =
-    messages.scrollHeight;
-
+function addLunaMessage(role,text){
+ const messages=document.getElementById("lunaMessages");
+ if(!messages)return;
+ const message=document.createElement("div");
+ message.className="luna-message "+role;
+ message.textContent=text;
+ messages.appendChild(message);
+ messages.scrollTop=messages.scrollHeight;
 }
 
-async function sendToLuna() {
+async function sendToLuna(){
+ const input=document.getElementById("lunaInput");
+ const send=document.getElementById("lunaSendButton");
+ const message=input.value.trim();
+ if(!message)return;
 
-  const input =
-    document.getElementById("lunaInput");
+ addLunaMessage("user",message);
+ lunaConversation.push({role:"user",content:message});
+ input.value="";
+ send.disabled=true;
+ addLunaMessage("assistant","Thinking...");
+ const thinking=document.getElementById("lunaMessages").lastElementChild;
 
-  const sendButton =
-    document.getElementById("lunaSendButton");
-
-  if (!input) return;
-
-  const message =
-    input.value.trim();
-
-  if (!message) return;
-
-  addLunaMessage("user",message);
-
-  lunaConversation.push({
-    role:"user",
-    content:message
+ try{
+  const response=await fetch("/api/chat",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   credentials:"include",
+   body:JSON.stringify({messages:lunaConversation})
   });
+  let data={};
+  try{data=await response.json()}catch{}
+  if(!response.ok)throw Error(data.error||"Luna could not respond right now.");
+  const reply=typeof data.reply==="string"?data.reply.trim():"";
+  if(!reply)throw Error("Luna returned an empty response.");
+  thinking.textContent=reply;
+  lunaConversation.push({role:"assistant",content:reply});
+ }catch(error){
+  thinking.textContent=error.message||"Luna could not respond right now.";
+  lunaConversation.pop();
+ }finally{
+  send.disabled=false;
+  input.focus();
+ }
+}
 
-  input.value = "";
+/* =========================================================
+   BROWSER
+========================================================= */
 
-  if (sendButton) {
-    sendButton.disabled = true;
-  }
+function normalizeURL(value){
+ value=value.trim();
+ if(!value)return "https://www.google.com";
+ if(!/^https?:\/\//i.test(value))value="https://"+value;
+ return value;
+}
 
-  addLunaMessage(
-    "assistant",
-    "Thinking..."
-  );
+function navigateBrowser(){
+ const input=document.getElementById("browserAddress");
+ const frame=document.getElementById("browserFrame");
+ const placeholder=document.getElementById("browserPlaceholder");
+ const url=normalizeURL(input.value);
+ input.value=url;
+ frame.src=url;
+ placeholder.style.display="none";
+}
 
-  const messages =
-    document.getElementById("lunaMessages");
+function loadBrowser(){
+ const frame=document.getElementById("browserFrame");
+ if(frame.src==="about:blank")return;
+}
 
-  const thinkingMessage =
-    messages?.lastElementChild;
+function browserBack(){try{document.getElementById("browserFrame").contentWindow.history.back()}catch{}}
+function browserForward(){try{document.getElementById("browserFrame").contentWindow.history.forward()}catch{}}
+function browserReload(){try{document.getElementById("browserFrame").contentWindow.location.reload()}catch{}}
 
-  try {
+/* =========================================================
+   NOTES
+========================================================= */
 
-    const response =
-      await fetch("/api/chat",{
-        method:"POST",
+function loadNotes(){
+ document.getElementById("notesArea").value=localStorage.getItem("lunaNotes")||"";
+}
+document.getElementById("notesArea").addEventListener("input",e=>{
+ localStorage.setItem("lunaNotes",e.target.value);
+});
 
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
+/* =========================================================
+   CALENDAR
+========================================================= */
 
-        credentials:"include",
+function renderCalendar(){
+ const now=new Date();
+ const year=now.getFullYear();
+ const month=now.getMonth();
+ document.getElementById("calendarTitle").textContent=now.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+ const first=new Date(year,month,1).getDay();
+ const days=new Date(year,month+1,0).getDate();
+ let html="<table style='width:100%;text-align:center;border-collapse:collapse'><tr>";
+ ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>html+=`<th style="padding:10px">${d}</th>`);
+ html+="</tr><tr>";
+ for(let i=0;i<first;i++)html+="<td></td>";
+ for(let d=1;d<=days;d++){
+  const today=d===now.getDate();
+  html+=`<td style="padding:12px;border-radius:8px;${today?"background:var(--accent);color:#06101b;font-weight:bold":""}">${d}</td>`;
+  if((first+d)%7===0)html+="</tr><tr>";
+ }
+ html+="</tr></table>";
+ document.getElementById("calendarBody").innerHTML=html;
+}
 
-        body:JSON.stringify({
-          messages:lunaConversation
-        })
-      });
+/* =========================================================
+   SYSTEM INFO
+========================================================= */
 
-    let data = {};
+function updateSystemInfo(){
+ document.getElementById("browserInfo").textContent=navigator.userAgent;
+ document.getElementById("screenInfo").textContent=`${screen.width} × ${screen.height}`;
+ document.getElementById("platformInfo").textContent=navigator.platform;
+ document.getElementById("languageInfo").textContent=navigator.language;
+ document.getElementById("onlineInfo").textContent=navigator.onLine?"Online":"Offline";
+}
 
-    try {
-      data = await response.json();
-    } catch {
-      data = {};
-    }
+/* =========================================================
+   TERMINAL
+========================================================= */
 
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        "Luna could not respond right now."
-      );
-    }
+function terminalCommand(event){
+ if(event.key!=="Enter")return;
+ const input=document.getElementById("terminalInput");
+ const command=input.value.trim().toLowerCase();
+ const out=document.getElementById("terminalOutput");
 
-    const reply =
-      typeof data.reply === "string"
-        ? data.reply.trim()
-        : "";
+ let result="";
+ if(command==="help")result="Commands: help, clear, date, time, apps, settings, browser, luna, files, calc, system, reboot";
+ else if(command==="clear"){out.innerHTML="";input.value="";return}
+ else if(command==="date")result=new Date().toLocaleDateString();
+ else if(command==="time")result=new Date().toLocaleTimeString();
+ else if(command==="apps")result=Object.values(APPS).map(a=>a.name).join(", ");
+ else if(command==="settings"){openApp("settings");result="Opening Settings..."}
+ else if(command==="browser"){openApp("browser");result="Opening Browser..."}
+ else if(command==="luna"){openApp("luna");result="Opening Luna..."}
+ else if(command==="files"){openApp("files");result="Opening Files..."}
+ else if(command==="calc"){openApp("calculator");result="Opening Calculator..."}
+ else if(command==="system"){openApp("system");result="Opening System Information..."}
+ else if(command==="reboot"){result="Luna OS web interface restarted.";setTimeout(()=>location.reload(),500)}
+ else if(command)result=`Unknown command: ${command}`;
 
-    if (!reply) {
-      throw new Error(
-        "Luna returned an empty response."
-      );
-    }
+ out.innerHTML+=`<div>luna&gt; ${escapeHTML(command)}</div><div>${escapeHTML(result)}</div>`;
+ input.value="";
+ document.getElementById("terminal").scrollTop=999999;
+}
 
-    if (thinkingMessage) {
-      thinkingMessage.textContent = reply;
-    }
-
-    lunaConversation.push({
-      role:"assistant",
-      content:reply
-    });
-
-  } catch(error) {
-
-    console.error(
-      "Luna chat error:",
-      error
-    );
-
-    if (thinkingMessage) {
-      thinkingMessage.textContent =
-        error.message ||
-        "Luna could not respond right now.";
-    }
-
-    lunaConversation.pop();
-
-  } finally {
-
-    if (sendButton) {
-      sendButton.disabled = false;
-    }
-
-    input.focus();
-
-  }
-
+function escapeHTML(text){
+ return String(text).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 }
 
 /* =========================================================
    VOICE SYSTEM
 ========================================================= */
 
-let voiceCallActive = false;
-let recognition = null;
-let recognitionAvailable = false;
-let recognitionRunning = false;
-let recognitionShouldRun = false;
-let lunaIsSpeaking = false;
-let voiceRequestInProgress = false;
-let speechGeneration = 0;
-let selectedLunaVoice = null;
-let speechRate =
-  parseFloat(
-    localStorage.getItem("lunaSpeechRate") || "1.05"
-  );
+let voiceCallActive=false;
+let recognition=null;
+let recognitionAvailable=false;
+let recognitionRunning=false;
+let recognitionShouldRun=false;
+let lunaIsSpeaking=false;
+let voiceRequestInProgress=false;
+let speechGeneration=0;
+let selectedLunaVoice=null;
+let speechRate=parseFloat(localStorage.getItem("lunaSpeechRate")||"1.05");
 
-const voiceScreen =
-  document.getElementById("voiceScreen");
+const voiceScreen=document.getElementById("voiceScreen");
+const callStatus=document.getElementById("callStatus");
+const moon=document.getElementById("moon");
+const moonContainer=document.getElementById("moonContainer");
+const voiceSelect=document.getElementById("voiceSelect");
+const speechRateSelect=document.getElementById("speechRateSelect");
 
-const callStatus =
-  document.getElementById("callStatus");
+function speechSupported(){return "speechSynthesis" in window&&"SpeechSynthesisUtterance" in window}
+function getVoices(){return speechSupported()?window.speechSynthesis.getVoices():[]}
 
-const moon =
-  document.getElementById("moon");
-
-const moonContainer =
-  document.getElementById("moonContainer");
-
-const voiceSelect =
-  document.getElementById("voiceSelect");
-
-const speechRateSelect =
-  document.getElementById("speechRateSelect");
-
-/* =========================================================
-   SPEECH SUPPORT
-========================================================= */
-
-function speechSupported() {
-
-  return (
-    "speechSynthesis" in window &&
-    "SpeechSynthesisUtterance" in window
-  );
-
+function getLunaVoice(){
+ const voices=getVoices();
+ const preferred=["Microsoft Zira","Samantha","Google US English","Jenny","Aria","Ava","Victoria","Karen","Moira"];
+ for(const name of preferred){
+  const voice=voices.find(v=>v.name.toLowerCase().includes(name.toLowerCase()));
+  if(voice)return voice;
+ }
+ return voices.find(v=>v.lang?.toLowerCase()==="en-us")||voices.find(v=>v.lang?.toLowerCase().startsWith("en"))||voices[0];
 }
 
-function getVoices() {
-
-  if (!speechSupported()) {
-    return [];
-  }
-
-  return window.speechSynthesis.getVoices();
-
+function populateVoiceSettings(){
+ if(!voiceSelect)return;
+ const voices=getVoices().filter(v=>v.lang?.toLowerCase().startsWith("en"));
+ voiceSelect.innerHTML="";
+ voices.forEach((voice,index)=>{
+  const option=document.createElement("option");
+  option.value=index;
+  option.textContent=`${voice.name} — ${voice.lang}`;
+  voiceSelect.appendChild(option);
+ });
+ selectedLunaVoice=selectedLunaVoice||getLunaVoice();
+ if(selectedLunaVoice){
+  const index=voices.indexOf(selectedLunaVoice);
+  if(index>=0)voiceSelect.value=index;
+ }
 }
 
-function getLunaVoice() {
-
-  const voices = getVoices();
-
-  if (!voices.length) {
-    return null;
-  }
-
-  const preferred = [
-    "Microsoft Zira",
-    "Samantha",
-    "Google US English",
-    "Jenny",
-    "Aria",
-    "Ava",
-    "Victoria",
-    "Karen",
-    "Moira"
-  ];
-
-  for (const name of preferred) {
-
-    const voice =
-      voices.find(v =>
-        v.name
-          .toLowerCase()
-          .includes(name.toLowerCase())
-      );
-
-    if (voice) {
-      return voice;
-    }
-
-  }
-
-  return (
-    voices.find(v =>
-      v.lang?.toLowerCase() === "en-us"
-    ) ||
-    voices.find(v =>
-      v.lang?.toLowerCase().startsWith("en")
-    ) ||
-    voices[0]
-  );
-
+if(speechSupported()){
+ populateVoiceSettings();
+ speechSynthesis.onvoiceschanged=populateVoiceSettings;
 }
 
-function populateVoiceSettings() {
+speechRateSelect.value=String(speechRate);
 
-  if (!voiceSelect) return;
-
-  const voices = getVoices();
-
-  voiceSelect.innerHTML = "";
-
-  voices
-    .filter(v =>
-      v.lang?.toLowerCase().startsWith("en")
-    )
-    .forEach((voice,index) => {
-
-      const option =
-        document.createElement("option");
-
-      option.value = String(index);
-
-      option.textContent =
-        `${voice.name} — ${voice.lang}`;
-
-      voiceSelect.appendChild(option);
-
-    });
-
-  selectedLunaVoice =
-    selectedLunaVoice ||
-    getLunaVoice();
-
-  if (selectedLunaVoice) {
-
-    const index =
-      voices.indexOf(selectedLunaVoice);
-
-    if (index >= 0) {
-      voiceSelect.value = String(index);
-    }
-
-  }
-
+function changeLunaVoice(index){
+ const voices=getVoices().filter(v=>v.lang?.toLowerCase().startsWith("en"));
+ selectedLunaVoice=voices[parseInt(index,10)]||getLunaVoice();
 }
 
-if (speechSupported()) {
-
-  populateVoiceSettings();
-
-  window.speechSynthesis.onvoiceschanged =
-    () => {
-      populateVoiceSettings();
-    };
-
+function changeSpeechRate(value){
+ speechRate=parseFloat(value)||1.05;
+ localStorage.setItem("lunaSpeechRate",speechRate);
 }
 
-if (speechRateSelect) {
-  speechRateSelect.value =
-    String(speechRate);
+function setCallStatus(text,state=""){
+ callStatus.textContent=text;
+ callStatus.className="call-status "+state;
+ moon.classList.remove("listening","speaking");
+ if(state==="listening")moon.classList.add("listening");
+ if(state==="speaking")moon.classList.add("speaking");
+ moonContainer.classList.toggle("speaking",state==="speaking");
 }
 
-function changeLunaVoice(index) {
-
-  const voices = getVoices();
-
-  const englishVoices =
-    voices.filter(v =>
-      v.lang?.toLowerCase().startsWith("en")
-    );
-
-  selectedLunaVoice =
-    englishVoices[
-      parseInt(index,10)
-    ] || getLunaVoice();
-
-  if (
-    voiceCallActive &&
-    !lunaIsSpeaking
-  ) {
-    setCallStatus(
-      "🎙 Listening...",
-      "listening"
-    );
-  }
-
+function stopLunaSpeaking(){
+ speechGeneration++;
+ lunaIsSpeaking=false;
+ if(speechSupported())try{speechSynthesis.cancel()}catch{}
+ if(voiceCallActive){
+  voiceRequestInProgress=false;
+  setCallStatus("🎙 Listening...","listening");
+  startRecognition();
+ }
 }
 
-function changeSpeechRate(value) {
+function speakAsLuna(text){
+ if(!voiceCallActive)return;
+ if(!speechSupported()){
+  setCallStatus("Speech synthesis isn't supported.","error");
+  voiceRequestInProgress=false;
+  startRecognition();
+  return;
+ }
+ speechGeneration++;
+ const generation=speechGeneration;
+ lunaIsSpeaking=true;
+ stopRecognition();
+ try{speechSynthesis.cancel()}catch{}
 
-  speechRate =
-    parseFloat(value) || 1.05;
+ const utterance=new SpeechSynthesisUtterance(text);
+ selectedLunaVoice=selectedLunaVoice||getLunaVoice();
+ if(selectedLunaVoice)utterance.voice=selectedLunaVoice;
+ utterance.lang=selectedLunaVoice?.lang||"en-US";
+ utterance.rate=speechRate;
+ utterance.pitch=1;
+ utterance.volume=1;
 
-  localStorage.setItem(
-    "lunaSpeechRate",
-    String(speechRate)
-  );
-
+ utterance.onstart=()=>{
+  if(generation!==speechGeneration||!voiceCallActive)return;
+  lunaIsSpeaking=true;
+  setCallStatus("🔊 Luna is speaking...","speaking");
+ };
+ utterance.onend=()=>{
+  if(generation!==speechGeneration||!voiceCallActive)return;
+  lunaIsSpeaking=false;
+  setCallStatus("🎙 Listening...","listening");
+  setTimeout(()=>{if(voiceCallActive&&!lunaIsSpeaking)startRecognition()},300);
+ };
+ utterance.onerror=()=>{
+  if(generation!==speechGeneration||!voiceCallActive)return;
+  lunaIsSpeaking=false;
+  setCallStatus("🎙 Listening...","listening");
+  setTimeout(()=>{if(voiceCallActive)startRecognition()},300);
+ };
+ speechSynthesis.speak(utterance);
 }
 
-/* =========================================================
-   CALL STATUS
-========================================================= */
+function createRecognition(){
+ const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Recognition){recognitionAvailable=false;return null}
+ recognitionAvailable=true;
+ const instance=new Recognition();
+ instance.continuous=false;
+ instance.interimResults=false;
+ instance.lang="en-US";
+ instance.maxAlternatives=1;
 
-function setCallStatus(text,state="") {
-
-  if (!callStatus) return;
-
-  callStatus.textContent = text;
-
-  callStatus.className =
-    "call-status " + state;
-
-  if (moon) {
-
-    moon.classList.remove(
-      "listening",
-      "speaking"
-    );
-
-    if (state === "listening") {
-      moon.classList.add("listening");
-    }
-
-    if (state === "speaking") {
-      moon.classList.add("speaking");
-    }
-
-  }
-
-  if (moonContainer) {
-
-    moonContainer.classList.toggle(
-      "speaking",
-      state === "speaking"
-    );
-
-  }
-
-}
-
-/* =========================================================
-   SPEECH SYNTHESIS
-========================================================= */
-
-function stopLunaSpeaking() {
-
-  speechGeneration++;
-
-  lunaIsSpeaking = false;
-
-  if (speechSupported()) {
-
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
-
-  }
-
-  if (voiceCallActive) {
-
-    voiceRequestInProgress = false;
-
-    setCallStatus(
-      "🎙 Listening...",
-      "listening"
-    );
-
-    startRecognition();
-
-  }
-
-}
-
-function speakAsLuna(text) {
-
-  if (!voiceCallActive) {
-    return;
-  }
-
-  if (!speechSupported()) {
-
-    setCallStatus(
-      "Speech synthesis isn't supported in this browser.",
-      "error"
-    );
-
-    voiceRequestInProgress = false;
-
-    startRecognition();
-
-    return;
-
-  }
-
-  speechGeneration++;
-
-  const generation =
-    speechGeneration;
-
-  lunaIsSpeaking = true;
-
+ instance.onstart=()=>{
+  recognitionRunning=true;
+  if(voiceCallActive&&!lunaIsSpeaking)setCallStatus("🎙 Listening...","listening");
+ };
+ instance.onresult=event=>{
+  if(!voiceCallActive)return;
+  const result=event.results[event.results.length-1];
+  const transcript=result?.[0]?.transcript?.trim();
+  if(!transcript)return;
+  recognitionShouldRun=false;
   stopRecognition();
-
-  try {
-    window.speechSynthesis.cancel();
-  } catch {}
-
-  const utterance =
-    new SpeechSynthesisUtterance(text);
-
-  selectedLunaVoice =
-    selectedLunaVoice ||
-    getLunaVoice();
-
-  if (selectedLunaVoice) {
-    utterance.voice =
-      selectedLunaVoice;
+  handleVoiceMessage(transcript);
+ };
+ instance.onerror=event=>{
+  recognitionRunning=false;
+  if(!voiceCallActive)return;
+  if(event.error==="no-speech"||event.error==="aborted"){
+   if(!lunaIsSpeaking&&!voiceRequestInProgress)setTimeout(()=>{if(voiceCallActive)startRecognition()},350);
+   return;
   }
-
-  utterance.lang =
-    selectedLunaVoice?.lang ||
-    "en-US";
-
-  utterance.rate =
-    speechRate;
-
-  utterance.pitch = 1;
-  utterance.volume = 1;
-
-  utterance.onstart = () => {
-
-    if (
-      generation !== speechGeneration ||
-      !voiceCallActive
-    ) {
-      return;
-    }
-
-    lunaIsSpeaking = true;
-
-    setCallStatus(
-      "🔊 Luna is speaking...",
-      "speaking"
-    );
-
-  };
-
-  utterance.onend = () => {
-
-    if (
-      generation !== speechGeneration ||
-      !voiceCallActive
-    ) {
-      return;
-    }
-
-    lunaIsSpeaking = false;
-
-    setCallStatus(
-      "🎙 Listening...",
-      "listening"
-    );
-
-    /*
-     * Small delay prevents Chrome from immediately
-     * throwing an already-started recognition error.
-     */
-
-    setTimeout(() => {
-
-      if (
-        voiceCallActive &&
-        !lunaIsSpeaking
-      ) {
-        startRecognition();
-      }
-
-    },300);
-
-  };
-
-  utterance.onerror = event => {
-
-    if (
-      generation !== speechGeneration ||
-      !voiceCallActive
-    ) {
-      return;
-    }
-
-    console.error(
-      "Speech synthesis error:",
-      event
-    );
-
-    lunaIsSpeaking = false;
-
-    setCallStatus(
-      "🎙 Listening...",
-      "listening"
-    );
-
-    setTimeout(() => {
-
-      if (voiceCallActive) {
-        startRecognition();
-      }
-
-    },300);
-
-  };
-
-  /*
-   * Chrome can pause speech synthesis when the page
-   * is inactive. This keeps the utterance alive.
-   */
-
-  window.speechSynthesis.speak(
-    utterance
-  );
-
+  if(event.error==="not-allowed"||event.error==="service-not-allowed"){
+   setCallStatus("Microphone permission is required.","error");
+   recognitionShouldRun=false;
+   return;
+  }
+  setCallStatus("Microphone error. Trying again...","error");
+  setTimeout(()=>{if(voiceCallActive&&!lunaIsSpeaking)startRecognition()},700);
+ };
+ instance.onend=()=>{
+  recognitionRunning=false;
+  if(voiceCallActive&&!lunaIsSpeaking&&!voiceRequestInProgress&&recognitionShouldRun)
+   setTimeout(()=>{if(voiceCallActive&&!lunaIsSpeaking&&!voiceRequestInProgress)startRecognition()},250);
+ };
+ return instance;
 }
 
-/* =========================================================
-   SPEECH RECOGNITION
-========================================================= */
+function initializeRecognition(){if(!recognition)recognition=createRecognition()}
 
-function createRecognition() {
-
-  const Recognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if (!Recognition) {
-
-    recognitionAvailable = false;
-
-    return null;
-
-  }
-
-  recognitionAvailable = true;
-
-  const instance =
-    new Recognition();
-
-  instance.continuous = false;
-  instance.interimResults = false;
-  instance.lang = "en-US";
-  instance.maxAlternatives = 1;
-
-  instance.onstart = () => {
-
-    recognitionRunning = true;
-
-    if (
-      voiceCallActive &&
-      !lunaIsSpeaking
-    ) {
-
-      setCallStatus(
-        "🎙 Listening...",
-        "listening"
-      );
-
-    }
-
-  };
-
-  instance.onresult = event => {
-
-    if (!voiceCallActive) {
-      return;
-    }
-
-    const result =
-      event.results[
-        event.results.length - 1
-      ];
-
-    if (!result) {
-      return;
-    }
-
-    const transcript =
-      result[0]?.transcript
-        ?.trim();
-
-    if (!transcript) {
-      return;
-    }
-
-    recognitionShouldRun = false;
-
-    stopRecognition();
-
-    handleVoiceMessage(
-      transcript
-    );
-
-  };
-
-  instance.onerror = event => {
-
-    recognitionRunning = false;
-
-    console.error(
-      "Speech recognition error:",
-      event.error
-    );
-
-    if (!voiceCallActive) {
-      return;
-    }
-
-    if (
-      event.error === "no-speech" ||
-      event.error === "aborted"
-    ) {
-
-      if (
-        !lunaIsSpeaking &&
-        !voiceRequestInProgress
-      ) {
-
-        setTimeout(() => {
-
-          if (
-            voiceCallActive &&
-            !lunaIsSpeaking
-          ) {
-            startRecognition();
-          }
-
-        },350);
-
-      }
-
-      return;
-
-    }
-
-    if (
-      event.error === "not-allowed" ||
-      event.error === "service-not-allowed"
-    ) {
-
-      setCallStatus(
-        "Microphone permission is required.",
-        "error"
-      );
-
-      recognitionShouldRun = false;
-
-      return;
-
-    }
-
-    setCallStatus(
-      "Microphone error. Trying again...",
-      "error"
-    );
-
-    setTimeout(() => {
-
-      if (
-        voiceCallActive &&
-        !lunaIsSpeaking
-      ) {
-        startRecognition();
-      }
-
-    },700);
-
-  };
-
-  instance.onend = () => {
-
-    recognitionRunning = false;
-
-    if (
-      voiceCallActive &&
-      !lunaIsSpeaking &&
-      !voiceRequestInProgress &&
-      recognitionShouldRun
-    ) {
-
-      setTimeout(() => {
-
-        if (
-          voiceCallActive &&
-          !lunaIsSpeaking &&
-          !voiceRequestInProgress
-        ) {
-          startRecognition();
-        }
-
-      },250);
-
-    }
-
-  };
-
-  return instance;
-
+function startRecognition(){
+ if(!voiceCallActive||lunaIsSpeaking||voiceRequestInProgress)return;
+ initializeRecognition();
+ if(!recognitionAvailable){setCallStatus("Voice recognition is not supported in this browser.","error");return}
+ if(recognitionRunning)return;
+ recognitionShouldRun=true;
+ try{recognition.start()}catch{
+  recognitionRunning=false;
+  setTimeout(()=>{if(voiceCallActive&&!lunaIsSpeaking&&!voiceRequestInProgress)startRecognition()},400);
+ }
 }
 
-function initializeRecognition() {
-
-  if (recognition) {
-    return;
-  }
-
-  recognition =
-    createRecognition();
-
+function stopRecognition(){
+ recognitionShouldRun=false;
+ if(!recognition||!recognitionRunning)return;
+ try{recognition.stop()}catch{}
+ recognitionRunning=false;
 }
 
-function startRecognition() {
+async function handleVoiceMessage(transcript){
+ if(!voiceCallActive||voiceRequestInProgress)return;
+ voiceRequestInProgress=true;
+ stopRecognition();
+ setCallStatus("✦ Luna is thinking...","thinking");
+ lunaConversation.push({role:"user",content:transcript});
 
-  if (
-    !voiceCallActive ||
-    lunaIsSpeaking ||
-    voiceRequestInProgress
-  ) {
-    return;
-  }
-
-  initializeRecognition();
-
-  if (!recognitionAvailable) {
-
-    setCallStatus(
-      "Voice recognition is not supported in this browser.",
-      "error"
-    );
-
-    return;
-
-  }
-
-  if (recognitionRunning) {
-    return;
-  }
-
-  recognitionShouldRun = true;
-
-  try {
-
-    recognition.start();
-
-  } catch(error) {
-
-    console.warn(
-      "Recognition start:",
-      error
-    );
-
-    recognitionRunning = false;
-
-    setTimeout(() => {
-
-      if (
-        voiceCallActive &&
-        !lunaIsSpeaking &&
-        !voiceRequestInProgress
-      ) {
-        startRecognition();
-      }
-
-    },400);
-
-  }
-
-}
-
-function stopRecognition() {
-
-  recognitionShouldRun = false;
-
-  if (!recognition) {
-    return;
-  }
-
-  if (!recognitionRunning) {
-    return;
-  }
-
-  try {
-    recognition.stop();
-  } catch {}
-
-  recognitionRunning = false;
-
-}
-
-/* =========================================================
-   VOICE CHAT
-========================================================= */
-
-async function handleVoiceMessage(transcript) {
-
-  if (
-    !voiceCallActive ||
-    voiceRequestInProgress
-  ) {
-    return;
-  }
-
-  voiceRequestInProgress = true;
-
-  stopRecognition();
-
-  setCallStatus(
-    "✦ Luna is thinking...",
-    "thinking"
-  );
-
-  lunaConversation.push({
-    role:"user",
-    content:transcript
+ try{
+  const response=await fetch("/api/chat",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   credentials:"include",
+   body:JSON.stringify({messages:lunaConversation})
   });
-
-  try {
-
-    const response =
-      await fetch("/api/chat",{
-
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-
-        credentials:"include",
-
-        body:JSON.stringify({
-          messages:lunaConversation
-        })
-
-      });
-
-    let data = {};
-
-    try {
-      data = await response.json();
-    } catch {
-      data = {};
-    }
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "Luna could not respond right now."
-      );
-
-    }
-
-    const reply =
-      typeof data.reply === "string"
-        ? data.reply.trim()
-        : "";
-
-    if (!reply) {
-
-      throw new Error(
-        "Luna returned an empty response."
-      );
-
-    }
-
-    lunaConversation.push({
-      role:"assistant",
-      content:reply
-    });
-
-    voiceRequestInProgress = false;
-
-    /*
-     * This is intentionally called directly after
-     * the API request finishes. Speech is already
-     * unlocked by the Voice Call button.
-     */
-
-    speakAsLuna(reply);
-
-  } catch(error) {
-
-    console.error(
-      "Voice request error:",
-      error
-    );
-
-    lunaConversation.pop();
-
-    voiceRequestInProgress = false;
-
-    setCallStatus(
-      error.message ||
-      "Luna could not respond right now.",
-      "error"
-    );
-
-    setTimeout(() => {
-
-      if (
-        voiceCallActive &&
-        !lunaIsSpeaking
-      ) {
-
-        setCallStatus(
-          "🎙 Listening...",
-          "listening"
-        );
-
-        startRecognition();
-
-      }
-
-    },1000);
-
-  }
-
+  let data={};
+  try{data=await response.json()}catch{}
+  if(!response.ok)throw Error(data.error||"Luna could not respond right now.");
+  const reply=typeof data.reply==="string"?data.reply.trim():"";
+  if(!reply)throw Error("Luna returned an empty response.");
+  lunaConversation.push({role:"assistant",content:reply});
+  voiceRequestInProgress=false;
+  speakAsLuna(reply);
+ }catch(error){
+  lunaConversation.pop();
+  voiceRequestInProgress=false;
+  setCallStatus(error.message||"Luna could not respond right now.","error");
+  setTimeout(()=>{if(voiceCallActive&&!lunaIsSpeaking){setCallStatus("🎙 Listening...","listening");startRecognition()}},1000);
+ }
 }
 
-/* =========================================================
-   START VOICE CALL
-========================================================= */
+async function startVoiceCall(){
+ if(voiceCallActive)return;
+ voiceCallActive=true;
+ voiceRequestInProgress=false;
+ lunaIsSpeaking=false;
+ recognitionShouldRun=false;
+ recognitionRunning=false;
+ speechGeneration++;
 
-async function startVoiceCall() {
+ voiceScreen.classList.add("open");
+ voiceScreen.setAttribute("aria-hidden","false");
+ document.getElementById("taskbar").style.display="none";
+ document.getElementById("startMenu").classList.remove("open");
+ document.getElementById("notificationPanel").classList.remove("open");
 
-  if (voiceCallActive) {
-    return;
-  }
+ setCallStatus("Connecting microphone...","thinking");
 
-  /*
-   * Set this immediately because this function is
-   * triggered by the user's button click.
-   */
+ try{
+  if(!navigator.mediaDevices?.getUserMedia)throw Error();
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  stream.getTracks().forEach(t=>t.stop());
+ }catch{
+  voiceCallActive=false;
+  voiceScreen.classList.remove("open");
+  voiceScreen.setAttribute("aria-hidden","true");
+  document.getElementById("taskbar").style.display="flex";
+  alert("Luna needs microphone permission for voice calls. Please allow microphone access and try again.");
+  return;
+ }
 
-  voiceCallActive = true;
+ initializeRecognition();
+ if(!recognitionAvailable){setCallStatus("Voice recognition is not supported in this browser.","error");return}
 
-  voiceRequestInProgress = false;
-  lunaIsSpeaking = false;
-  recognitionShouldRun = false;
-  recognitionRunning = false;
+ if(speechSupported()){
+  try{
+   speechSynthesis.cancel();
+   const warmup=new SpeechSynthesisUtterance("");
+   warmup.volume=0;
+   speechSynthesis.speak(warmup);
+  }catch{}
+ }
 
-  speechGeneration++;
-
-  if (voiceScreen) {
-
-    voiceScreen.classList.add("open");
-
-    voiceScreen.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-  }
-
-  document
-    .getElementById("taskbar")
-    ?.style.setProperty(
-      "display",
-      "none"
-    );
-
-  document
-    .getElementById("startMenu")
-    ?.classList.remove("open");
-
-  document
-    .getElementById("notificationPanel")
-    ?.classList.remove("open");
-
-  setCallStatus(
-    "Connecting microphone...",
-    "thinking"
-  );
-
-  /*
-   * IMPORTANT:
-   * Request microphone permission directly from
-   * the button interaction before SpeechRecognition.
-   * This fixes many Chrome/Edge permission failures.
-   */
-
-  try {
-
-    if (!navigator.mediaDevices?.getUserMedia) {
-      throw new Error(
-        "Microphone access is not available in this browser."
-      );
-    }
-
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
-        audio:true
-      });
-
-    /*
-     * We only need permission. SpeechRecognition
-     * manages the microphone stream itself.
-     */
-
-    stream
-      .getTracks()
-      .forEach(track => track.stop());
-
-  } catch(error) {
-
-    console.error(
-      "Microphone permission error:",
-      error
-    );
-
-    voiceCallActive = false;
-
-    if (voiceScreen) {
-
-      voiceScreen.classList.remove("open");
-
-      voiceScreen.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
-    }
-
-    document
-      .getElementById("taskbar")
-      ?.style.setProperty(
-        "display",
-        "flex"
-      );
-
-    setCallStatus(
-      "Microphone permission is required.",
-      "error"
-    );
-
-    alert(
-      "Luna needs microphone permission for voice calls. Please allow microphone access and try again."
-    );
-
-    return;
-
-  }
-
-  initializeRecognition();
-
-  if (!recognitionAvailable) {
-
-    setCallStatus(
-      "Voice recognition is not supported in this browser.",
-      "error"
-    );
-
-    return;
-
-  }
-
-  /*
-   * Warm up speech synthesis while the browser still
-   * considers this interaction user-initiated.
-   */
-
-  if (speechSupported()) {
-
-    try {
-
-      window.speechSynthesis.cancel();
-
-      const warmup =
-        new SpeechSynthesisUtterance("");
-
-      warmup.volume = 0;
-
-      window.speechSynthesis.speak(
-        warmup
-      );
-
-    } catch {}
-
-  }
-
-  setCallStatus(
-    "🎙 Listening...",
-    "listening"
-  );
-
-  setTimeout(() => {
-
-    if (voiceCallActive) {
-      startRecognition();
-    }
-
-  },300);
-
+ setCallStatus("🎙 Listening...","listening");
+ setTimeout(()=>{if(voiceCallActive)startRecognition()},300);
 }
 
-/* =========================================================
-   END VOICE CALL
-========================================================= */
-
-function endVoiceCall() {
-
-  voiceCallActive = false;
-
-  voiceRequestInProgress = false;
-  lunaIsSpeaking = false;
-  recognitionShouldRun = false;
-  recognitionRunning = false;
-
-  speechGeneration++;
-
-  stopRecognition();
-
-  if (speechSupported()) {
-
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
-
-  }
-
-  if (voiceScreen) {
-
-    voiceScreen.classList.remove("open");
-
-    voiceScreen.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-  }
-
-  document
-    .getElementById("taskbar")
-    ?.style.setProperty(
-      "display",
-      "flex"
-    );
-
+function endVoiceCall(){
+ voiceCallActive=false;
+ voiceRequestInProgress=false;
+ lunaIsSpeaking=false;
+ recognitionShouldRun=false;
+ recognitionRunning=false;
+ speechGeneration++;
+ stopRecognition();
+ if(speechSupported())try{speechSynthesis.cancel()}catch{}
+ voiceScreen.classList.remove("open");
+ voiceScreen.setAttribute("aria-hidden","true");
+ document.getElementById("taskbar").style.display="flex";
 }
 
 /* =========================================================
    WINDOW DRAGGING
 ========================================================= */
 
-document
-  .querySelectorAll(".window")
-  .forEach(windowElement => {
+document.querySelectorAll(".window").forEach(windowElement=>{
+ const header=windowElement.querySelector(".window-header");
+ if(!header)return;
+ let dragging=false,offsetX=0,offsetY=0;
 
-    const header =
-      windowElement.querySelector(
-        ".window-header"
-      );
+ header.addEventListener("mousedown",event=>{
+  if(event.target.closest(".window-controls"))return;
+  if(windowElement.classList.contains("maximized"))return;
+  dragging=true;
+  const rect=windowElement.getBoundingClientRect();
+  offsetX=event.clientX-rect.left;
+  offsetY=event.clientY-rect.top;
+  highestZ++;
+  windowElement.style.zIndex=highestZ;
+  windowElement.style.transform="none";
+ });
 
-    if (!header) return;
+ document.addEventListener("mousemove",event=>{
+  if(!dragging)return;
+  let left=event.clientX-offsetX;
+  let top=event.clientY-offsetY;
+  left=Math.max(10,Math.min(left,window.innerWidth-windowElement.offsetWidth-10));
+  top=Math.max(10,Math.min(top,window.innerHeight-windowElement.offsetHeight-90));
+  windowElement.style.left=left+"px";
+  windowElement.style.top=top+"px";
+ });
 
-    let dragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
+ document.addEventListener("mouseup",()=>dragging=false);
 
-    header.addEventListener(
-      "mousedown",
-      event => {
-
-        if (
-          event.target.closest(
-            ".window-controls"
-          )
-        ) {
-          return;
-        }
-
-        if (
-          windowElement.classList.contains(
-            "maximized"
-          )
-        ) {
-          return;
-        }
-
-        dragging = true;
-
-        const rect =
-          windowElement.getBoundingClientRect();
-
-        offsetX =
-          event.clientX -
-          rect.left;
-
-        offsetY =
-          event.clientY -
-          rect.top;
-
-        highestZ++;
-
-        windowElement.style.zIndex =
-          highestZ;
-
-        windowElement.style.transform =
-          "none";
-
-      }
-    );
-
-    document.addEventListener(
-      "mousemove",
-      event => {
-
-        if (!dragging) return;
-
-        let newLeft =
-          event.clientX -
-          offsetX;
-
-        let newTop =
-          event.clientY -
-          offsetY;
-
-        const maxLeft =
-          window.innerWidth -
-          windowElement.offsetWidth -
-          10;
-
-        const maxTop =
-          window.innerHeight -
-          windowElement.offsetHeight -
-          90;
-
-        newLeft =
-          Math.max(
-            10,
-            Math.min(
-              newLeft,
-              maxLeft
-            )
-          );
-
-        newTop =
-          Math.max(
-            10,
-            Math.min(
-              newTop,
-              maxTop
-            )
-          );
-
-        windowElement.style.left =
-          newLeft + "px";
-
-        windowElement.style.top =
-          newTop + "px";
-
-      }
-    );
-
-    document.addEventListener(
-      "mouseup",
-      () => {
-        dragging = false;
-      }
-    );
-
-  });
-
-/* =========================================================
-   WINDOW FOCUS
-========================================================= */
-
-document
-  .querySelectorAll(".window")
-  .forEach(windowElement => {
-
-    windowElement.addEventListener(
-      "mousedown",
-      () => {
-
-        highestZ++;
-
-        windowElement.style.zIndex =
-          highestZ;
-
-      }
-    );
-
-  });
-
-/* =========================================================
-   CLOSE MENUS
-========================================================= */
-
-document.addEventListener(
-  "click",
-  event => {
-
-    const startMenu =
-      document.getElementById("startMenu");
-
-    const notificationPanel =
-      document.getElementById(
-        "notificationPanel"
-      );
-
-    if (
-      startMenu?.classList.contains("open") &&
-      !startMenu.contains(event.target) &&
-      !event.target.closest("#taskbar-left")
-    ) {
-
-      startMenu.classList.remove("open");
-
-    }
-
-    if (
-      notificationPanel?.classList.contains("open") &&
-      !notificationPanel.contains(event.target) &&
-      !event.target.closest("#taskbar-right")
-    ) {
-
-      notificationPanel.classList.remove("open");
-
-    }
-
-  }
-);
+ windowElement.addEventListener("mousedown",()=>{
+  highestZ++;
+  windowElement.style.zIndex=highestZ;
+  updateTaskbarActive();
+ });
+});
 
 /* =========================================================
    KEYBOARD SHORTCUTS
 ========================================================= */
 
-document.addEventListener(
-  "keydown",
-  event => {
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape"&&voiceCallActive){endVoiceCall();return}
+ if(event.key==="Escape"){
+  document.getElementById("startMenu")?.classList.remove("open");
+  document.getElementById("notificationPanel")?.classList.remove("open");
+ }
 
-    if (
-      event.key === "Escape" &&
-      voiceCallActive
-    ) {
+ if(event.ctrlKey&&event.key.toLowerCase()==="l"){
+  event.preventDefault();
+  openApp("luna");
+  document.getElementById("lunaInput").focus();
+ }
 
-      endVoiceCall();
-
-      return;
-
-    }
-
-    if (event.key === "Escape") {
-
-      document
-        .getElementById("startMenu")
-        ?.classList.remove("open");
-
-      document
-        .getElementById("notificationPanel")
-        ?.classList.remove("open");
-
-    }
-
-    const calculator =
-      document.getElementById(
-        "window-calculator"
-      );
-
-    if (
-      calculator?.classList.contains("open")
-    ) {
-
-      if (
-        /^[0-9+\-*/().]$/.test(event.key)
-      ) {
-
-        calcInput(event.key);
-
-      }
-
-      if (event.key === "Enter") {
-        calcResult();
-      }
-
-      if (event.key === "Backspace") {
-
-        calculatorExpression =
-          calculatorExpression.slice(
-            0,
-            -1
-          );
-
-        const display =
-          document.getElementById(
-            "calculatorDisplay"
-          );
-
-        if (display) {
-
-          display.value =
-            calculatorExpression ||
-            "0";
-
-        }
-
-      }
-
-      if (event.key === "Escape") {
-        calcClear();
-      }
-
-    }
-
+ const calculator=document.getElementById("window-calculator");
+ if(calculator?.classList.contains("open")){
+  if(/^[0-9+\-*/().]$/.test(event.key))calcInput(event.key);
+  if(event.key==="Enter")calcResult();
+  if(event.key==="Backspace"){
+   calculatorExpression=calculatorExpression.slice(0,-1);
+   document.getElementById("calculatorDisplay").value=calculatorExpression||"0";
   }
-);
+ }
+});
 
 /* =========================================================
-   BEFORE UNLOAD
+   CLOSE MENUS
 ========================================================= */
 
-window.addEventListener(
-  "beforeunload",
-  () => {
+document.addEventListener("click",event=>{
+ const start=document.getElementById("startMenu");
+ const notifications=document.getElementById("notificationPanel");
 
-    voiceCallActive = false;
+ if(start.classList.contains("open")&&!start.contains(event.target)&&!event.target.closest("#taskbar-left"))
+  start.classList.remove("open");
 
-    recognitionShouldRun = false;
+ if(notifications.classList.contains("open")&&!notifications.contains(event.target)&&!event.target.closest("#taskbar-right"))
+  notifications.classList.remove("open");
+});
 
-    stopRecognition();
+/* =========================================================
+   DATA RESET
+========================================================= */
 
-    if (speechSupported()) {
+function clearOSData(){
+ if(!confirm("Clear Luna OS local settings, taskbar layout and notes?"))return;
+ Object.keys(localStorage).filter(k=>k.startsWith("luna")).forEach(k=>localStorage.removeItem(k));
+ location.reload();
+}
 
-      try {
-        window.speechSynthesis.cancel();
-      } catch {}
+function resetSettings(){
+ if(!confirm("Reset all Luna OS settings to defaults?"))return;
+ Object.keys(localStorage).filter(k=>k.startsWith("luna")).forEach(k=>localStorage.removeItem(k));
+ location.reload();
+}
 
-    }
+/* =========================================================
+   LOAD SAVED SETTINGS
+========================================================= */
 
-  }
-);
+function loadSettings(){
+ const theme=localStorage.getItem("lunaTheme")||"luna";
+ applyTheme(theme);
+
+ const accent=localStorage.getItem("lunaAccent")||"#8fbce8";
+ changeAccent(accent);
+ document.getElementById("accentColor").value=accent;
+
+ const wallpaper=localStorage.getItem("lunaOSWallpaper")||"midnight";
+ const custom=localStorage.getItem("lunaCustomWallpaper");
+
+ if(custom){
+  document.body.style.backgroundImage=`url("${custom}")`;
+  document.body.style.backgroundSize="cover";
+  document.body.style.backgroundPosition="center";
+ }else applyWallpaper(wallpaper);
+
+ const scale=localStorage.getItem("lunaScale")||"normal";
+ changeScale(scale);
+ document.getElementById("scaleSelect").value=scale;
+
+ const pos=localStorage.getItem("lunaTaskbarPosition")||"bottom";
+ changeTaskbarPosition(pos);
+ document.getElementById("taskbarPosition").value=pos;
+
+ const hide=localStorage.getItem("lunaTaskbarAutoHide")||"off";
+ changeAutoHide(hide);
+ document.getElementById("taskbarAutoHide").value=hide;
+
+ const glow=localStorage.getItem("lunaGlow")||"on";
+ setGlow(glow);
+ document.getElementById("glowSelect").value=glow;
+
+ ["animations","notifications","notificationSound","reducedMotion"].forEach(key=>{
+  const value=localStorage.getItem("luna_"+key);
+  const el=document.getElementById({
+   animations:"animationSelect",
+   notifications:"notificationSetting",
+   notificationSound:"notificationSound",
+   reducedMotion:"motionSetting"
+  }[key]);
+  if(value&&el)el.value=value;
+  if(value)setSetting(key,value);
+ });
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+
+renderStartApps();
+renderTaskbar();
+refreshTaskbarSettings();
+updateClock();
+loadSettings();
+updateSystemInfo();
+
+setInterval(()=>{
+ if(document.getElementById("window-calendar").classList.contains("open"))renderCalendar();
+},60000);
+
+window.addEventListener("beforeunload",()=>{
+ voiceCallActive=false;
+ recognitionShouldRun=false;
+ stopRecognition();
+ if(speechSupported())try{speechSynthesis.cancel()}catch{}
+});
+
+window.addEventListener("online",updateSystemInfo);
+window.addEventListener("offline",updateSystemInfo);
 
 </script>
-
 </body>
 </html>
+```
