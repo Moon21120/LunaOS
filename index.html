@@ -38,9 +38,9 @@
       color: inherit;
     }
 
-    /* =========================
+    /* =========================================================
        DESKTOP
-    ========================= */
+    ========================================================= */
 
     #desktop {
       position: fixed;
@@ -70,6 +70,7 @@
       display: flex;
       flex-direction: column;
       gap: 18px;
+      z-index: 10;
     }
 
     .desktop-icon {
@@ -108,9 +109,9 @@
       color: #dce5ef;
     }
 
-    /* =========================
+    /* =========================================================
        TASKBAR
-    ========================= */
+    ========================================================= */
 
     #taskbar {
       position: absolute;
@@ -172,11 +173,6 @@
       border-color: rgba(105, 145, 185, 0.22);
     }
 
-    .task-button.active {
-      background: rgba(55, 91, 126, 0.28);
-      border-color: rgba(102, 151, 196, 0.32);
-    }
-
     .luna-task {
       position: relative;
       overflow: hidden;
@@ -197,9 +193,9 @@
       white-space: nowrap;
     }
 
-    /* =========================
+    /* =========================================================
        START MENU
-    ========================= */
+    ========================================================= */
 
     #startMenu {
       position: absolute;
@@ -299,9 +295,9 @@
       color: #d7e1eb;
     }
 
-    /* =========================
+    /* =========================================================
        WINDOWS
-    ========================= */
+    ========================================================= */
 
     .window {
       position: absolute;
@@ -407,9 +403,9 @@
       padding: 22px;
     }
 
-    /* =========================
+    /* =========================================================
        SETTINGS
-    ========================= */
+    ========================================================= */
 
     .settings-card {
       background: #0d1725;
@@ -425,7 +421,7 @@
     }
 
     .settings-card p {
-      margin: 0;
+      margin: 0 0 5px;
       color: #7f91a5;
       font-size: 12px;
     }
@@ -439,23 +435,21 @@
       cursor: pointer;
     }
 
-    /* =========================
+    /* =========================================================
        LUNA APP
-    ========================= */
+    ========================================================= */
 
     .luna-panel {
       height: 100%;
       display: flex;
       flex-direction: column;
-      min-height: 0;
     }
 
     .luna-intro {
       display: flex;
       align-items: center;
       gap: 15px;
-      margin-bottom: 15px;
-      flex-shrink: 0;
+      margin-bottom: 20px;
     }
 
     .luna-logo {
@@ -477,75 +471,39 @@
       font-size: 13px;
     }
 
-    /* =========================
-       LUNA CHAT
-    ========================= */
-
-    .luna-chat {
+    .luna-messages {
       flex: 1;
-      min-height: 0;
       overflow-y: auto;
-      padding: 5px 4px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      scroll-behavior: smooth;
+      margin-bottom: 15px;
+      padding-right: 5px;
     }
 
-    .luna-chat::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    .luna-chat::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .luna-chat::-webkit-scrollbar-thumb {
-      background: #243b55;
-      border-radius: 10px;
-    }
-
-    .chat-message {
-      max-width: 82%;
-      padding: 10px 13px;
-      border-radius: 14px;
+    .luna-message {
+      max-width: 90%;
+      padding: 11px 13px;
+      margin-bottom: 10px;
+      border-radius: 13px;
       font-size: 13px;
       line-height: 1.45;
       white-space: pre-wrap;
-      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
-    .chat-message.user {
-      align-self: flex-end;
-      background: #16324d;
-      border: 1px solid #294e70;
-      color: #e8f1f8;
-      border-bottom-right-radius: 5px;
+    .luna-message.user {
+      margin-left: auto;
+      background: #13263c;
+      border: 1px solid #294b6a;
     }
 
-    .chat-message.assistant {
-      align-self: flex-start;
+    .luna-message.assistant {
+      margin-right: auto;
       background: #0d1725;
       border: 1px solid #1d3047;
-      color: #d8e2ec;
-      border-bottom-left-radius: 5px;
-    }
-
-    .chat-message.system {
-      align-self: center;
-      max-width: 95%;
-      background: transparent;
-      border: none;
-      color: #718399;
-      font-size: 11px;
-      text-align: center;
     }
 
     .luna-input {
-      margin-top: 8px;
       display: flex;
       gap: 8px;
-      flex-shrink: 0;
     }
 
     .luna-input input {
@@ -560,35 +518,39 @@
       user-select: text;
     }
 
-    .luna-input input:focus {
-      border-color: #386181;
-    }
-
-    .luna-input input:disabled {
-      opacity: 0.65;
-    }
-
     .luna-input button {
       width: 46px;
       border: 1px solid #2c4e6e;
       background: #13263c;
       border-radius: 13px;
       cursor: pointer;
-      transition: 0.15s;
     }
 
     .luna-input button:hover {
-      background: #1a3550;
+      background: #1b3450;
     }
 
     .luna-input button:disabled {
       opacity: 0.5;
-      cursor: not-allowed;
+      cursor: wait;
     }
 
-    /* =========================
+    .luna-call-button {
+      width: 46px;
+      border: 1px solid #2c4e6e;
+      background: #13263c;
+      border-radius: 13px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .luna-call-button:hover {
+      background: #1b3450;
+    }
+
+    /* =========================================================
        CALCULATOR
-    ========================= */
+    ========================================================= */
 
     .calculator-content {
       display: flex;
@@ -667,9 +629,9 @@
       grid-column: span 2;
     }
 
-    /* =========================
+    /* =========================================================
        NOTIFICATIONS
-    ========================= */
+    ========================================================= */
 
     #notificationPanel {
       position: absolute;
@@ -707,9 +669,286 @@
       color: #b9c7d5;
     }
 
-    /* =========================
+    /* =========================================================
+       VOICE CALL SCREEN
+    ========================================================= */
+
+    #voiceScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(
+          circle at 50% 42%,
+          rgba(43, 82, 123, 0.24),
+          transparent 38%
+        ),
+        linear-gradient(
+          145deg,
+          #030711,
+          #07111f 50%,
+          #030711
+        );
+    }
+
+    #voiceScreen.open {
+      display: flex;
+      animation: voiceScreenIn 0.22s ease;
+    }
+
+    @keyframes voiceScreenIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    #voiceScreen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.45;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.4) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 24% 70%, rgba(255,255,255,.25) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 42% 16%, rgba(255,255,255,.35) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 68% 24%, rgba(255,255,255,.3) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 82% 72%, rgba(255,255,255,.4) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 91% 34%, rgba(255,255,255,.25) 0 1px, transparent 1.5px);
+    }
+
+    .voice-top {
+      position: absolute;
+      top: 28px;
+      left: 30px;
+      z-index: 2;
+    }
+
+    .voice-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .voice-subtitle {
+      margin-top: 5px;
+      color: #7f92a8;
+      font-size: 13px;
+    }
+
+    .voice-close {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      z-index: 3;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      border: 1px solid #263e59;
+      background: rgba(12, 23, 38, 0.8);
+      color: #dce7f0;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .voice-close:hover {
+      background: rgba(65, 90, 115, 0.35);
+    }
+
+    .moon-container {
+      position: relative;
+      width: 290px;
+      height: 290px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .moon-glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(126, 172, 214, 0.24),
+        transparent 68%
+      );
+      filter: blur(8px);
+    }
+
+    .moon-orbit {
+      position: absolute;
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      border: 1px solid rgba(112, 157, 198, 0.2);
+      animation: orbitPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes orbitPulse {
+      0%,
+      100% {
+        transform: scale(0.97);
+        opacity: 0.55;
+      }
+
+      50% {
+        transform: scale(1.03);
+        opacity: 1;
+      }
+    }
+
+    .moon {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          #f0f5fb 0%,
+          #b7c8d8 38%,
+          #758da5 72%,
+          #42566b 100%
+        );
+      box-shadow:
+        0 0 35px rgba(150, 190, 225, 0.28),
+        0 0 100px rgba(83, 132, 176, 0.18);
+      transition: 0.25s ease;
+    }
+
+    .moon.speaking {
+      animation: moonSpeaking 1.1s ease-in-out infinite;
+    }
+
+    .moon.listening {
+      animation: moonListening 2s ease-in-out infinite;
+    }
+
+    @keyframes moonSpeaking {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.07);
+      }
+    }
+
+    @keyframes moonListening {
+      0%,
+      100% {
+        box-shadow:
+          0 0 35px rgba(150, 190, 225, 0.28),
+          0 0 100px rgba(83, 132, 176, 0.18);
+      }
+
+      50% {
+        box-shadow:
+          0 0 45px rgba(150, 190, 225, 0.4),
+          0 0 125px rgba(83, 132, 176, 0.28);
+      }
+    }
+
+    .moon-phase {
+      font-size: 70px;
+      filter: grayscale(1);
+      opacity: 0.8;
+    }
+
+    .call-status {
+      position: relative;
+      z-index: 2;
+      min-height: 24px;
+      margin-top: 15px;
+      font-size: 16px;
+      color: #b8c8d8;
+    }
+
+    .call-status.listening {
+      color: #c8d8e8;
+    }
+
+    .call-status.thinking {
+      color: #91abc2;
+    }
+
+    .call-status.speaking {
+      color: #e1ebf4;
+    }
+
+    .call-status.error {
+      color: #e0a5a5;
+    }
+
+    .call-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    .call-button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid #2b4560;
+      background: rgba(14, 27, 43, 0.92);
+      cursor: pointer;
+      font-size: 23px;
+      transition: 0.16s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .call-button:hover {
+      transform: scale(1.05);
+      background: rgba(30, 52, 75, 0.95);
+    }
+
+    .call-button.hangup {
+      background: #482b32;
+      border-color: #74434d;
+    }
+
+    .call-button.hangup:hover {
+      background: #5b3039;
+    }
+
+    .call-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .call-hint {
+      position: relative;
+      z-index: 2;
+      margin-top: 20px;
+      color: #657a90;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* =========================================================
        MOBILE
-    ========================= */
+    ========================================================= */
 
     @media (max-width: 700px) {
 
@@ -759,8 +998,34 @@
         font-size: 24px;
       }
 
-      .chat-message {
-        max-width: 90%;
+      .voice-top {
+        top: 20px;
+        left: 20px;
+      }
+
+      .voice-close {
+        top: 18px;
+        right: 18px;
+      }
+
+      .moon-container {
+        width: 250px;
+        height: 250px;
+      }
+
+      .moon {
+        width: 145px;
+        height: 145px;
+      }
+
+      .moon-orbit {
+        width: 235px;
+        height: 235px;
+      }
+
+      .moon-glow {
+        width: 220px;
+        height: 220px;
       }
     }
   </style>
@@ -772,9 +1037,9 @@
 
     <div class="desktop-glow"></div>
 
-    <!-- =========================
+    <!-- =======================================================
          DESKTOP ICONS
-    ========================= -->
+    ======================================================= -->
 
     <div class="desktop-icons">
 
@@ -795,9 +1060,9 @@
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          LUNA WINDOW
-    ========================= -->
+    ======================================================= -->
 
     <div class="window" id="window-luna">
 
@@ -853,24 +1118,10 @@
 
           </div>
 
-          <!-- =========================
-               CHAT AREA
-          ========================= -->
-
           <div
-            id="lunaChat"
-            class="luna-chat"
-          >
-
-            <div class="chat-message assistant">
-              Hi! I'm Luna. How can I help?
-            </div>
-
-          </div>
-
-          <!-- =========================
-               CHAT INPUT
-          ========================= -->
+            class="luna-messages"
+            id="lunaMessages"
+          ></div>
 
           <div class="luna-input">
 
@@ -879,7 +1130,17 @@
               type="text"
               placeholder="Talk to Luna..."
               autocomplete="off"
+              onkeydown="if(event.key === 'Enter') sendToLuna()"
             >
+
+            <button
+              class="luna-call-button"
+              onclick="startVoiceCall()"
+              title="Voice Call"
+              aria-label="Start voice call"
+            >
+              🎙
+            </button>
 
             <button
               id="lunaSendButton"
@@ -897,9 +1158,9 @@
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          FILES WINDOW
-    ========================= -->
+    ======================================================= -->
 
     <div class="window" id="window-files">
 
@@ -959,9 +1220,9 @@
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          SETTINGS WINDOW
-    ========================= -->
+    ======================================================= -->
 
     <div class="window" id="window-settings">
 
@@ -1031,11 +1292,22 @@
 
         <div class="settings-card">
 
-          <h3>Storage</h3>
+          <h3>AI Connection</h3>
 
           <p>
-            Your Luna OS settings are stored locally
-            in this browser.
+            Luna OS connects to the Luna backend through
+            the secure /api/chat endpoint.
+          </p>
+
+        </div>
+
+        <div class="settings-card">
+
+          <h3>Voice Call</h3>
+
+          <p>
+            Voice calls use your browser microphone and
+            speech synthesis.
           </p>
 
         </div>
@@ -1044,9 +1316,9 @@
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          CALCULATOR WINDOW
-    ========================= -->
+    ======================================================= -->
 
     <div class="window" id="window-calculator">
 
@@ -1234,9 +1506,9 @@
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          START MENU
-    ========================= -->
+    ======================================================= -->
 
     <div id="startMenu">
 
@@ -1248,6 +1520,7 @@
         class="start-search"
         id="startSearch"
         placeholder="Search apps..."
+        autocomplete="off"
         oninput="searchApps()"
       >
 
@@ -1293,9 +1566,9 @@
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          NOTIFICATION PANEL
-    ========================= -->
+    ======================================================= -->
 
     <div id="notificationPanel">
 
@@ -1308,14 +1581,14 @@
       </div>
 
       <div class="notification">
-        Your settings are saved automatically.
+        Luna AI is connected through the Luna backend.
       </div>
 
     </div>
 
-    <!-- =========================
+    <!-- =======================================================
          TASKBAR
-    ========================= -->
+    ======================================================= -->
 
     <div id="taskbar">
 
@@ -1388,297 +1661,104 @@
 
   </div>
 
+  <!-- =========================================================
+       LUNA VOICE CALL SCREEN
+  ========================================================= -->
+
+  <div
+    id="voiceScreen"
+    aria-hidden="true"
+  >
+
+    <div class="voice-top">
+
+      <div class="voice-title">
+        Luna AI
+      </div>
+
+      <div class="voice-subtitle">
+        Voice Call
+      </div>
+
+    </div>
+
+    <button
+      class="voice-close"
+      id="voiceCloseButton"
+      type="button"
+      aria-label="Close voice call"
+      title="Close voice call"
+      onclick="endVoiceCall()"
+    >
+      ×
+    </button>
+
+    <div class="moon-container">
+
+      <div class="moon-glow"></div>
+
+      <div class="moon-orbit"></div>
+
+      <div
+        class="moon listening"
+        id="moon"
+      >
+
+        <div
+          class="moon-phase"
+          id="moonPhase"
+        >
+          🌑
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="call-status listening"
+      id="callStatus"
+    >
+      🎙 Listening...
+    </div>
+
+    <div class="call-controls">
+
+      <button
+        class="call-button stop-speaking"
+        id="stopSpeakingButton"
+        type="button"
+        aria-label="Stop Luna speaking"
+        title="Stop Luna speaking"
+        onclick="stopLunaSpeaking()"
+      >
+        🔇
+      </button>
+
+      <button
+        class="call-button hangup"
+        id="hangupButton"
+        type="button"
+        aria-label="Hang up"
+        title="Hang up"
+        onclick="endVoiceCall()"
+      >
+        ☎
+      </button>
+
+    </div>
+
+    <div class="call-hint">
+      Luna won't listen while she is speaking.
+    </div>
+
+  </div>
+
   <script>
 
-    /* =========================
-       LUNA CHAT CONNECTION
-    ========================= */
-
-    const lunaConversation = [];
-
-    let lunaThinking = false;
-
-    const lunaInput =
-      document.getElementById("lunaInput");
-
-    const lunaChat =
-      document.getElementById("lunaChat");
-
-    const lunaSendButton =
-      document.getElementById("lunaSendButton");
-
-    function addChatMessage(
-      role,
-      content
-    ) {
-
-      if (!lunaChat) return;
-
-      const message =
-        document.createElement("div");
-
-      message.className =
-        "chat-message " + role;
-
-      message.textContent =
-        content;
-
-      lunaChat.appendChild(
-        message
-      );
-
-      lunaChat.scrollTop =
-        lunaChat.scrollHeight;
-
-      return message;
-    }
-
-    function setLunaThinking(
-      thinking
-    ) {
-
-      lunaThinking =
-        thinking;
-
-      if (lunaInput) {
-        lunaInput.disabled =
-          thinking;
-      }
-
-      if (lunaSendButton) {
-        lunaSendButton.disabled =
-          thinking;
-
-        lunaSendButton.textContent =
-          thinking
-            ? "..."
-            : "↑";
-      }
-    }
-
-    async function sendToLuna() {
-
-      if (lunaThinking) {
-        return;
-      }
-
-      if (!lunaInput) {
-        return;
-      }
-
-      const message =
-        lunaInput.value.trim();
-
-      if (!message) {
-        return;
-      }
-
-      /*
-       * Display the user's message
-       * immediately.
-       */
-
-      addChatMessage(
-        "user",
-        message
-      );
-
-      lunaInput.value = "";
-
-      /*
-       * Store the user's message
-       * for conversation context.
-       */
-
-      lunaConversation.push({
-        role: "user",
-        content: message
-      });
-
-      setLunaThinking(true);
-
-      const thinkingMessage =
-        addChatMessage(
-          "system",
-          "Luna is thinking..."
-        );
-
-      try {
-
-        /*
-         * Because index.html and
-         * server.js are hosted by the
-         * same Render service, this
-         * automatically uses:
-         *
-         * /api/chat
-         *
-         * No Render URL needs to be
-         * hard-coded here.
-         */
-
-        const response =
-          await fetch(
-            "/api/chat",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              credentials: "include",
-
-              body: JSON.stringify({
-                messages:
-                  lunaConversation
-              })
-            }
-          );
-
-        /*
-         * Remove "thinking..."
-         */
-
-        if (thinkingMessage) {
-          thinkingMessage.remove();
-        }
-
-        let data = null;
-
-        try {
-          data =
-            await response.json();
-        } catch {
-          data = null;
-        }
-
-        if (!response.ok) {
-
-          const errorMessage =
-            data?.error ||
-            `Server returned HTTP ${response.status}.`;
-
-          addChatMessage(
-            "system",
-            "Luna connection error: " +
-            errorMessage
-          );
-
-          /*
-           * Remove the failed user
-           * message from conversation
-           * history so a temporary
-           * failure does not poison
-           * the next request.
-           */
-
-          lunaConversation.pop();
-
-          return;
-        }
-
-        const reply =
-          typeof data?.reply === "string"
-            ? data.reply.trim()
-            : "";
-
-        if (!reply) {
-
-          addChatMessage(
-            "system",
-            "Luna returned an empty response."
-          );
-
-          lunaConversation.pop();
-
-          return;
-        }
-
-        /*
-         * Display Luna's response.
-         */
-
-        addChatMessage(
-          "assistant",
-          reply
-        );
-
-        /*
-         * Save Luna's response so
-         * future messages have context.
-         */
-
-        lunaConversation.push({
-          role: "assistant",
-          content: reply
-        });
-
-      } catch (error) {
-
-        console.error(
-          "Luna connection error:",
-          error
-        );
-
-        if (thinkingMessage) {
-          thinkingMessage.remove();
-        }
-
-        addChatMessage(
-          "system",
-          "Luna could not connect to the server right now."
-        );
-
-        /*
-         * Remove the failed message
-         * from local conversation history.
-         */
-
-        lunaConversation.pop();
-
-      } finally {
-
-        setLunaThinking(false);
-
-        if (lunaInput) {
-          lunaInput.focus();
-        }
-
-      }
-
-    }
-
-    /*
-     * Press Enter to send.
-     */
-
-    if (lunaInput) {
-
-      lunaInput.addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Enter" &&
-            !event.shiftKey
-          ) {
-
-            event.preventDefault();
-
-            sendToLuna();
-
-          }
-
-        }
-      );
-
-    }
-
-    /* =========================
+    /* =========================================================
        APP MANAGEMENT
-    ========================= */
+    ========================================================= */
 
     let highestZ = 200;
 
@@ -1691,9 +1771,7 @@
 
       if (!windowElement) return;
 
-      windowElement.classList.add(
-        "open"
-      );
+      windowElement.classList.add("open");
 
       highestZ++;
 
@@ -1708,21 +1786,6 @@
         .getElementById("notificationPanel")
         ?.classList.remove("open");
 
-      if (app === "luna") {
-
-        setTimeout(() => {
-
-          lunaInput?.focus();
-
-          if (lunaChat) {
-            lunaChat.scrollTop =
-              lunaChat.scrollHeight;
-          }
-
-        }, 50);
-
-      }
-
     }
 
     function closeApp(app) {
@@ -1734,13 +1797,8 @@
 
       if (!windowElement) return;
 
-      windowElement.classList.remove(
-        "open"
-      );
-
-      windowElement.classList.remove(
-        "maximized"
-      );
+      windowElement.classList.remove("open");
+      windowElement.classList.remove("maximized");
 
     }
 
@@ -1753,9 +1811,7 @@
 
       if (!windowElement) return;
 
-      windowElement.classList.remove(
-        "open"
-      );
+      windowElement.classList.remove("open");
 
     }
 
@@ -1768,15 +1824,13 @@
 
       if (!windowElement) return;
 
-      windowElement.classList.toggle(
-        "maximized"
-      );
+      windowElement.classList.toggle("maximized");
 
     }
 
-    /* =========================
+    /* =========================================================
        START MENU
-    ========================= */
+    ========================================================= */
 
     function toggleStartMenu() {
 
@@ -1787,14 +1841,10 @@
 
       if (!menu) return;
 
-      menu.classList.toggle(
-        "open"
-      );
+      menu.classList.toggle("open");
 
       document
-        .getElementById(
-          "notificationPanel"
-        )
+        .getElementById("notificationPanel")
         ?.classList.remove("open");
 
     }
@@ -1814,9 +1864,7 @@
           .trim();
 
       document
-        .querySelectorAll(
-          ".start-app"
-        )
+        .querySelectorAll(".start-app")
         .forEach(app => {
 
           const name =
@@ -1836,9 +1884,9 @@
 
     }
 
-    /* =========================
+    /* =========================================================
        NOTIFICATIONS
-    ========================= */
+    ========================================================= */
 
     function toggleNotifications() {
 
@@ -1849,16 +1897,14 @@
         ?.classList.toggle("open");
 
       document
-        .getElementById(
-          "startMenu"
-        )
+        .getElementById("startMenu")
         ?.classList.remove("open");
 
     }
 
-    /* =========================
+    /* =========================================================
        CLOCK
-    ========================= */
+    ========================================================= */
 
     function updateClock() {
 
@@ -1902,9 +1948,9 @@
       1000
     );
 
-    /* =========================
+    /* =========================================================
        WALLPAPER
-    ========================= */
+    ========================================================= */
 
     const savedWallpaper =
       localStorage.getItem(
@@ -1942,13 +1988,8 @@
 
       index++;
 
-      if (
-        index >=
-        wallpapers.length
-      ) {
-
+      if (index >= wallpapers.length) {
         index = 0;
-
       }
 
       document.body.style.background =
@@ -1961,9 +2002,9 @@
 
     }
 
-    /* =========================
+    /* =========================================================
        CALCULATOR
-    ========================= */
+    ========================================================= */
 
     let calculatorExpression = "";
 
@@ -1972,17 +2013,12 @@
       if (
         calculatorExpression === ""
         &&
-        ["+", "*", "/"].includes(
-          value
-        )
+        ["+", "*", "/"].includes(value)
       ) {
-
         return;
-
       }
 
-      calculatorExpression +=
-        value;
+      calculatorExpression += value;
 
       const display =
         document.getElementById(
@@ -1990,18 +2026,15 @@
         );
 
       if (display) {
-
         display.value =
           calculatorExpression;
-
       }
 
     }
 
     function calcClear() {
 
-      calculatorExpression =
-        "";
+      calculatorExpression = "";
 
       const display =
         document.getElementById(
@@ -2009,10 +2042,7 @@
         );
 
       if (display) {
-
-        display.value =
-          "0";
-
+        display.value = "0";
       }
 
     }
@@ -2029,9 +2059,7 @@
         if (
           !calculatorExpression.trim()
         ) {
-
           return;
-
         }
 
         if (
@@ -2039,11 +2067,9 @@
             calculatorExpression
           )
         ) {
-
           throw new Error(
             "Invalid expression"
           );
-
         }
 
         const result =
@@ -2057,32 +2083,428 @@
           typeof result !== "number" ||
           !Number.isFinite(result)
         ) {
-
           throw new Error(
             "Invalid result"
           );
-
         }
 
         calculatorExpression =
           String(result);
 
         if (display) {
-
           display.value =
             calculatorExpression;
-
         }
 
       } catch {
 
-        calculatorExpression =
-          "";
+        calculatorExpression = "";
 
         if (display) {
-
           display.value =
             "Error";
+        }
+
+      }
+
+    }
+
+    /* =========================================================
+       LUNA CHAT
+    ========================================================= */
+
+    let lunaConversation = [];
+
+    function addLunaMessage(
+      role,
+      text
+    ) {
+
+      const messages =
+        document.getElementById(
+          "lunaMessages"
+        );
+
+      if (!messages) return;
+
+      const message =
+        document.createElement(
+          "div"
+        );
+
+      message.className =
+        "luna-message " +
+        role;
+
+      message.textContent =
+        text;
+
+      messages.appendChild(
+        message
+      );
+
+      messages.scrollTop =
+        messages.scrollHeight;
+
+    }
+
+    async function sendToLuna() {
+
+      const input =
+        document.getElementById(
+          "lunaInput"
+        );
+
+      const sendButton =
+        document.getElementById(
+          "lunaSendButton"
+        );
+
+      if (!input) return;
+
+      const message =
+        input.value.trim();
+
+      if (!message) return;
+
+      addLunaMessage(
+        "user",
+        message
+      );
+
+      lunaConversation.push({
+        role: "user",
+        content: message
+      });
+
+      input.value = "";
+
+      if (sendButton) {
+        sendButton.disabled = true;
+      }
+
+      addLunaMessage(
+        "assistant",
+        "Thinking..."
+      );
+
+      const messages =
+        document.getElementById(
+          "lunaMessages"
+        );
+
+      const thinkingMessage =
+        messages?.lastElementChild;
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/chat",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              credentials: "include",
+
+              body: JSON.stringify({
+                messages:
+                  lunaConversation
+              })
+            }
+          );
+
+        let data = {};
+
+        try {
+          data =
+            await response.json();
+        } catch {
+          data = {};
+        }
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Luna could not respond right now."
+          );
+
+        }
+
+        const reply =
+          typeof data.reply === "string"
+            ? data.reply.trim()
+            : "";
+
+        if (!reply) {
+
+          throw new Error(
+            "Luna returned an empty response."
+          );
+
+        }
+
+        if (thinkingMessage) {
+
+          thinkingMessage.textContent =
+            reply;
+
+        } else {
+
+          addLunaMessage(
+            "assistant",
+            reply
+          );
+
+        }
+
+        lunaConversation.push({
+          role: "assistant",
+          content: reply
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Luna chat error:",
+          error
+        );
+
+        if (thinkingMessage) {
+
+          thinkingMessage.textContent =
+            error.message ||
+            "Luna could not respond right now.";
+
+        } else {
+
+          addLunaMessage(
+            "assistant",
+            error.message ||
+            "Luna could not respond right now."
+          );
+
+        }
+
+        /*
+         * Remove the user message from the conversation
+         * if the request failed, so a later retry does
+         * not duplicate the failed turn.
+         */
+
+        lunaConversation.pop();
+
+      } finally {
+
+        if (sendButton) {
+          sendButton.disabled = false;
+        }
+
+        input.focus();
+
+      }
+
+    }
+
+    /* =========================================================
+       VOICE CALL
+    ========================================================= */
+
+    let voiceCallActive = false;
+
+    let recognition = null;
+
+    let recognitionAvailable = false;
+
+    let recognitionStarting = false;
+
+    let recognitionShouldRun = false;
+
+    let lunaIsSpeaking = false;
+
+    let voiceRequestInProgress = false;
+
+    let speechGeneration = 0;
+
+    let speechUnlocked = false;
+
+    let selectedLunaVoice = null;
+
+    /* ---------------------------------------------------------
+       VOICE ELEMENTS
+    --------------------------------------------------------- */
+
+    const voiceScreen =
+      document.getElementById(
+        "voiceScreen"
+      );
+
+    const callStatus =
+      document.getElementById(
+        "callStatus"
+      );
+
+    const moon =
+      document.getElementById(
+        "moon"
+      );
+
+    const stopSpeakingButton =
+      document.getElementById(
+        "stopSpeakingButton"
+      );
+
+    /* ---------------------------------------------------------
+       SPEECH SUPPORT
+    --------------------------------------------------------- */
+
+    function speechSupported() {
+
+      return (
+        "speechSynthesis" in window &&
+        "SpeechSynthesisUtterance" in window
+      );
+
+    }
+
+    function getLunaVoice() {
+
+      if (!speechSupported()) {
+        return null;
+      }
+
+      const voices =
+        window.speechSynthesis.getVoices();
+
+      if (!voices.length) {
+        return null;
+      }
+
+      const preferredNames = [
+
+        "Samantha",
+        "Microsoft Zira",
+        "Google US English Female",
+        "Karen",
+        "Victoria",
+        "Moira",
+        "Ava",
+        "Jenny",
+        "Aria",
+        "Google US English"
+
+      ];
+
+      for (
+        const name of preferredNames
+      ) {
+
+        const voice =
+          voices.find(
+            voice =>
+              voice.name
+                .toLowerCase()
+                .includes(
+                  name.toLowerCase()
+                )
+          );
+
+        if (voice) {
+          return voice;
+        }
+
+      }
+
+      return (
+        voices.find(
+          voice =>
+            voice.lang &&
+            voice.lang
+              .toLowerCase()
+              .startsWith("en-us")
+        ) ||
+
+        voices.find(
+          voice =>
+            voice.lang &&
+            voice.lang
+              .toLowerCase()
+              .startsWith("en")
+        ) ||
+
+        voices[0] ||
+
+        null
+      );
+
+    }
+
+    function loadLunaVoice() {
+
+      selectedLunaVoice =
+        getLunaVoice();
+
+    }
+
+    if (speechSupported()) {
+
+      loadLunaVoice();
+
+      window.speechSynthesis
+        .addEventListener(
+          "voiceschanged",
+          loadLunaVoice
+        );
+
+    }
+
+    /* ---------------------------------------------------------
+       CALL STATUS
+    --------------------------------------------------------- */
+
+    function setCallStatus(
+      text,
+      state
+    ) {
+
+      if (!callStatus) return;
+
+      callStatus.textContent =
+        text;
+
+      callStatus.className =
+        "call-status " +
+        (state || "");
+
+      if (moon) {
+
+        moon.classList.remove(
+          "listening",
+          "speaking"
+        );
+
+        if (
+          state === "listening"
+        ) {
+
+          moon.classList.add(
+            "listening"
+          );
+
+        }
+
+        if (
+          state === "speaking"
+        ) {
+
+          moon.classList.add(
+            "speaking"
+          );
 
         }
 
@@ -2090,9 +2512,880 @@
 
     }
 
-    /* =========================
+    /* ---------------------------------------------------------
+       SPEECH SYNTHESIS
+    --------------------------------------------------------- */
+
+    function stopLunaSpeaking() {
+
+      speechGeneration++;
+
+      lunaIsSpeaking = false;
+
+      if (speechSupported()) {
+
+        window.speechSynthesis.cancel();
+
+      }
+
+      if (voiceCallActive) {
+
+        setCallStatus(
+          "🎙 Listening...",
+          "listening"
+        );
+
+        startRecognition();
+
+      }
+
+    }
+
+    function speakAsLuna(
+      text
+    ) {
+
+      if (!speechSupported()) {
+
+        setCallStatus(
+          "🎙 Listening...",
+          "listening"
+        );
+
+        startRecognition();
+
+        return;
+
+      }
+
+      const generation =
+        ++speechGeneration;
+
+      lunaIsSpeaking = true;
+
+      stopRecognition();
+
+      window.speechSynthesis.cancel();
+
+      const utterance =
+        new SpeechSynthesisUtterance(
+          text
+        );
+
+      selectedLunaVoice =
+        selectedLunaVoice ||
+        getLunaVoice();
+
+      if (selectedLunaVoice) {
+
+        utterance.voice =
+          selectedLunaVoice;
+
+      }
+
+      utterance.lang =
+        selectedLunaVoice?.lang ||
+        "en-US";
+
+      utterance.rate = 1.05;
+
+      utterance.pitch = 1.0;
+
+      utterance.volume = 1.0;
+
+      utterance.onstart =
+        () => {
+
+          if (
+            generation !==
+            speechGeneration
+          ) {
+            return;
+          }
+
+          lunaIsSpeaking = true;
+
+          stopRecognition();
+
+          setCallStatus(
+            "🔊 Luna is speaking...",
+            "speaking"
+          );
+
+        };
+
+      utterance.onend =
+        () => {
+
+          if (
+            generation !==
+            speechGeneration
+          ) {
+            return;
+          }
+
+          lunaIsSpeaking = false;
+
+          if (
+            voiceCallActive
+          ) {
+
+            setCallStatus(
+              "🎙 Listening...",
+              "listening"
+            );
+
+            startRecognition();
+
+          }
+
+        };
+
+      utterance.onerror =
+        event => {
+
+          if (
+            generation !==
+            speechGeneration
+          ) {
+            return;
+          }
+
+          console.error(
+            "Speech synthesis error:",
+            event
+          );
+
+          lunaIsSpeaking = false;
+
+          if (
+            voiceCallActive
+          ) {
+
+            setCallStatus(
+              "🎙 Listening...",
+              "listening"
+            );
+
+            startRecognition();
+
+          }
+
+        };
+
+      window.speechSynthesis
+        .speak(
+          utterance
+        );
+
+    }
+
+    /* ---------------------------------------------------------
+       SPEECH RECOGNITION
+    --------------------------------------------------------- */
+
+    function createRecognition() {
+
+      const Recognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+      if (!Recognition) {
+
+        recognitionAvailable =
+          false;
+
+        return null;
+
+      }
+
+      recognitionAvailable =
+        true;
+
+      const instance =
+        new Recognition();
+
+      instance.continuous =
+        false;
+
+      instance.interimResults =
+        false;
+
+      instance.lang =
+        "en-US";
+
+      instance.maxAlternatives =
+        1;
+
+      instance.onstart =
+        () => {
+
+          recognitionStarting =
+            false;
+
+          if (
+            voiceCallActive &&
+            !lunaIsSpeaking
+          ) {
+
+            setCallStatus(
+              "🎙 Listening...",
+              "listening"
+            );
+
+          }
+
+        };
+
+      instance.onresult =
+        event => {
+
+          if (
+            !voiceCallActive
+          ) {
+            return;
+          }
+
+          const result =
+            event.results[
+              event.results.length - 1
+            ];
+
+          if (!result) {
+            return;
+          }
+
+          const transcript =
+            result[0]?.transcript
+              ?.trim();
+
+          if (!transcript) {
+            return;
+          }
+
+          stopRecognition();
+
+          handleVoiceMessage(
+            transcript
+          );
+
+        };
+
+      instance.onerror =
+        event => {
+
+          recognitionStarting =
+            false;
+
+          console.error(
+            "Speech recognition error:",
+            event.error
+          );
+
+          if (
+            !voiceCallActive
+          ) {
+            return;
+          }
+
+          /*
+           * Some browsers report "no-speech"
+           * when the user simply did not say
+           * anything. Restart listening.
+           */
+
+          if (
+            event.error ===
+              "no-speech" ||
+            event.error ===
+              "aborted"
+          ) {
+
+            if (
+              !lunaIsSpeaking
+            ) {
+
+              setCallStatus(
+                "🎙 Listening...",
+                "listening"
+              );
+
+              setTimeout(
+                startRecognition,
+                250
+              );
+
+            }
+
+            return;
+
+          }
+
+          if (
+            event.error ===
+              "not-allowed" ||
+            event.error ===
+              "service-not-allowed"
+          ) {
+
+            setCallStatus(
+              "Microphone permission is required.",
+              "error"
+            );
+
+            return;
+
+          }
+
+          setCallStatus(
+            "Microphone error. Try again.",
+            "error"
+          );
+
+          setTimeout(
+            () => {
+
+              if (
+                voiceCallActive &&
+                !lunaIsSpeaking
+              ) {
+
+                startRecognition();
+
+              }
+
+            },
+            700
+          );
+
+        };
+
+      instance.onend =
+        () => {
+
+          recognitionStarting =
+            false;
+
+          /*
+           * Recognition naturally ends after
+           * a result in many browsers.
+           * The voice system starts it again
+           * when Luna finishes speaking.
+           */
+
+          if (
+            voiceCallActive &&
+            !lunaIsSpeaking &&
+            !voiceRequestInProgress &&
+            recognitionShouldRun
+          ) {
+
+            setTimeout(
+              startRecognition,
+              200
+            );
+
+          }
+
+        };
+
+      return instance;
+
+    }
+
+    function initializeRecognition() {
+
+      if (
+        recognition ||
+        recognitionAvailable
+      ) {
+        return;
+      }
+
+      recognition =
+        createRecognition();
+
+    }
+
+    function startRecognition() {
+
+      if (
+        !voiceCallActive ||
+        lunaIsSpeaking ||
+        voiceRequestInProgress
+      ) {
+        return;
+      }
+
+      initializeRecognition();
+
+      if (!recognitionAvailable) {
+
+        setCallStatus(
+          "Voice recognition is not supported in this browser.",
+          "error"
+        );
+
+        return;
+
+      }
+
+      if (
+        recognitionStarting
+      ) {
+        return;
+      }
+
+      recognitionShouldRun =
+        true;
+
+      recognitionStarting =
+        true;
+
+      try {
+
+        recognition.start();
+
+      } catch (error) {
+
+        recognitionStarting =
+          false;
+
+        /*
+         * InvalidStateError means recognition
+         * is already running.
+         */
+
+        if (
+          error.name !==
+          "InvalidStateError"
+        ) {
+
+          console.error(
+            "Could not start recognition:",
+            error
+          );
+
+        }
+
+        setTimeout(
+          () => {
+
+            if (
+              voiceCallActive &&
+              !lunaIsSpeaking &&
+              !voiceRequestInProgress
+            ) {
+
+              recognitionStarting =
+                false;
+
+              startRecognition();
+
+            }
+
+          },
+          350
+        );
+
+      }
+
+    }
+
+    function stopRecognition() {
+
+      recognitionShouldRun =
+        false;
+
+      recognitionStarting =
+        false;
+
+      if (!recognition) {
+        return;
+      }
+
+      try {
+
+        recognition.stop();
+
+      } catch {
+        /* Recognition was already stopped. */
+      }
+
+    }
+
+    /* ---------------------------------------------------------
+       VOICE CHAT REQUEST
+    --------------------------------------------------------- */
+
+    async function handleVoiceMessage(
+      transcript
+    ) {
+
+      if (
+        !voiceCallActive ||
+        voiceRequestInProgress
+      ) {
+        return;
+      }
+
+      voiceRequestInProgress =
+        true;
+
+      stopRecognition();
+
+      setCallStatus(
+        "✦ Luna is thinking...",
+        "thinking"
+      );
+
+      /*
+       * Keep the same conversation context
+       * as the normal Luna chat window.
+       */
+
+      lunaConversation.push({
+        role: "user",
+        content: transcript
+      });
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/chat",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              credentials: "include",
+
+              body: JSON.stringify({
+                messages:
+                  lunaConversation
+              })
+            }
+          );
+
+        let data = {};
+
+        try {
+          data =
+            await response.json();
+        } catch {
+          data = {};
+        }
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Luna could not respond right now."
+          );
+
+        }
+
+        const reply =
+          typeof data.reply === "string"
+            ? data.reply.trim()
+            : "";
+
+        if (!reply) {
+
+          throw new Error(
+            "Luna returned an empty response."
+          );
+
+        }
+
+        lunaConversation.push({
+          role: "assistant",
+          content: reply
+        });
+
+        /*
+         * Speak the exact response returned
+         * by the Luna backend.
+         */
+
+        voiceRequestInProgress =
+          false;
+
+        speakAsLuna(
+          reply
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Voice chat error:",
+          error
+        );
+
+        /*
+         * Remove the user turn if the request
+         * failed so it can be tried again.
+         */
+
+        lunaConversation.pop();
+
+        voiceRequestInProgress =
+          false;
+
+        setCallStatus(
+          error.message ||
+          "Luna could not respond right now.",
+          "error"
+        );
+
+        if (
+          voiceCallActive
+        ) {
+
+          setTimeout(
+            () => {
+
+              if (
+                voiceCallActive &&
+                !lunaIsSpeaking
+              ) {
+
+                setCallStatus(
+                  "🎙 Listening...",
+                  "listening"
+                );
+
+                startRecognition();
+
+              }
+
+            },
+            1000
+          );
+
+        }
+
+      }
+
+    }
+
+    /* ---------------------------------------------------------
+       START VOICE CALL
+    --------------------------------------------------------- */
+
+    async function startVoiceCall() {
+
+      if (
+        voiceCallActive
+      ) {
+        return;
+      }
+
+      voiceCallActive =
+        true;
+
+      voiceRequestInProgress =
+        false;
+
+      lunaIsSpeaking =
+        false;
+
+      speechGeneration++;
+
+      /*
+       * Unlock speech synthesis with a silent,
+       * zero-volume utterance. This helps browsers
+       * allow speech after the user taps Voice Call.
+       */
+
+      if (
+        speechSupported()
+      ) {
+
+        try {
+
+          window.speechSynthesis.cancel();
+
+          const unlock =
+            new SpeechSynthesisUtterance(
+              ""
+            );
+
+          unlock.volume =
+            0;
+
+          window.speechSynthesis
+            .speak(unlock);
+
+          speechUnlocked =
+            true;
+
+        } catch {
+          speechUnlocked =
+            false;
+        }
+
+      }
+
+      initializeRecognition();
+
+      if (!recognitionAvailable) {
+
+        voiceCallActive =
+          false;
+
+        setCallStatus(
+          "Voice recognition is not supported in this browser.",
+          "error"
+        );
+
+        alert(
+          "Voice calls require a browser with Speech Recognition support."
+        );
+
+        return;
+
+      }
+
+      if (voiceScreen) {
+
+        voiceScreen.classList.add(
+          "open"
+        );
+
+        voiceScreen.setAttribute(
+          "aria-hidden",
+          "false"
+        );
+
+      }
+
+      /*
+       * Hide the OS taskbar while the full-screen
+       * call interface is open.
+       */
+
+      document
+        .getElementById(
+          "taskbar"
+        )
+        ?.style.setProperty(
+          "display",
+          "none"
+        );
+
+      document
+        .getElementById(
+          "startMenu"
+        )
+        ?.classList.remove(
+          "open"
+        );
+
+      document
+        .getElementById(
+          "notificationPanel"
+        )
+        ?.classList.remove(
+          "open"
+        );
+
+      setCallStatus(
+        "🎙 Listening...",
+        "listening"
+      );
+
+      /*
+       * Give the browser a moment to display
+       * the call screen before requesting mic access.
+       */
+
+      setTimeout(
+        startRecognition,
+        250
+      );
+
+    }
+
+    /* ---------------------------------------------------------
+       END VOICE CALL
+    --------------------------------------------------------- */
+
+    function endVoiceCall() {
+
+      voiceCallActive =
+        false;
+
+      voiceRequestInProgress =
+        false;
+
+      lunaIsSpeaking =
+        false;
+
+      recognitionShouldRun =
+        false;
+
+      recognitionStarting =
+        false;
+
+      speechGeneration++;
+
+      stopRecognition();
+
+      if (
+        speechSupported()
+      ) {
+
+        try {
+
+          window.speechSynthesis.cancel();
+
+        } catch {
+          /* Ignore browser speech errors. */
+        }
+
+      }
+
+      if (voiceScreen) {
+
+        voiceScreen.classList.remove(
+          "open"
+        );
+
+        voiceScreen.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+      }
+
+      /*
+       * Restore the Luna OS taskbar.
+       */
+
+      document
+        .getElementById(
+          "taskbar"
+        )
+        ?.style.setProperty(
+          "display",
+          "flex"
+        );
+
+      setCallStatus(
+        "🎙 Listening...",
+        "listening"
+      );
+
+    }
+
+    /* =========================================================
        WINDOW DRAGGING
-    ========================= */
+    ========================================================= */
 
     document
       .querySelectorAll(".window")
@@ -2118,9 +3411,7 @@
                 ".window-controls"
               )
             ) {
-
               return;
-
             }
 
             if (
@@ -2128,9 +3419,7 @@
                 "maximized"
               )
             ) {
-
               return;
-
             }
 
             dragging = true;
@@ -2211,17 +3500,15 @@
         document.addEventListener(
           "mouseup",
           () => {
-
             dragging = false;
-
           }
         );
 
       });
 
-    /* =========================
+    /* =========================================================
        WINDOW FOCUS
-    ========================= */
+    ========================================================= */
 
     document
       .querySelectorAll(".window")
@@ -2241,9 +3528,9 @@
 
       });
 
-    /* =========================
+    /* =========================================================
        CLOSE MENUS
-    ========================= */
+    ========================================================= */
 
     document.addEventListener(
       "click",
@@ -2300,25 +3587,30 @@
       }
     );
 
-    /* =========================
+    /* =========================================================
        KEYBOARD SHORTCUTS
-    ========================= */
+    ========================================================= */
 
     document.addEventListener(
       "keydown",
       event => {
 
-        if (
-          event.key === "Meta"
-        ) {
-
+        if (event.key === "Meta") {
           toggleStartMenu();
-
         }
 
         if (
-          event.key === "Escape"
+          event.key === "Escape" &&
+          voiceCallActive
         ) {
+
+          endVoiceCall();
+
+          return;
+
+        }
+
+        if (event.key === "Escape") {
 
           document
             .getElementById(
@@ -2345,25 +3637,11 @@
             "window-calculator"
           );
 
-        /*
-         * Don't send calculator
-         * keyboard input when the
-         * user is typing in Luna.
-         */
-
-        const activeElement =
-          document.activeElement;
-
-        const typingInLuna =
-          activeElement ===
-          lunaInput;
-
         if (
           calculator &&
           calculator.classList.contains(
             "open"
-          ) &&
-          !typingInLuna
+          )
         ) {
 
           if (
@@ -2418,6 +3696,30 @@
             calcClear();
 
           }
+
+        }
+
+      }
+    );
+
+    /* =========================================================
+       INITIALIZATION
+    ========================================================= */
+
+    window.addEventListener(
+      "beforeunload",
+      () => {
+
+        voiceCallActive =
+          false;
+
+        stopRecognition();
+
+        if (
+          speechSupported()
+        ) {
+
+          window.speechSynthesis.cancel();
 
         }
 
