@@ -41,7 +41,7 @@ body.large .task-button{height:54px;min-width:54px}
 button,input,textarea,select{font:inherit;color:inherit}
 button{-webkit-tap-highlight-color:transparent}
 
-#desktop{position:fixed;inset:0;overflow:hidden}
+#desktop{position:fixed;inset:0;overflow:hidden;isolation:isolate}
 .desktop-glow{
   position:absolute;width:650px;height:650px;left:50%;top:40%;
   transform:translate(-50%,-50%);
@@ -65,7 +65,7 @@ button{-webkit-tap-highlight-color:transparent}
 .desktop-icon span:last-child{display:block;margin-top:7px;font-size:12px;color:var(--text)}
 
 #taskbar{
-  position:absolute;left:14px;right:14px;bottom:14px;height:64px;
+  position:absolute;left:14px;right:14px;bottom:14px;height:68px;
   border-radius:19px;background:rgba(10,17,29,.91);
   border:1px solid rgba(93,132,168,.25);
   backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
@@ -129,8 +129,8 @@ button{-webkit-tap-highlight-color:transparent}
 .notification{background:var(--panel2);border:1px solid var(--border);border-radius:13px;padding:12px;margin-bottom:8px;font-size:12px;color:var(--muted)}
 
 .window{
-  position:absolute;width:650px;height:430px;max-width:calc(100vw - 35px);
-  max-height:calc(100vh - 100px);min-width:300px;min-height:220px;
+  position:absolute;width:min(860px,calc(100vw - 40px));height:min(620px,calc(100vh - 120px));max-width:calc(100vw - 20px);
+  max-height:calc(100vh - 90px);min-width:320px;min-height:220px;
   left:50%;top:45%;transform:translate(-50%,-50%);
   background:var(--panel);border:1px solid rgba(87,127,165,.32);
   border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.55);
@@ -138,9 +138,9 @@ button{-webkit-tap-highlight-color:transparent}
 }
 .window.open{display:flex;flex-direction:column;animation:windowIn .16s ease}
 @keyframes windowIn{from{opacity:0;transform:translate(-50%,-48%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.window.maximized{left:20px;right:20px;top:20px;width:auto;height:calc(100vh - 105px);max-width:none;max-height:none;transform:none}
+.window.maximized{left:0;top:0;right:0;bottom:0;width:auto;height:auto;max-width:none;max-height:none;min-width:0;min-height:0;transform:none;border-radius:0;border-left:0;border-right:0;border-bottom:0;box-shadow:0 20px 70px rgba(0,0,0,.45)}
 .window-header{
-  height:55px;flex-shrink:0;display:flex;align-items:center;
+  height:58px;flex-shrink:0;display:flex;align-items:center;
   justify-content:space-between;padding:0 10px 0 18px;
   background:rgba(14,24,39,.85);border-bottom:1px solid rgba(76,113,148,.2);cursor:grab;
 }
@@ -221,7 +221,7 @@ button{-webkit-tap-highlight-color:transparent}
 .calculator-operator{background:#11243a}.calculator-clear{background:#172b3e}
 .calculator-equals{background:#1a3853}.calculator-zero{grid-column:span 2}
 
-.browser-toolbar{display:flex;gap:7px;padding-bottom:12px}
+.browser-toolbar{display:flex;gap:7px;padding:7px;background:rgba(7,14,24,.7);border:1px solid var(--border);border-radius:14px 14px 0 0;align-items:center}.browser-tabs{display:flex;gap:5px;min-width:0;overflow:auto;margin-bottom:7px}.browser-tab{padding:8px 12px;border:1px solid var(--border);background:var(--panel2);border-radius:9px;color:var(--muted);cursor:pointer;white-space:nowrap}.browser-tab.active{color:var(--text);border-color:var(--accent);background:rgba(70,105,140,.2)}
 .browser-toolbar button{
   width:40px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);cursor:pointer
 }
@@ -268,6 +268,13 @@ button{-webkit-tap-highlight-color:transparent}
 .add-app-button{
   padding:12px;border:1px solid var(--border);border-radius:11px;background:var(--panel2);cursor:pointer
 }
+
+#osFullscreenButton{position:absolute;right:112px;bottom:28px;z-index:9100;height:38px;min-width:38px;border:1px solid rgba(93,132,168,.25);border-radius:11px;background:rgba(10,17,29,.86);color:var(--text);cursor:pointer;backdrop-filter:blur(18px)}
+#osFullscreenButton:hover{background:rgba(70,105,140,.25)}
+
+#desktopContextMenu{position:fixed;display:none;z-index:30000;width:210px;padding:6px;background:var(--panel);border:1px solid var(--border);border-radius:13px;box-shadow:0 20px 60px rgba(0,0,0,.5);backdrop-filter:blur(20px)}
+#desktopContextMenu.open{display:block}
+.context-item{display:block;width:100%;padding:10px 12px;border:0;background:transparent;color:var(--text);text-align:left;border-radius:8px;cursor:pointer;font-size:12px}.context-item:hover{background:rgba(90,130,170,.18)}
 
 #voiceScreen{
   position:fixed;inset:0;z-index:20000;display:none;flex-direction:column;
@@ -333,7 +340,7 @@ button{-webkit-tap-highlight-color:transparent}
   #taskbar-center{gap:2px}
   .task-button{min-width:42px;width:42px;height:44px}
   #clock{display:none}
-  .window{width:calc(100vw - 20px);height:calc(100vh - 100px)}
+  .window{width:calc(100vw - 12px);height:calc(100vh - 86px)}.window.maximized{left:0;right:0;top:0;bottom:0;width:100vw;height:100vh}
   .start-apps{grid-template-columns:repeat(3,1fr)}
   .settings-row{flex-direction:column;align-items:stretch}
   .settings-select{width:100%}
@@ -347,6 +354,8 @@ button{-webkit-tap-highlight-color:transparent}
 <div id="desktop">
 
 <div class="desktop-glow"></div>
+<button id="osFullscreenButton" onclick="toggleOSFullscreen()" title="Enter full screen">⛶</button>
+<div id="desktopContextMenu"><button class="context-item" onclick="refreshDesktop()">↻ Refresh desktop</button><button class="context-item" onclick="openApp('settings')">⚙ Display settings</button><button class="context-item" onclick="toggleOSFullscreen()">⛶ Full screen</button></div>
 
 <div class="desktop-icons">
   <button class="desktop-icon" onclick="openApp('files')"><div class="desktop-icon-symbol">📁</div><span>Files</span></button>
@@ -511,15 +520,16 @@ button{-webkit-tap-highlight-color:transparent}
 <div class="window-header"><div class="window-title">🌐 Luna Browser</div><div class="window-controls">
 <button class="window-control" onclick="minimizeApp('browser')">−</button><button class="window-control" onclick="maximizeApp('browser')">□</button><button class="window-control close" onclick="closeApp('browser')">×</button>
 </div></div>
-<div class="window-content">
+<div class="window-content"><div class="browser-shell">
+<div class="browser-tabs" id="browserTabs"><button class="browser-tab active" data-tab="0" onclick="switchBrowserTab(0)">New Tab</button><button class="browser-tab" onclick="newBrowserTab()">＋</button></div>
 <div class="browser-toolbar">
 <button onclick="browserBack()">←</button><button onclick="browserForward()">→</button><button onclick="browserReload()">↻</button>
 <input id="browserAddress" class="browser-address" value="https://www.google.com" onkeydown="if(event.key==='Enter')navigateBrowser()">
 <button onclick="navigateBrowser()">Go</button>
 </div>
 <iframe id="browserFrame" class="browser-page" src="about:blank"></iframe>
-<div id="browserPlaceholder" class="browser-placeholder"><h2>🌐 Luna Browser</h2><p>Enter a website address above.</p><p>Some websites block being displayed inside another website.</p></div>
-</div></div>
+<div id="browserPlaceholder" class="browser-placeholder"><h2>🌐 Luna Browser</h2><p>Enter a website address above.</p><p>Some websites block being displayed inside another website.</p></div><div class="browser-status"><span id="browserStatus">Ready</span><span>Luna Browser</span></div>
+</div></div></div>
 
 <!-- NOTES -->
 <div class="window" id="window-notes">
@@ -635,6 +645,7 @@ function openApp(app){
  const el=document.getElementById("window-"+app);
  if(!el)return;
  el.classList.add("open");
+ if(el.dataset.maximized==="1")el.classList.add("maximized");
  highestZ++;
  el.style.zIndex=highestZ;
  document.getElementById("startMenu")?.classList.remove("open");
@@ -659,8 +670,16 @@ function minimizeApp(app){
 }
 
 function maximizeApp(app){
- document.getElementById("window-"+app)?.classList.toggle("maximized");
+ const el=document.getElementById("window-"+app);
+ if(!el)return;
+ const wasMax=el.classList.contains("maximized");
+ el.classList.toggle("maximized",!wasMax);
+ el.dataset.maximized=!wasMax?"1":"0";
+ highestZ++;
+ el.style.zIndex=highestZ;
+ updateTaskbarActive();
 }
+function toggleWindowMaximize(app){maximizeApp(app)}
 
 /* =========================================================
    START MENU
@@ -1019,6 +1038,27 @@ async function sendToLuna(){
    BROWSER
 ========================================================= */
 
+let browserTabs=[{url:"about:blank",title:"New Tab"}];
+let activeBrowserTab=0;
+function renderBrowserTabs(){
+ const tabs=document.getElementById("browserTabs"); if(!tabs)return;
+ tabs.innerHTML="";
+ browserTabs.forEach((tab,i)=>{const b=document.createElement("button");b.className="browser-tab"+(i===activeBrowserTab?" active":"");b.textContent=tab.title||"New Tab";b.onclick=()=>switchBrowserTab(i);tabs.appendChild(b)});
+ const add=document.createElement("button");add.className="browser-tab";add.textContent="＋";add.onclick=newBrowserTab;tabs.appendChild(add);
+}
+function switchBrowserTab(index){
+ if(!browserTabs[index])return;
+ activeBrowserTab=index;
+ const tab=browserTabs[index];
+ document.getElementById("browserAddress").value=tab.url==="about:blank"?"":tab.url;
+ const frame=document.getElementById("browserFrame");
+ const placeholder=document.getElementById("browserPlaceholder");
+ if(tab.url==="about:blank"){frame.src="about:blank";placeholder.style.display="flex";setBrowserStatus("New tab");}
+ else{frame.src=tab.url;placeholder.style.display="none";setBrowserStatus("Loading…");}
+ renderBrowserTabs();
+}
+function newBrowserTab(){browserTabs.push({url:"about:blank",title:"New Tab"});activeBrowserTab=browserTabs.length-1;switchBrowserTab(activeBrowserTab);}
+function setBrowserStatus(text){const el=document.getElementById("browserStatus");if(el)el.textContent=text}
 function normalizeURL(value){
  value=value.trim();
  if(!value)return "https://www.google.com";
@@ -1032,18 +1072,26 @@ function navigateBrowser(){
  const placeholder=document.getElementById("browserPlaceholder");
  const url=normalizeURL(input.value);
  input.value=url;
+ browserTabs[activeBrowserTab]={url,title:new URL(url).hostname||"New Tab"};
  frame.src=url;
  placeholder.style.display="none";
+ setBrowserStatus("Loading…");
+ renderBrowserTabs();
+}
+function browserHome(){
+ document.getElementById("browserAddress").value="";
+ browserTabs[activeBrowserTab]={url:"about:blank",title:"New Tab"};
+ switchBrowserTab(activeBrowserTab);
 }
 
-function loadBrowser(){
- const frame=document.getElementById("browserFrame");
- if(frame.src==="about:blank")return;
-}
+
+function loadBrowser(){renderBrowserTabs();switchBrowserTab(activeBrowserTab);}
+
 
 function browserBack(){try{document.getElementById("browserFrame").contentWindow.history.back()}catch{}}
 function browserForward(){try{document.getElementById("browserFrame").contentWindow.history.forward()}catch{}}
-function browserReload(){try{document.getElementById("browserFrame").contentWindow.location.reload()}catch{}}
+function browserReload(){try{setBrowserStatus("Reloading…");document.getElementById("browserFrame").contentWindow.location.reload()}catch{}}
+document.getElementById("browserFrame")?.addEventListener("load",()=>setBrowserStatus("Ready"));
 
 /* =========================================================
    NOTES
@@ -1455,6 +1503,24 @@ document.querySelectorAll(".window").forEach(windowElement=>{
 });
 
 /* =========================================================
+   OS FULL SCREEN / DESKTOP
+========================================================= */
+async function toggleOSFullscreen(){
+ try{
+  if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+  else await document.exitFullscreen();
+ }catch{alert("Full screen was blocked by the browser. Try using the browser's full-screen control.");}
+ updateFullscreenButton();
+}
+function updateFullscreenButton(){const b=document.getElementById("osFullscreenButton");if(b)b.textContent=document.fullscreenElement?"⤢":"⛶";}
+document.addEventListener("fullscreenchange",updateFullscreenButton);
+function refreshDesktop(){document.getElementById("desktopContextMenu")?.classList.remove("open");location.reload();}
+document.getElementById("desktop")?.addEventListener("contextmenu",e=>{if(e.target.closest(".window,#taskbar,#startMenu,#notificationPanel"))return;e.preventDefault();const m=document.getElementById("desktopContextMenu");m.style.left=Math.min(e.clientX,innerWidth-220)+"px";m.style.top=Math.min(e.clientY,innerHeight-170)+"px";m.classList.add("open")});
+document.addEventListener("click",e=>{if(!e.target.closest("#desktopContextMenu"))document.getElementById("desktopContextMenu")?.classList.remove("open")});
+
+document.querySelectorAll(".window-header").forEach(header=>header.addEventListener("dblclick",e=>{if(!e.target.closest(".window-controls")){const w=header.closest(".window");if(w)maximizeApp(w.id.replace("window-",""));}}));
+
+/* =========================================================
    KEYBOARD SHORTCUTS
 ========================================================= */
 
@@ -1591,4 +1657,3 @@ window.addEventListener("offline",updateSystemInfo);
 </script>
 </body>
 </html>
-```
